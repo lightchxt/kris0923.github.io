@@ -1,35 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>流光</title>
   
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-06-14T16:09:37.000Z</updated>
+  <updated>2018-09-27T14:52:46.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>流光</name>
     
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2018/06/15/hello-world/"/>
-    <id>http://yoursite.com/2018/06/15/hello-world/</id>
-    <published>2018-06-14T16:09:37.000Z</published>
-    <updated>2018-06-14T16:09:37.000Z</updated>
+    <title>PHP 知识总结（一）</title>
+    <link href="http://yoursite.com/2018/09/24/php-summarize/"/>
+    <id>http://yoursite.com/2018/09/24/php-summarize/</id>
+    <published>2018-09-24T10:41:27.000Z</published>
+    <updated>2018-09-27T14:52:46.000Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="语法基础"><a href="#语法基础" class="headerlink" title="语法基础"></a>语法基础</h1><h2 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h2><ol><li>boolean</li><li>integet</li><li><p>float</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 判断是否是一个数值类型</span><br><span class="line">bool is_nan(float $val)</span><br></pre></td></tr></table></figure></li><li><p>string</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 字符串转数值</span><br><span class="line">//如果 字符串中包含 &apos;.&apos;, &apos;e&apos;或者&apos;E&apos; 转换为float，其余转为 int</span><br></pre></td></tr></table></figure></li><li><p>Array</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 数组的key只能是int 或string</span><br><span class="line">合法的整型字符串会被转成int，例如：&quot;8&quot;，&quot;08&quot;不会，因为08不是合法的十进制数</span><br><span class="line">浮点数也会被转换为整型，意味着其小数部分会被舍去。例如键名 8.7 实际会被储存为 8。</span><br><span class="line">布尔值也会被转换成整型。即键名 true 实际会被储存为 1 而键名 false 会被储存为 0。</span><br><span class="line">Null 会被转换为空字符串，即键名 null 实际会被储存为 &quot;&quot;。</span><br><span class="line">数组和对象不能被用为键名。坚持这么做会导致警告：Illegal offset type</span><br><span class="line">默认键： 当前最大整数索引值加1</span><br><span class="line">// 其他类型转为数组</span><br><span class="line">$a = array($a);</span><br><span class="line">or</span><br><span class="line">$a = (array) $a;</span><br><span class="line">如果一个 object 类型转换为 array，则结果为一个数组，其单元为该对象的属性。键名将为成员变量名，不过有几点例外：整数属性不可访问；私有变量前会加上类名作前缀；保护变量前会加上一个 &apos;*&apos; 做前缀。这些前缀的前后都各有一个 NULL 字符。这会导致一些不可预知的行为：</span><br><span class="line">class A &#123;</span><br><span class="line">    private $A; // This will become &apos;\0A\0A&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class B extends A &#123;</span><br><span class="line">    private $A; // This will become &apos;\0B\0A&apos;</span><br><span class="line">    public $AA; // This will become &apos;AA&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var_dump((array) new B());</span><br><span class="line">//上例会有两个键名为 &apos;AA&apos;，不过其中一个实际上是 &apos;\0A\0A&apos;</span><br></pre></td></tr></table></figure></li><li><p>Object</p></li><li><p>Reource 资源类型</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">资源 resource 是一种特殊变量，保存了到外部资源的一个引用</span><br><span class="line">可以用 is_resource()函数测定一个变量是否是资源，函数 get_resource_type()则返回该资源的类型</span><br></pre></td></tr></table></figure></li><li><p>NULL</p></li><li>Callback/Callable<h2 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h2> <a href="http://php.net/manual/zh/language.oop5.magic.php#" target="_blank" rel="noopener">http://php.net/manual/zh/language.oop5.magic.php#</a></li></ol>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+        &lt;h1 id=&quot;语法基础&quot;&gt;&lt;a href=&quot;#语法基础&quot; class=&quot;headerlink&quot; title=&quot;语法基础&quot;&gt;&lt;/a&gt;语法基础&lt;/h1&gt;&lt;h2 id=&quot;变量类型&quot;&gt;&lt;a href=&quot;#变量类型&quot; class=&quot;headerlink&quot; title=&quot;变量类型&quot;&gt;&lt;/a
+      
+    
+    </summary>
+    
+    
+      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql事务和锁</title>
+    <link href="http://yoursite.com/2018/06/15/%E4%BB%8EHello-World%E5%BC%80%E5%A7%8B/"/>
+    <id>http://yoursite.com/2018/06/15/从Hello-World开始/</id>
+    <published>2018-06-15T14:50:45.000Z</published>
+    <updated>2018-06-17T13:54:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h4>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;什么是事务&quot;&gt;&lt;a href=&quot;#什么是事务&quot; class=&quot;headerlink&quot; title=&quot;什么是事务&quot;&gt;&lt;/a&gt;什么是事务&lt;/h4&gt;
       
     
     </summary>
