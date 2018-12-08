@@ -43,7 +43,7 @@
     
     <title>
         
-            PHP 知识总结（一） | 
+            PHP 内核分析笔记（二）多进程与多线程SAPI生命周期 | 
         
         流光
     </title>
@@ -215,7 +215,7 @@
     <!-- WebAPP Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="流光">
-    <meta name="msapplication-starturl" content="http://yoursite.com/2018/09/24/php-summarize/">
+    <meta name="msapplication-starturl" content="http://yoursite.com/2018/12/08/PHP 内核分析笔记（二）/">
     <meta name="msapplication-navbutton-color" content="#0097A7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="流光">
@@ -230,16 +230,16 @@
     
 
     <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://yoursite.com/2018/09/24/php-summarize/">
+    <meta property="og:url" content="http://yoursite.com/2018/12/08/PHP 内核分析笔记（二）/">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="PHP 知识总结（一） | 流光">
+    <meta property="og:title" content="PHP 内核分析笔记（二）多进程与多线程SAPI生命周期 | 流光">
     <meta property="og:image" content="/img/favicon.png">
     <meta property="og:description" content="">
     <meta property="og:article:tag" content="PHP"> 
 
     
-        <meta property="article:published_time" content="Mon Sep 24 2018 18:41:27 GMT+0800">
-        <meta property="article:modified_time" content="Thu Oct 04 2018 22:46:44 GMT+0800">
+        <meta property="article:published_time" content="Sat Dec 08 2018 18:08:48 GMT+0800">
+        <meta property="article:modified_time" content="Sat Dec 08 2018 18:26:12 GMT+0800">
     
 
     <!-- The Twitter Card protocol -->
@@ -247,7 +247,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/2018/09/24/php-summarize/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/12/08/PHP 内核分析笔记（二）/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -259,10 +259,10 @@
 {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": "http://yoursite.com/2018/09/24/php-summarize/index.html",
-    "headline": "PHP 知识总结（一）",
-    "datePublished": "Mon Sep 24 2018 18:41:27 GMT+0800",
-    "dateModified": "Thu Oct 04 2018 22:46:44 GMT+0800",
+    "mainEntityOfPage": "http://yoursite.com/2018/12/08/PHP 内核分析笔记（二）/index.html",
+    "headline": "PHP 内核分析笔记（二）多进程与多线程SAPI生命周期",
+    "datePublished": "Sat Dec 08 2018 18:08:48 GMT+0800",
+    "dateModified": "Sat Dec 08 2018 18:26:12 GMT+0800",
     "author": {
         "@type": "Person",
         "name": "流光",
@@ -346,7 +346,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#语法基础"><span class="post-toc-number">1.</span> <span class="post-toc-text">语法基础</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#变量类型"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">变量类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#魔术方法"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">魔术方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#运算符"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">运算符</span></a></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#多进程SAPI生命周期"><span class="post-toc-number">1.</span> <span class="post-toc-text">多进程SAPI生命周期</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#多线程的SAPI生命周期"><span class="post-toc-number">2.</span> <span class="post-toc-text">多线程的SAPI生命周期</span></a></li></ol>
     </ul>
     
 
@@ -378,7 +378,7 @@
         
     
             <p class="article-headline-p">
-                PHP 知识总结（一）
+                PHP 内核分析笔记（二）多进程与多线程SAPI生命周期
             </p>
         </div>
 
@@ -397,7 +397,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>流光</strong>
-        <span>9月 24, 2018</span>
+        <span>12月 08, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -438,7 +438,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=PHP 知识总结（一）&url=http://yoursite.com/2018/09/24/php-summarize/index.html&pic=http://yoursite.com/img/favicon.png&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=PHP 内核分析笔记（二）多进程与多线程SAPI生命周期&url=http://yoursite.com/2018/12/08/PHP 内核分析笔记（二）/index.html&pic=http://yoursite.com/img/favicon.png&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -472,32 +472,8 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h1 id="语法基础"><a href="#语法基础" class="headerlink" title="语法基础"></a>语法基础</h1><h2 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h2><ol>
-<li>boolean</li>
-<li>integet</li>
-<li><p>float</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 判断是否是一个数值类型</span><br><span class="line">bool is_nan(float $val)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>string</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 字符串转数值</span><br><span class="line">//如果 字符串中包含 &apos;.&apos;, &apos;e&apos;或者&apos;E&apos; 转换为float，其余转为 int</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Array</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 数组的key只能是int 或string</span><br><span class="line">合法的整型字符串会被转成int，例如：&quot;8&quot;，&quot;08&quot;不会，因为08不是合法的十进制数</span><br><span class="line">浮点数也会被转换为整型，意味着其小数部分会被舍去。例如键名 8.7 实际会被储存为 8。</span><br><span class="line">布尔值也会被转换成整型。即键名 true 实际会被储存为 1 而键名 false 会被储存为 0。</span><br><span class="line">Null 会被转换为空字符串，即键名 null 实际会被储存为 &quot;&quot;。</span><br><span class="line">数组和对象不能被用为键名。坚持这么做会导致警告：Illegal offset type</span><br><span class="line">默认键： 当前最大整数索引值加1</span><br><span class="line">// 其他类型转为数组</span><br><span class="line">$a = array($a);</span><br><span class="line">or</span><br><span class="line">$a = (array) $a;</span><br><span class="line">如果一个 object 类型转换为 array，则结果为一个数组，其单元为该对象的属性。键名将为成员变量名，不过有几点例外：整数属性不可访问；私有变量前会加上类名作前缀；保护变量前会加上一个 &apos;*&apos; 做前缀。这些前缀的前后都各有一个 NULL 字符。这会导致一些不可预知的行为：</span><br><span class="line">class A &#123;</span><br><span class="line">    private $A; // This will become &apos;\0A\0A&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class B extends A &#123;</span><br><span class="line">    private $A; // This will become &apos;\0B\0A&apos;</span><br><span class="line">    public $AA; // This will become &apos;AA&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var_dump((array) new B());</span><br><span class="line">//上例会有两个键名为 &apos;AA&apos;，不过其中一个实际上是 &apos;\0A\0A&apos;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Object</p>
-</li>
-<li><p>Reource 资源类型</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">资源 resource 是一种特殊变量，保存了到外部资源的一个引用</span><br><span class="line">可以用 is_resource()函数测定一个变量是否是资源，函数 get_resource_type()则返回该资源的类型</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>NULL</p>
-</li>
-<li>Callback/Callable<h2 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h2> <a href="http://php.net/manual/zh/language.oop5.magic.php#" target="_blank" rel="noopener">http://php.net/manual/zh/language.oop5.magic.php#</a> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">__construct()，</span><br><span class="line">__destruct()， </span><br><span class="line">__call()， </span><br><span class="line">__callStatic()， </span><br><span class="line">__get()， </span><br><span class="line">__set()， </span><br><span class="line">__isset()， </span><br><span class="line">__unset()， </span><br><span class="line">__sleep()， </span><br><span class="line">__wakeup()， </span><br><span class="line">__toString()， </span><br><span class="line">__invoke()， </span><br><span class="line">__set_state()， </span><br><span class="line">__clone() 和 </span><br><span class="line">__debugInfo()</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p>算数运算符</p>
-<p>$a <strong> $b 表示已$a的$b次方（PHP5.6之后支持）, $a </strong> $b = exp($a*log($a));</p>
-<p>赋值运算符=</p>
-<p>一般情况下赋值运算是将原变量的值拷贝到新变量中，但有个例外，就是碰到对象<em>object</em>时是引用赋值，除非明确使用<em>clone</em>关键字</p>
+        <h3 id="多进程SAPI生命周期"><a href="#多进程SAPI生命周期" class="headerlink" title="多进程SAPI生命周期"></a>多进程SAPI生命周期</h3><p>以Apache为例，PHP编译为apache的一个模块来处理php请求，Apache启动后会fork多个进程，每个进程拥有独立的内存空间，单独处理php请求，所以每个子进程都是完整的生命周期<br><img src="http://www.php-internals.com/images/book/chapt02/02-01-02-multiprocess-life-cycle.png" alt="img"></p>
+<h3 id="多线程的SAPI生命周期"><a href="#多线程的SAPI生命周期" class="headerlink" title="多线程的SAPI生命周期"></a>多线程的SAPI生命周期</h3><p>同一组线程只有一个模块初始化和销毁的过程<br><img src="http://www.php-internals.com/images/book/chapt02/02-01-013-multithreaded-lift-cycle.png" alt="img"></p>
 
         
     
@@ -518,21 +494,13 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/12/02/清理僵尸粉/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2018/06/15/从Hello-World开始/" id="post_nav-older" class="next-content">
+        <a href="/2018/12/08/PHP 内核分析笔记（一）/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
