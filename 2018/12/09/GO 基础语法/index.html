@@ -50,11 +50,11 @@
 <link rel="shortcut icon" href="/images/favicon.png">
 
 
-<title>分类 - 游戏人生 - 生活不只有眼前的苟且，还有诗和远方的田野</title>
+<title>go语言语法基础 - 生活不只有眼前的苟且，还有诗和远方的田野</title>
 
 <meta name="keywords" content="">
 
-<meta name="description " content="">
+<meta name="description " content="主要记录与传统语言不同之处">
 
 </head>
 <body>
@@ -110,21 +110,21 @@
 </div>
             <div class="page-title">
     <ul>
-        <li class="">
-            <a href="/" data-name="最近文章">最近</a>
-        </li>
+        <li><a href="/">最新</a></li>
         
-        <li class="">
-            <a href="/categories/php" data-name="PHP">PHP</a>
-        </li>
-        
-        <li class="">
-            <a href="/categories/go" data-name="GO">GO</a>
-        </li>
-        
-        <li class="active">
-            <a href="/categories/游戏人生" data-name="游戏人生">游戏人生</a>
-        </li>
+            
+                <li class="">
+                    <a href="/categories/php" data-name="PHP">PHP</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/go" data-name="GO">GO</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/游戏人生" data-name="游戏人生">游戏人生</a>
+                </li>
+            
         
         <li class="page-search">
     <form id="search" class="search-form">
@@ -165,38 +165,79 @@
     </ul>
 </div>
 <div class="main-inner">
-    
-    
-    
-<article class="post">
-    
-    <div class="post-header">
-        <div class="post-meta">
-            <a href="" target="_blank">
-                <strong></strong>
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="" target="_blank">
+                    
+                        <img width="48" src="/images/home_logo1.jpg" alt="avatar"/>
+                    
+                    
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="" target="_blank"></a>
+                    <span title="最后编辑于2018-12-09">2018-12-09</span>
+                </p>
+                <p></p>
+            </div>
+            <h2 class="post-title">GO语言语法基础</h2>
+            <div class="post-meta">
+                本文总共1679个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h1 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h1><ol>
+<li>i++, i– 在go语言中是语句，而不像其他语言一样是表达式，所以， j = i++ 在go语言里面是不合法的,并且只支持后缀， –i 是不合法的</li>
+<li><p>for 是go里面唯一的循环语句<br> 传统的while循环写成<br> for condition {</p>
+<p> }</p>
+</li>
+<li><p>函数 </p>
+<p> 函数的类型，称为函数签名，函数的实参都是按值传递的</p>
+</li>
+<li><p>文件结束标示</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">err = errors.New(&quot;EOF&quot;)</span><br><span class="line">in := bufio.NewReader(os.stdin)</span><br><span class="line">for &#123;</span><br><span class="line">    r,_,err = in.ReadRune()</span><br><span class="line">    if err == io.EOF &#123;</span><br><span class="line">        break // 文本结束标记</span><br><span class="line">    &#125;</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">        return fmt.Errorf(&quot;read failed: $v&quot;,err)</span><br><span class="line">    &#125;</span><br><span class="line">    // 处理逻辑</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> go 文本结束标记不怎么友好，为什么要放到error信息中</p>
+</li>
+<li><p>数组<br> Go 语言中的数组是一种 <strong>值类型</strong>（不像 C/C++ 中是指向首元素的指针），所以可以通过 new() 来创建： var arr1 = new([5]int)。</p>
+<p> 那么这种方式和 var arr2 [5]int 的区别是什么呢？arr1 的类型是 *[5]int，而 arr2的类型是 [5]int。</p>
+<p> 这样的结果就是当把一个数组赋值给另一个时，需要在做一次数组内存的拷贝操作。例如：</p>
+<p> arr2 := *arr1<br> arr2[2] = 100<br> 这样两个数组就有了不同的值，在赋值后修改 arr2 不会对 arr1 生效。</p>
+<p> ==切片是引用类型，所以不能用指针指向切片==    </p>
+</li>
+<li><p>参数传递<br> go中所有的东西都是按值传递的，每次调用函数时，传入的数据都会被复制。对于具有值接收者的方法，在调用该方法时将复制该值。因为所有的参数都是通过值传递的，这就可以解释为什么 <em>Cat 的方法不能被 Cat 类型的值调用了。任何一个  Cat 类型的值可能会有很多 </em>Cat 类型的指针指向它，如果我们尝试通过 Cat 类型的值来调用 *Cat 的方法，根本就不知道对应的是哪个指针。</p>
+<h1 id="go-并发编程"><a href="#go-并发编程" class="headerlink" title="go 并发编程"></a>go 并发编程</h1><ol>
+<li><p>goroutine 和通道</p>
+<p> 程序启动时，只有一个 goroutine 来调用 main 函数，称为主 goroutine，新的 goroutine 通过 go 语句创建<br>，就是在普通的函数或方法前加上 go 关键字，当 main 函数返回时，所有的 goroutine 都将暴力终止。  </p>
+</li>
+<li><p>缓冲通道</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func mirroredQuery() string&#123;</span><br><span class="line">    responses := make(chan string,3)</span><br><span class="line">    go func() &#123;responses &lt;- request(&quot;asia.gopl.io&quot;)&#125;()</span><br><span class="line">    go func() &#123;responses &lt;- request(&quot;europe.gopl.io&quot;)&#125;()</span><br><span class="line">    go func() &#123;responses &lt;- request(&quot;americas.gopl.io&quot;)&#125;()</span><br><span class="line">    return &lt;-responses //return the questest response</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主goroutine只接收第一个返回的，或者极端情况下，两个较慢的服务器还没有返回响应，就返回了结果</p>
+</li>
+<li>goroutine 泄漏<br> 如果使用无缓冲通道，两个较慢的通道goroutine将被卡住（因为他们发送响应结果到通道没有goroutine来接收），这种情况叫goroutine泄漏。不要通过共享内存来通信，应该通过通信来共享内存</li>
+</ol>
+</li>
+</ol>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
             </a>
-            <em>·</em>2018-12-02
         </div>
-        <a class="post-title" href="/2018/12/02/清理僵尸粉/" target="_blank" title="那些所谓的清理僵尸粉，真的能让手机不再卡吗">那些所谓的清理僵尸粉，真的能让手机不再卡吗</a>
-        <div class="post-meta">
-            <a href="/tags" target="_blank"><i class="fa fa-tags"></i></a>
+        
+        <div class="post-tags">Tags：
             
-                <em>·</em>
-                <a href="http://yoursite.com/tags/游戏人生/" target="_blank">游戏人生</a>
+            <a href="/tags/go/">go</a>
             
         </div>
-    </div>
-    <div class="post-desc">
-        那些所谓的清理僵尸粉，真的能让手机不再卡吗
-    </div>
-</article>
-
-
-
+        
+    </article>
+    
+    <p>本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
     
 </div>
-<!-- 分页开始 -->
-
+<script src="/js/busuanzi.pure.mini.js"></script>
 
         </div><!-- end #main-->
     </div><!-- end #body -->
