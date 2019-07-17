@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://kris0923.github.io/"/>
-  <updated>2019-07-17T04:21:05.006Z</updated>
+  <updated>2019-07-17T06:07:38.959Z</updated>
   <id>https://kris0923.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://kris0923.github.io/2019/07/17/%E6%A0%A1%E9%AA%8C%E7%A0%81/"/>
     <id>https://kris0923.github.io/2019/07/17/校验码/</id>
     <published>2019-07-17T04:18:45.000Z</published>
-    <updated>2019-07-17T04:21:05.006Z</updated>
+    <updated>2019-07-17T06:07:38.959Z</updated>
     
     <content type="html"><![CDATA[<p>为了保证计算机系统运行时数据在传输过程中正确无误，提高硬件电路的可靠性和提高代码的校验能力,通常使用校验码来检测传输数据是否出错，常用的3种校验码：</p><h4 id="1-奇偶校验"><a href="#1-奇偶校验" class="headerlink" title="1. 奇偶校验"></a>1. 奇偶校验</h4><ul><li>专门设置一个奇偶校验位来保证发出数据中的1的个数是奇数（或者偶数)，</li><li>缺点:只能发现有奇数个位出错的情况，不能发现有偶数个位出错的情况<h4 id="2-海明码校验"><a href="#2-海明码校验" class="headerlink" title="2. 海明码校验"></a>2. 海明码校验</h4>在数据的特定位置上插入 k 个校验位,假设原来的数据有n位，这样编码后的数据有n+k位，数据就会有n+k位出错和一种正确情况，所以k应该满足：<br>2^k - 1 &gt;= n+k </li></ul><ul><li>检验码的位置都在数据的2^m位上</li><li>校验码的每一个值可以表示一位数据是否正确</li><li>将每个海明码出现的位置做异或运算，得到的结果就是出错的位置-进行取反操作<h4 id="3-循环冗余码校验"><a href="#3-循环冗余码校验" class="headerlink" title="3. 循环冗余码校验"></a>3. 循环冗余码校验</h4>广泛用于数据通信领域和磁介质存储系统中.<h5 id="循环冗余校验码原理："><a href="#循环冗余校验码原理：" class="headerlink" title="循环冗余校验码原理："></a>循环冗余校验码原理：</h5></li><li>发送端和接收端共同设置一个除数（生成多项式），通常最高位和最低位都是1，或者公式 G(x) = 2^x + 2^(x-1) + 1</li><li>在原数据后面添加n个校验位，n=除数的位数 -1 (校验位上存的是余数，所以不会比除数大)</li><li>发送端用原数据补充n-1个0后，对多项式进行模2运算，将余数放到校验位上</li><li>接收端用接收到的数据和多项式也进行模2运算，如果余数伟0，则数据正确，否则数据错误，需要发送端重传</li></ul>]]></content>
     
@@ -36,7 +36,7 @@
     </summary>
     
     
-      <category term="Computer Science" scheme="https://kris0923.github.io/tags/Computer-Science/"/>
+      <category term="computer-science" scheme="https://kris0923.github.io/tags/computer-science/"/>
     
   </entry>
   
