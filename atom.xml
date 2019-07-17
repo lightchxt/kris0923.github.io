@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://kris0923.github.io/"/>
-  <updated>2018-12-09T12:03:56.000Z</updated>
+  <updated>2019-07-17T04:21:05.006Z</updated>
   <id>https://kris0923.github.io/</id>
   
   <author>
@@ -15,6 +15,53 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>校验码</title>
+    <link href="https://kris0923.github.io/2019/07/17/%E6%A0%A1%E9%AA%8C%E7%A0%81/"/>
+    <id>https://kris0923.github.io/2019/07/17/校验码/</id>
+    <published>2019-07-17T04:18:45.000Z</published>
+    <updated>2019-07-17T04:21:05.006Z</updated>
+    
+    <content type="html"><![CDATA[<p>为了保证计算机系统运行时数据在传输过程中正确无误，提高硬件电路的可靠性和提高代码的校验能力,通常使用校验码来检测传输数据是否出错，常用的3种校验码：</p><h4 id="1-奇偶校验"><a href="#1-奇偶校验" class="headerlink" title="1. 奇偶校验"></a>1. 奇偶校验</h4><ul><li>专门设置一个奇偶校验位来保证发出数据中的1的个数是奇数（或者偶数)，</li><li>缺点:只能发现有奇数个位出错的情况，不能发现有偶数个位出错的情况<h4 id="2-海明码校验"><a href="#2-海明码校验" class="headerlink" title="2. 海明码校验"></a>2. 海明码校验</h4>在数据的特定位置上插入 k 个校验位,假设原来的数据有n位，这样编码后的数据有n+k位，数据就会有n+k位出错和一种正确情况，所以k应该满足：<br>2^k - 1 &gt;= n+k </li></ul><ul><li>检验码的位置都在数据的2^m位上</li><li>校验码的每一个值可以表示一位数据是否正确</li><li>将每个海明码出现的位置做异或运算，得到的结果就是出错的位置-进行取反操作<h4 id="3-循环冗余码校验"><a href="#3-循环冗余码校验" class="headerlink" title="3. 循环冗余码校验"></a>3. 循环冗余码校验</h4>广泛用于数据通信领域和磁介质存储系统中.<h5 id="循环冗余校验码原理："><a href="#循环冗余校验码原理：" class="headerlink" title="循环冗余校验码原理："></a>循环冗余校验码原理：</h5></li><li>发送端和接收端共同设置一个除数（生成多项式），通常最高位和最低位都是1，或者公式 G(x) = 2^x + 2^(x-1) + 1</li><li>在原数据后面添加n个校验位，n=除数的位数 -1 (校验位上存的是余数，所以不会比除数大)</li><li>发送端用原数据补充n-1个0后，对多项式进行模2运算，将余数放到校验位上</li><li>接收端用接收到的数据和多项式也进行模2运算，如果余数伟0，则数据正确，否则数据错误，需要发送端重传</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;为了保证计算机系统运行时数据在传输过程中正确无误，提高硬件电路的可靠性和提高代码的校验能力,通常使用校验码来检测传输数据是否出错，常用的3种校验码：&lt;/p&gt;
+&lt;h4 id=&quot;1-奇偶校验&quot;&gt;&lt;a href=&quot;#1-奇偶校验&quot; class=&quot;headerlink&quot; title
+      
+    
+    </summary>
+    
+    
+      <category term="Computer Science" scheme="https://kris0923.github.io/tags/Computer-Science/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHP5与PHP7的zval比较</title>
+    <link href="https://kris0923.github.io/2019/07/17/PHP5%E4%B8%8EPHP7%E7%9A%84zval%E6%AF%94%E8%BE%83/"/>
+    <id>https://kris0923.github.io/2019/07/17/PHP5与PHP7的zval比较/</id>
+    <published>2019-07-17T04:16:53.000Z</published>
+    <updated>2019-07-17T06:03:54.669Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="PHP5中zval定义"><a href="#PHP5中zval定义" class="headerlink" title="PHP5中zval定义"></a>PHP5中zval定义</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">zval</span> <span class="title">struct</span> &#123;</span></span><br><span class="line">    zvalue_value value; <span class="comment">// 16</span></span><br><span class="line">    zend_unit refcount_gc; <span class="comment">// 4字节 引用计数</span></span><br><span class="line">    zend_uchar type;        <span class="comment">// 1 </span></span><br><span class="line">    zend_uchar is_ref__gc; <span class="comment">// 1 是否为引用类型</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> _avalue_value &#123;</span><br><span class="line">    <span class="keyword">long</span> lval; <span class="comment">// 8</span></span><br><span class="line">    <span class="keyword">double</span> dval; <span class="comment">// 8</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        <span class="keyword">char</span> *val;</span><br><span class="line">        <span class="keyword">int</span> len;</span><br><span class="line">    &#125; str; <span class="comment">// 16</span></span><br><span class="line">    HashTable *ht; <span class="comment">// HashTable 数组 8</span></span><br><span class="line">    zend_object_value obj; <span class="comment">// 12</span></span><br><span class="line">    zend_ast * ast; <span class="comment">// 8</span></span><br><span class="line">&#125; zvalue_value;</span><br></pre></td></tr></table></figure><p>为了解决<em>循环引用问题</em>，PHP5.3之后通过重写分配zval的宏，对zval进行扩充，新的分配方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#undef ALLOC_ZVAL</span><br><span class="line">#define ALLOC_ZVAL (z)</span><br><span class="line">    do &#123;</span><br><span class="line">        (z) = (zval*) emalloc (sizeof(zval_gc_info));</span><br><span class="line">        GC_ZVAL_INT (z);</span><br><span class="line">    &#125; while(0)</span><br><span class="line"></span><br><span class="line">// _zval_gc_info 结构如下：</span><br><span class="line">typedef struct _zval_gc_info &#123;</span><br><span class="line">    zval z;</span><br><span class="line">    union &#123;</span><br><span class="line">        gc_root_buffer *buffer;</span><br><span class="line">        struct _zval_gc_info *next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>除此之外，在开启Zend内存池的情况下，zval_gc_info 在内存池中分配，内存池会为每个zval_gc_info额外申请一个大小为16字节的zend_mm_block结构体，用来存放内存相关信息，zend_mm_block结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _zend_mm_block_info &#123;</span><br><span class="line">    size_t _size;</span><br><span class="line">    size_t _prev;</span><br><span class="line">&#125; zend_mm_block_info;</span><br><span class="line">typedef struct _zend_mm_block &#123;</span><br><span class="line">    zend_mm_block_info info;</span><br><span class="line">&#125; zend_mm_block;</span><br></pre></td></tr></table></figure></p><p>最终一个变量在PHP5中占内存大小为48个字节（48个字节其实有很多浪费），占用情况如图：</p><blockquote><p>1.zend_mm_block 是啥<br>2.为什么会有循环引用的问题</p></blockquote><h2 id="PHP7的zval"><a href="#PHP7的zval" class="headerlink" title="PHP7的zval"></a>PHP7的zval</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">typedef union _zend_value &#123;</span><br><span class="line">zend_long         lval;/* long value */</span><br><span class="line">double            dval;/* double value */</span><br><span class="line">zend_refcounted  *counted; // 引用计数</span><br><span class="line">zend_string      *str;</span><br><span class="line">zend_array       *arr;</span><br><span class="line">zend_object      *obj;</span><br><span class="line">zend_resource    *res;</span><br><span class="line">zend_reference   *ref;</span><br><span class="line">zend_ast_ref     *ast;</span><br><span class="line">zval             *zv;</span><br><span class="line">void             *ptr;</span><br><span class="line">zend_class_entry *ce;</span><br><span class="line">zend_function    *func;</span><br><span class="line">struct &#123;</span><br><span class="line">uint32_t w1;</span><br><span class="line">uint32_t w2;</span><br><span class="line">&#125; ww;</span><br><span class="line">&#125; zend_value;</span><br><span class="line"></span><br><span class="line">struct _zval_struct &#123;</span><br><span class="line">zend_value        value;/* value */</span><br><span class="line">union &#123;</span><br><span class="line">struct &#123;</span><br><span class="line">ZEND_ENDIAN_LOHI_4(</span><br><span class="line">zend_uchar    type,/* active type 记录变量类型*/</span><br><span class="line">zend_uchar    type_flags,</span><br><span class="line">zend_uchar    const_flags,</span><br><span class="line">zend_uchar    reserved)    /* call info for EX(This) */</span><br><span class="line">&#125; v; /* 4字节 */</span><br><span class="line">uint32_t type_info; // 4字节 其实type_info 就是v 中4个char的组合</span><br><span class="line">&#125; u1;</span><br><span class="line">union &#123;</span><br><span class="line">uint32_t     next;                 /* hash collision chain */</span><br><span class="line">uint32_t     cache_slot;           /* literal cache slot */</span><br><span class="line">uint32_t     lineno;               /* line number (for ast nodes) */</span><br><span class="line">uint32_t     num_args;             /* arguments number for EX(This) */</span><br><span class="line">uint32_t     fe_pos;               /* foreach position */</span><br><span class="line">uint32_t     fe_iter_idx;          /* foreach iterator index */</span><br><span class="line">uint32_t     access_flags;         /* class constant access flags */</span><br><span class="line">uint32_t     property_guard;       /* single property guard 单一属性保护*/</span><br><span class="line">uint32_t     extra;                /* not further specified 保留字段，暂无意义*/</span><br><span class="line">&#125; u2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>PHP7的zval中value占8字节，u1占4字节，u2为辅助字段，占4字节，这样zval一共占16字节，即使没有u2，在内存对齐的情况下，zval也要占16字节，用u2记录了一些特殊信息，并不会浪费内存，反而是对内存的充分利用</p><p>PHP7 Z_VAL内存占用图<br><img src="https://github.com/kris0923/kris0923.github.io/blob/master/images/php_z_val.png" alt="php7_z_val"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;PHP5中zval定义&quot;&gt;&lt;a href=&quot;#PHP5中zval定义&quot; class=&quot;headerlink&quot; title=&quot;PHP5中zval定义&quot;&gt;&lt;/a&gt;PHP5中zval定义&lt;/h2&gt;&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;t
+      
+    
+    </summary>
+    
+    
+      <category term="php" scheme="https://kris0923.github.io/tags/php/"/>
+    
+  </entry>
   
   <entry>
     <title>GO语言语法基础</title>
@@ -43,7 +90,7 @@
     <link href="https://kris0923.github.io/2018/12/08/PHP%20%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
     <id>https://kris0923.github.io/2018/12/08/PHP 内核分析笔记（二）/</id>
     <published>2018-12-08T10:08:48.000Z</published>
-    <updated>2018-12-09T11:50:52.000Z</updated>
+    <updated>2019-07-17T06:03:38.853Z</updated>
     
     <content type="html"><![CDATA[<h3 id="多进程SAPI生命周期"><a href="#多进程SAPI生命周期" class="headerlink" title="多进程SAPI生命周期"></a>多进程SAPI生命周期</h3><p>以Apache为例，PHP编译为apache的一个模块来处理php请求，Apache启动后会fork多个进程，每个进程拥有独立的内存空间，单独处理php请求，所以每个子进程都是完整的生命周期<br><img src="http://www.php-internals.com/images/book/chapt02/02-01-02-multiprocess-life-cycle.png" alt="img"></p><h3 id="多线程的SAPI生命周期"><a href="#多线程的SAPI生命周期" class="headerlink" title="多线程的SAPI生命周期"></a>多线程的SAPI生命周期</h3><p>同一组线程只有一个模块初始化和销毁的过程<br><img src="http://www.php-internals.com/images/book/chapt02/02-01-013-multithreaded-lift-cycle.png" alt="img"></p>]]></content>
     
@@ -53,10 +100,10 @@
     
     </summary>
     
-      <category term="PHP" scheme="https://kris0923.github.io/categories/PHP/"/>
+      <category term="php" scheme="https://kris0923.github.io/categories/php/"/>
     
     
-      <category term="PHP" scheme="https://kris0923.github.io/tags/PHP/"/>
+      <category term="php" scheme="https://kris0923.github.io/tags/php/"/>
     
   </entry>
   
@@ -65,7 +112,7 @@
     <link href="https://kris0923.github.io/2018/12/08/PHP%20%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/"/>
     <id>https://kris0923.github.io/2018/12/08/PHP 内核分析笔记（一）/</id>
     <published>2018-12-08T03:55:54.000Z</published>
-    <updated>2018-12-09T03:29:31.000Z</updated>
+    <updated>2019-07-17T06:03:48.083Z</updated>
     
     <content type="html"><![CDATA[<p><inernal class="png"><a href="http://www.php-internals.com/images/book/chapt02/02-00-php-" target="_blank" rel="noopener">http://www.php-internals.com/images/book/chapt02/02-00-php-</a></inernal></p><h3 id="单进程SAPI生命周期"><a href="#单进程SAPI生命周期" class="headerlink" title="单进程SAPI生命周期"></a>单进程SAPI生命周期</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">:start</span><br><span class="line">    php -f test.php</span><br><span class="line">        call each extension`s MINIT (模块初始化阶段，调用所有模块的MINIT函数)</span><br><span class="line">            Request test.php</span><br><span class="line">                call each extension`s RINIT (调用所有模块的RINIT函数)</span><br><span class="line">                    Execute test.php</span><br><span class="line">                call each extension`s RSHUTDOWM</span><br><span class="line">            Finsh cleaning up after test.php</span><br><span class="line">        call each extension`s MSHUTDOWM （Web服务器退出或者命令行脚本执行完毕退出）</span><br><span class="line">    terminate test.php</span><br><span class="line">:end</span><br></pre></td></tr></table></figure><h3 id="启动-模块初始化阶段"><a href="#启动-模块初始化阶段" class="headerlink" title="启动 模块初始化阶段"></a>启动 模块初始化阶段</h3><ul><li>初始化若干全局变量</li><li>初始化若干常量，这里的常量是PHP自己的一些常量，如PHP_VERSION</li><li>初始化Zend引擎和核心组件</li><li>解析php.ini</li><li>全局操作函数的初始化</li><li>初始化静态构建的模块和共享模块(MINIT)</li><li>禁用函数和类 php_disable_functions, 其禁用的过程是调用zend_disable_function函数将指定的函数名从CG(function_table)函数表中删除,php_disable_classes,将指定的类名从CG(class_table)类表中删除</li></ul><h3 id="ACTIVATION"><a href="#ACTIVATION" class="headerlink" title="ACTIVATION"></a>ACTIVATION</h3><ul><li>激活Zend引擎</li><li>激活SAPI</li><li>环境初始化<br>这里的环境初始化是指在用户空间中需要用到的一些环境变量初始化，这里的环境包括服务器环境、请求数据环境等。 实际到我们用到的变量，就是$_POST、$_GET、$_COOKIE、$_SERVER、$_ENV、$_FILES。 和sapi_module.default_post_reader一样，sapi_module.treat_data的值也是在模块初始化时， 通过php_startup_sapi_content_types函数注册了默认数据处理函数为main/php_variables.c文件中php_default_treat_data函数</li><li>模块请求初始化 (Call each extension’s RINIT)<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3></li><li>php_execute_script 函数包含了运行PHP脚本的全部过程<h3 id="DEACTIVATION"><a href="#DEACTIVATION" class="headerlink" title="DEACTIVATION"></a>DEACTIVATION</h3>  PHP关闭请求的过程是一个若干个关闭操作的集合，这个集合存在于php_request_shutdown函数中<ol><li>调用所有通过register_shutdown_function()注册的函数</li><li>执行所有可用的__destruct函数</li><li>将所有的输出刷出去</li><li>发送HTTP应答头</li><li>遍历每个模块的关闭请求方法 call each extension`s RSHUTDOWM</li><li>销毁全局变量表（PG(http_globals)）的变量</li><li>通过zend_deactivate函数，关闭词法分析器、语法分析器和中间代码执行器</li><li>调用每个扩展的post-RSHUTDOWN函数</li><li>关闭SAPI，通过sapi_deactivate销毁SG(sapi_headers)、SG(request_info)等的内容</li><li>关闭流的包装器、关闭流的过滤器</li><li>关闭内存管理</li><li>重新设置最大执行时间<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3></li></ol></li><li>flush</li><li>关闭Zend引擎</li><li>在关闭所有的模块后，PHP继续销毁全局函数表，销毁全局类表、销售全局变量表等。 通过zend_shutdown_extensions遍历zend_extensions所有元素，调用每个扩展的shutdown函数</li></ul>]]></content>
     
@@ -75,36 +122,10 @@
     
     </summary>
     
-      <category term="PHP" scheme="https://kris0923.github.io/categories/PHP/"/>
+      <category term="php" scheme="https://kris0923.github.io/categories/php/"/>
     
     
-      <category term="PHP" scheme="https://kris0923.github.io/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>那些所谓的清理僵尸粉，真的能让手机不再卡吗</title>
-    <link href="https://kris0923.github.io/2018/12/02/%E6%B8%85%E7%90%86%E5%83%B5%E5%B0%B8%E7%B2%89/"/>
-    <id>https://kris0923.github.io/2018/12/02/清理僵尸粉/</id>
-    <published>2018-12-02T13:23:16.000Z</published>
-    <updated>2018-12-09T03:19:03.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近总收到一些所谓的微信清理僵尸粉的消息，虽然这些消息并不会给我带来多少麻烦（也就是动动手指的事），但正好乘此机会来回顾一下相关的知识</p><h2 id="手机为什么会越用越卡？"><a href="#手机为什么会越用越卡？" class="headerlink" title="手机为什么会越用越卡？"></a>手机为什么会越用越卡？</h2><p>这得从android操作系统说起，android所有的应用程序都运行在Java虚拟机之上，Java虚拟机有自己的内存管理和回收机制。每一个应用程序至少有一个进程，而每个进程都会占用一部分内存资源（这里所说的内存指的是RAM，随机存储器），安卓应用程序总有一些服务进程（比如接收消息推送）在后台运行，所以即使关闭了程序，内存不能完全释放出来，java虚拟机做不到内存的及时回收当开启的进程过多，内存不够时，Java虚拟机就会启用垃圾回收，按照虚拟机内部的算法去杀掉一些后台的进程，实际上垃圾回收器也是一个常驻内存的进程，如果手机的内存不够大，垃圾回收的工作就有可能不能顺利进行，这样手机就卡顿了</p><h2 id="什么是-RAM-和-ROM？"><a href="#什么是-RAM-和-ROM？" class="headerlink" title="什么是 RAM 和 ROM？"></a>什么是 RAM 和 ROM？</h2><p>我们在买手机的时候，关注最多的应该就是手机内存了，现在市场上已经有10GB + 256GB 的手机了，已经超过普通PC机的配置，那么这10GB + 256GB具体指什么呢？为什么会有RAM和ROM之分？<br>按照维基百科的定义<br>RAM：随机存取存储器（英语：Random Access Memory，缩写：RAM），也叫主存，是与CPU直接交换数据的内部存储器。它可以随时读写（，而且速度很快，通常作为操作系统或其他正在运行中的程序的临时数据存储介质）。<br>ROM：只读存储器（Read-Only Memory，ROM）是一种半导体存储器，其特性是一旦存储数据就无法再将之改变或删除，且内容不会因为电源关闭而消失。在电子或计算机系统中，通常用以存储不需经常变更的程序或数据。<br>从RAM 和 ROM的特性我们可以猜到，正常情况下应用程序是存储到ROM中的（断电不丢失数据），而当程序运行时，由于 CPU 的运算效率很高，所以程序需要加载到RAM中才能更好的发挥CPU的性能。<br>在硬件的生产中 RAM 对速度有较高的要求，因此生产成本相对 ROM 要高很多，而且用户也有保存数据的需求，所以手机中就有了RAM和ROM，当然 RAM 要比 ROM 小很多，也就是说10GB + 256GB中，10GB指的是RAM，256GB指的是ROM，RAM越大，可以同时打开的程序就越多，ROM越大，可以存储的照片等文件就越多。</p><h2 id="如果少装软件，手机是否就不卡了？"><a href="#如果少装软件，手机是否就不卡了？" class="headerlink" title="如果少装软件，手机是否就不卡了？"></a>如果少装软件，手机是否就不卡了？</h2><p>理论上看起来是这样，但是用过android手机的都知道事实并非如此。这是因为，一方面，硬件存在老化的问题，硬件的老化会引起手机能耗的提升，导致手机发热，CPU降频，另一方面，即使是同一款软件，也需要不断的更细，新版本的软件基本都是原来的软件基础上打一些修复包或者增加一些新功能，这样软件越来月臃肿，一些软件开发人员在开发过程中使用的测试机也是随着市场变化而更新换代，一些较老的机型在软件开发的时候已经被开发人员放弃了。</p><p>最后来说一下标题的问题，所谓清理僵尸粉，就是删除了微信好友的关系，删除了微信好友关系可以清理一部分聊天记录的缓存，这部分缓存实际占用的 ROM 存储，并不会影响程序的运行流畅度。</p><blockquote><p>在这个由关系组成的社会中，为什么要删除与人的关系呢？</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;最近总收到一些所谓的微信清理僵尸粉的消息，虽然这些消息并不会给我带来多少麻烦（也就是动动手指的事），但正好乘此机会来回顾一下相关的知识&lt;/p&gt;
-&lt;h2 id=&quot;手机为什么会越用越卡？&quot;&gt;&lt;a href=&quot;#手机为什么会越用越卡？&quot; class=&quot;headerlink&quot; ti
-      
-    
-    </summary>
-    
-      <category term="游戏人生" scheme="https://kris0923.github.io/categories/%E6%B8%B8%E6%88%8F%E4%BA%BA%E7%94%9F/"/>
-    
-    
-      <category term="游戏人生" scheme="https://kris0923.github.io/tags/%E6%B8%B8%E6%88%8F%E4%BA%BA%E7%94%9F/"/>
+      <category term="php" scheme="https://kris0923.github.io/tags/php/"/>
     
   </entry>
   
@@ -113,7 +134,7 @@
     <link href="https://kris0923.github.io/2018/09/24/php-summarize/"/>
     <id>https://kris0923.github.io/2018/09/24/php-summarize/</id>
     <published>2018-09-24T10:41:27.000Z</published>
-    <updated>2018-12-09T03:27:09.000Z</updated>
+    <updated>2019-07-17T06:04:02.197Z</updated>
     
     <content type="html"><![CDATA[<h1 id="语法基础"><a href="#语法基础" class="headerlink" title="语法基础"></a>语法基础</h1><h2 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h2><ol><li>boolean</li><li>integet</li><li><p>float</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 判断是否是一个数值类型</span><br><span class="line">bool is_nan(float $val)</span><br></pre></td></tr></table></figure></li><li><p>string</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 字符串转数值</span><br><span class="line">//如果 字符串中包含 &apos;.&apos;, &apos;e&apos;或者&apos;E&apos; 转换为float，其余转为 int</span><br></pre></td></tr></table></figure></li><li><p>Array</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 数组的key只能是int 或string</span><br><span class="line">合法的整型字符串会被转成int，例如：&quot;8&quot;，&quot;08&quot;不会，因为08不是合法的十进制数</span><br><span class="line">浮点数也会被转换为整型，意味着其小数部分会被舍去。例如键名 8.7 实际会被储存为 8。</span><br><span class="line">布尔值也会被转换成整型。即键名 true 实际会被储存为 1 而键名 false 会被储存为 0。</span><br><span class="line">Null 会被转换为空字符串，即键名 null 实际会被储存为 &quot;&quot;。</span><br><span class="line">数组和对象不能被用为键名。坚持这么做会导致警告：Illegal offset type</span><br><span class="line">默认键： 当前最大整数索引值加1</span><br><span class="line">// 其他类型转为数组</span><br><span class="line">$a = array($a);</span><br><span class="line">or</span><br><span class="line">$a = (array) $a;</span><br><span class="line">如果一个 object 类型转换为 array，则结果为一个数组，其单元为该对象的属性。键名将为成员变量名，不过有几点例外：整数属性不可访问；私有变量前会加上类名作前缀；保护变量前会加上一个 &apos;*&apos; 做前缀。这些前缀的前后都各有一个 NULL 字符。这会导致一些不可预知的行为：</span><br><span class="line">class A &#123;</span><br><span class="line">    private $A; // This will become &apos;\0A\0A&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class B extends A &#123;</span><br><span class="line">    private $A; // This will become &apos;\0B\0A&apos;</span><br><span class="line">    public $AA; // This will become &apos;AA&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var_dump((array) new B());</span><br><span class="line">//上例会有两个键名为 &apos;AA&apos;，不过其中一个实际上是 &apos;\0A\0A&apos;</span><br></pre></td></tr></table></figure></li><li><p>Object</p></li><li><p>Reource 资源类型</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">资源 resource 是一种特殊变量，保存了到外部资源的一个引用</span><br><span class="line">可以用 is_resource()函数测定一个变量是否是资源，函数 get_resource_type()则返回该资源的类型</span><br></pre></td></tr></table></figure></li><li><p>NULL</p></li><li>Callback/Callable<h2 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h2> <a href="http://php.net/manual/zh/language.oop5.magic.php#" target="_blank" rel="noopener">http://php.net/manual/zh/language.oop5.magic.php#</a> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">__construct()，</span><br><span class="line">__destruct()， </span><br><span class="line">__call()， </span><br><span class="line">__callStatic()， </span><br><span class="line">__get()， </span><br><span class="line">__set()， </span><br><span class="line">__isset()， </span><br><span class="line">__unset()， </span><br><span class="line">__sleep()， </span><br><span class="line">__wakeup()， </span><br><span class="line">__toString()， </span><br><span class="line">__invoke()， </span><br><span class="line">__set_state()， </span><br><span class="line">__clone() 和 </span><br><span class="line">__debugInfo()</span><br></pre></td></tr></table></figure></li></ol><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p>算数运算符</p><p>$a <strong> $b 表示已$a的$b次方（PHP5.6之后支持）, $a </strong> $b = exp($a*log($a));</p><p>赋值运算符=</p><p>一般情况下赋值运算是将原变量的值拷贝到新变量中，但有个例外，就是碰到对象<em>object</em>时是引用赋值，除非明确使用<em>clone</em>关键字</p>]]></content>
     
@@ -126,10 +147,10 @@
     
     </summary>
     
-      <category term="PHP" scheme="https://kris0923.github.io/categories/PHP/"/>
+      <category term="php" scheme="https://kris0923.github.io/categories/php/"/>
     
     
-      <category term="PHP" scheme="https://kris0923.github.io/tags/PHP/"/>
+      <category term="php" scheme="https://kris0923.github.io/tags/php/"/>
     
   </entry>
   

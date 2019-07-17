@@ -50,7 +50,7 @@
 <link rel="shortcut icon" href="/images/favicon.png">
 
 
-<title>归档集- 2018/12 - 生活不只有眼前的苟且，还有诗和远方的田野</title>
+<title>校验码 - 生活不只有眼前的苟且，还有诗和远方的田野</title>
 
 <meta name="keywords" content="">
 
@@ -110,8 +110,10 @@
 </div>
             <div class="page-title">
     <ul>
-        <li><a href="/" data-name="首页" title="Back Home">首页</a></li>
-        <li><a href="/tags" data-name="标签云" title="标签云">标签</a></li>
+        <li><a href="/">最新</a></li>
+        
+        
+        
         <li class="page-search">
     <form id="search" class="search-form">
         <label for="s" class="sr-only">请输入关键字</label>
@@ -153,98 +155,60 @@
 <div class="main-inner">
     <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
         <div class="post-header">
-            <h3 class="post-title">坦率的讲 - 本站目前共计7篇文章</h3>
-        </div>
-        <p>不信，你数数 ：） </p>
-        <div class="post-content markdown-body" itemprop="articleBody">
-            <div class="archives">
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2019年07月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>17日12:18:45
-                            <a href="/2019/07/17/校验码/">校验码</a>
-                        </li>
-                        
-                
-                
-                
-                        <li>17日12:16:53
-                            <a href="/2019/07/17/PHP5与PHP7的zval比较/">PHP5与PHP7的zval比较</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年12月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>09日19:42:24
-                            <a href="/2018/12/09/GO 基础语法/">GO语言语法基础</a>
-                        </li>
-                        
-                
-                
-                
-                        <li>08日18:08:48
-                            <a href="/2018/12/08/PHP 内核分析笔记（二）/">PHP 内核分析笔记（二）多进程与多线程SAPI生命周期</a>
-                        </li>
-                        
-                
-                
-                
-                        <li>08日11:55:54
-                            <a href="/2018/12/08/PHP 内核分析笔记（一）/">PHP 内核分析笔记（一）单进程SAPI生命周期</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年09月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>24日18:41:27
-                            <a href="/2018/09/24/php-summarize/">PHP 知识总结（一）</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年06月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>15日22:50:45
-                            <a href="/2018/06/15/从Hello-World开始/">Mysql事务和锁</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="" target="_blank">
+                    
+                        <img width="48" src="/images/home_logo1.jpg" alt="avatar"/>
+                    
+                    
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="" target="_blank"></a>
+                    <span title="最后编辑于2019-07-17">2019-07-17</span>
+                </p>
+                <p></p>
+            </div>
+            <h2 class="post-title">校验码</h2>
+            <div class="post-meta">
+                本文总共565个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
+        <div class="post-content markdown-body">
+            <p>为了保证计算机系统运行时数据在传输过程中正确无误，提高硬件电路的可靠性和提高代码的校验能力,通常使用校验码来检测传输数据是否出错，常用的3种校验码：</p>
+<h4 id="1-奇偶校验"><a href="#1-奇偶校验" class="headerlink" title="1. 奇偶校验"></a>1. 奇偶校验</h4><ul>
+<li>专门设置一个奇偶校验位来保证发出数据中的1的个数是奇数（或者偶数)，</li>
+<li>缺点:只能发现有奇数个位出错的情况，不能发现有偶数个位出错的情况<h4 id="2-海明码校验"><a href="#2-海明码校验" class="headerlink" title="2. 海明码校验"></a>2. 海明码校验</h4>在数据的特定位置上插入 k 个校验位,假设原来的数据有n位，这样编码后的数据有n+k位，数据就会有n+k位出错和一种正确情况，所以k应该满足：<br>2^k - 1 &gt;= n+k </li>
+</ul>
+<ul>
+<li>检验码的位置都在数据的2^m位上</li>
+<li>校验码的每一个值可以表示一位数据是否正确</li>
+<li>将每个海明码出现的位置做异或运算，得到的结果就是出错的位置-进行取反操作<h4 id="3-循环冗余码校验"><a href="#3-循环冗余码校验" class="headerlink" title="3. 循环冗余码校验"></a>3. 循环冗余码校验</h4>广泛用于数据通信领域和磁介质存储系统中.<h5 id="循环冗余校验码原理："><a href="#循环冗余校验码原理：" class="headerlink" title="循环冗余校验码原理："></a>循环冗余校验码原理：</h5></li>
+<li>发送端和接收端共同设置一个除数（生成多项式），通常最高位和最低位都是1，或者公式 G(x) = 2^x + 2^(x-1) + 1</li>
+<li>在原数据后面添加n个校验位，n=除数的位数 -1 (校验位上存的是余数，所以不会比除数大)</li>
+<li>发送端用原数据补充n-1个0后，对多项式进行模2运算，将余数放到校验位上</li>
+<li>接收端用接收到的数据和多项式也进行模2运算，如果余数伟0，则数据正确，否则数据错误，需要发送端重传</li>
+</ul>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/Computer-Science/">Computer Science</a>
+            
+        </div>
+        
     </article>
+    
+    <p>本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
 </div>
+<script src="/js/busuanzi.pure.mini.js"></script>
 
         </div><!-- end #main-->
     </div><!-- end #body -->

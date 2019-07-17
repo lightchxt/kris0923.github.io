@@ -50,7 +50,7 @@
 <link rel="shortcut icon" href="/images/favicon.png">
 
 
-<title>那些所谓的清理僵尸粉，真的能让手机不再卡吗 - 生活不只有眼前的苟且，还有诗和远方的田野</title>
+<title>标签 - computer science - 生活不只有眼前的苟且，还有诗和远方的田野</title>
 
 <meta name="keywords" content="">
 
@@ -110,21 +110,25 @@
 </div>
             <div class="page-title">
     <ul>
-        <li><a href="/">最新</a></li>
+        <li class="">
+            <a href="/" data-name="最近文章">最近</a>
+        </li>
         
-            
-                <li class="">
-                    <a href="/categories/php" data-name="PHP">PHP</a>
-                </li>
-            
-                <li class="">
-                    <a href="/categories/go" data-name="GO">GO</a>
-                </li>
-            
-                <li class="active">
-                    <a href="/categories/游戏人生" data-name="游戏人生">游戏人生</a>
-                </li>
-            
+        <li class="">
+            <a href="/categories/php" data-name="PHP">PHP</a>
+        </li>
+        
+        <li class="">
+            <a href="/categories/go" data-name="GO">GO</a>
+        </li>
+        
+        <li class="">
+            <a href="/categories/Computer Science" data-name="CS">CS</a>
+        </li>
+        
+        <li class="">
+            <a href="/categories/游戏人生" data-name="游戏人生">游戏人生</a>
+        </li>
         
         <li class="page-search">
     <form id="search" class="search-form">
@@ -165,56 +169,38 @@
     </ul>
 </div>
 <div class="main-inner">
-    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-        <div class="post-header">
-            <div class="post-author clearfix">
-                <a class="avatar fleft" href="" target="_blank">
-                    
-                        <img width="48" src="/images/home_logo1.jpg" alt="avatar"/>
-                    
-                    
-                </a>
-                <p><span class="label">作者</span>
-                    <a href="" target="_blank"></a>
-                    <span title="最后编辑于2018-12-02">2018-12-02</span>
-                </p>
-                <p></p>
-            </div>
-            <h2 class="post-title">那些所谓的清理僵尸粉，真的能让手机不再卡吗</h2>
-            <div class="post-meta">
-                本文总共1333个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
-            </div>
-        </div>
-        <div class="post-content markdown-body">
-            <p>最近总收到一些所谓的微信清理僵尸粉的消息，虽然这些消息并不会给我带来多少麻烦（也就是动动手指的事），但正好乘此机会来回顾一下相关的知识</p>
-<h2 id="手机为什么会越用越卡？"><a href="#手机为什么会越用越卡？" class="headerlink" title="手机为什么会越用越卡？"></a>手机为什么会越用越卡？</h2><p>这得从android操作系统说起，android所有的应用程序都运行在Java虚拟机之上，Java虚拟机有自己的内存管理和回收机制。每一个应用程序至少有一个进程，而每个进程都会占用一部分内存资源（这里所说的内存指的是RAM，随机存储器），安卓应用程序总有一些服务进程（比如接收消息推送）在后台运行，所以即使关闭了程序，内存不能完全释放出来，java虚拟机做不到内存的及时回收当开启的进程过多，内存不够时，Java虚拟机就会启用垃圾回收，按照虚拟机内部的算法去杀掉一些后台的进程，实际上垃圾回收器也是一个常驻内存的进程，如果手机的内存不够大，垃圾回收的工作就有可能不能顺利进行，这样手机就卡顿了</p>
-<h2 id="什么是-RAM-和-ROM？"><a href="#什么是-RAM-和-ROM？" class="headerlink" title="什么是 RAM 和 ROM？"></a>什么是 RAM 和 ROM？</h2><p>我们在买手机的时候，关注最多的应该就是手机内存了，现在市场上已经有10GB + 256GB 的手机了，已经超过普通PC机的配置，那么这10GB + 256GB具体指什么呢？为什么会有RAM和ROM之分？<br>按照维基百科的定义<br>RAM：随机存取存储器（英语：Random Access Memory，缩写：RAM），也叫主存，是与CPU直接交换数据的内部存储器。它可以随时读写（，而且速度很快，通常作为操作系统或其他正在运行中的程序的临时数据存储介质）。<br>ROM：只读存储器（Read-Only Memory，ROM）是一种半导体存储器，其特性是一旦存储数据就无法再将之改变或删除，且内容不会因为电源关闭而消失。在电子或计算机系统中，通常用以存储不需经常变更的程序或数据。<br>从RAM 和 ROM的特性我们可以猜到，正常情况下应用程序是存储到ROM中的（断电不丢失数据），而当程序运行时，由于 CPU 的运算效率很高，所以程序需要加载到RAM中才能更好的发挥CPU的性能。<br>在硬件的生产中 RAM 对速度有较高的要求，因此生产成本相对 ROM 要高很多，而且用户也有保存数据的需求，所以手机中就有了RAM和ROM，当然 RAM 要比 ROM 小很多，也就是说10GB + 256GB中，10GB指的是RAM，256GB指的是ROM，RAM越大，可以同时打开的程序就越多，ROM越大，可以存储的照片等文件就越多。</p>
-<h2 id="如果少装软件，手机是否就不卡了？"><a href="#如果少装软件，手机是否就不卡了？" class="headerlink" title="如果少装软件，手机是否就不卡了？"></a>如果少装软件，手机是否就不卡了？</h2><p>理论上看起来是这样，但是用过android手机的都知道事实并非如此。这是因为，一方面，硬件存在老化的问题，硬件的老化会引起手机能耗的提升，导致手机发热，CPU降频，另一方面，即使是同一款软件，也需要不断的更细，新版本的软件基本都是原来的软件基础上打一些修复包或者增加一些新功能，这样软件越来月臃肿，一些软件开发人员在开发过程中使用的测试机也是随着市场变化而更新换代，一些较老的机型在软件开发的时候已经被开发人员放弃了。</p>
-<p>最后来说一下标题的问题，所谓清理僵尸粉，就是删除了微信好友的关系，删除了微信好友关系可以清理一部分聊天记录的缓存，这部分缓存实际占用的 ROM 存储，并不会影响程序的运行流畅度。</p>
-<blockquote>
-<p>在这个由关系组成的社会中，为什么要删除与人的关系呢？</p>
-</blockquote>
-
-        </div>
-        <div class="post-tool">
-            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
-                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+    
+    
+    
+<article class="post">
+    
+    <div class="post-header">
+        <div class="post-meta">
+            <a href="" target="_blank">
+                <strong></strong>
             </a>
+            <em>·</em>2019-07-17
         </div>
-        
-        <div class="post-tags">标签：
+        <a class="post-title" href="/2019/07/17/校验码/" target="_blank" title="校验码">校验码</a>
+        <div class="post-meta">
+            <a href="/tags" target="_blank"><i class="fa fa-tags"></i></a>
             
-            <a href="/tags/游戏人生/">游戏人生</a>
+                <em>·</em>
+                <a href="https://kris0923.github.io/tags/Computer-Science/" target="_blank">Computer Science</a>
             
         </div>
-        
-    </article>
-    
-    <p>本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
-    
+    </div>
+    <div class="post-desc">
+        校验码
+    </div>
+</article>
+
+
+
     
 </div>
-<script src="/js/busuanzi.pure.mini.js"></script>
+<!-- 分页开始 -->
+
 
         </div><!-- end #main-->
     </div><!-- end #body -->

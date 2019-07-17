@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<!--
+//                            _ooOoo_
+//                           o8888888o
+//                           88" . "88
+//                           (| -_- |)
+//                            O\ = /O
+//                        ____/`---'\____
+//                      .   ' \\| |// `.
+//                       / \\||| : |||// \
+//                     / _||||| -:- |||||- \
+//                       | | \\\ - /// | |
+//                     | \_| ''\---/'' | |
+//                      \ .-\__ `-` ___/-. /
+//                   ___`. .' /--.--\ `. . __
+//                ."" '< `.___\_<|>_/___.' >'"".
+//               | | : `- \`.;`\ _ /`;.`/ - ` : | |
+//                 \ \ `-. \_ __\ /__ _/ .-` / /
+//         ======`-.____`-.___\_____/___.-`____.-'======
+//                            `=---='
+//                 拦截插件累计拦截逗比攻击"1381438"次！
+//         .............................................
+//                  佛祖保佑             永无BUG
+//          佛曰:
+//                  写字楼里写字间，写字间里程序员；
+//                  程序人员写程序，又拿程序换酒钱。
+//                  酒醒只在网上坐，酒醉还来网下眠；
+//                  酒醉酒醒日复日，网上网下年复年。
+//                  但愿老死电脑间，不愿鞠躬老板前；
+//                  奔驰宝马贵者趣，公交自行程序员。
+//                  别人笑我忒疯癫，我笑自己命太贱；
+//                  不见满街漂亮妹，哪个归得程序员？
+-->
+<head>
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://kris0923.github.io/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://kris0923.github.io">
+<meta name="author" content="Magicio">
+<link rel="stylesheet" href="/css/SimpleStyle.min.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>php5与php7的zval比较 - 生活不只有眼前的苟且，还有诗和远方的田野</title>
+
+<meta name="keywords" content="">
+
+<meta name="description " content="">
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="码">码</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <!--<a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>-->
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Magicio</h1>
+        <h3 class="cover-siteTitle">生活不只有眼前的苟且，还有诗和远方的田野</h3>
+        <p class="cover-siteDesc">程序员眼中的世界</p>
+        <div class="cover-sns">
+            
+            <div class="btn btn-github">
+                <a href="https://github.com/kris0923" target="_blank" title="github" ref="friend">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-weibo">
+                <a href="https://weibo.com/3260183737/profile?topnav=1&amp;wvr=6" target="_blank" title="weibo" ref="friend">
+                    <i class="fa fa-weibo"></i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最新</a></li>
+        
+        
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <label for="s" class="sr-only">请输入关键字</label>
+        <input class="search-field" type="text" name="s" class="text" placeholder="请输入关键字" />
+        <button type="submit" class="search-form-submit" title="搜索"><i class="fa fa-search"></i></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="" target="_blank">
+                    
+                        <img width="48" src="/images/home_logo1.jpg" alt="avatar"/>
+                    
+                    
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="" target="_blank"></a>
+                    <span title="最后编辑于2019-07-17">2019-07-17</span>
+                </p>
+                <p></p>
+            </div>
+            <h2 class="post-title">PHP5与PHP7的zval比较</h2>
+            <div class="post-meta">
+                本文总共2933个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="PHP5中zval定义"><a href="#PHP5中zval定义" class="headerlink" title="PHP5中zval定义"></a>PHP5中zval定义</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">zval</span> <span class="title">struct</span> &#123;</span></span><br><span class="line">    zvalue_value value; <span class="comment">// 16</span></span><br><span class="line">    zend_unit refcount_gc; <span class="comment">// 4字节 引用计数</span></span><br><span class="line">    zend_uchar type;        <span class="comment">// 1 </span></span><br><span class="line">    zend_uchar is_ref__gc; <span class="comment">// 1 是否为引用类型</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> _avalue_value &#123;</span><br><span class="line">    <span class="keyword">long</span> lval; <span class="comment">// 8</span></span><br><span class="line">    <span class="keyword">double</span> dval; <span class="comment">// 8</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">        <span class="keyword">char</span> *val;</span><br><span class="line">        <span class="keyword">int</span> len;</span><br><span class="line">    &#125; str; <span class="comment">// 16</span></span><br><span class="line">    HashTable *ht; <span class="comment">// HashTable 数组 8</span></span><br><span class="line">    zend_object_value obj; <span class="comment">// 12</span></span><br><span class="line">    zend_ast * ast; <span class="comment">// 8</span></span><br><span class="line">&#125; zvalue_value;</span><br></pre></td></tr></table></figure>
+<p>为了解决<em>循环引用问题</em>，PHP5.3之后通过重写分配zval的宏，对zval进行扩充，新的分配方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#undef ALLOC_ZVAL</span><br><span class="line">#define ALLOC_ZVAL (z)</span><br><span class="line">    do &#123;</span><br><span class="line">        (z) = (zval*) emalloc (sizeof(zval_gc_info));</span><br><span class="line">        GC_ZVAL_INT (z);</span><br><span class="line">    &#125; while(0)</span><br><span class="line"></span><br><span class="line">// _zval_gc_info 结构如下：</span><br><span class="line">typedef struct _zval_gc_info &#123;</span><br><span class="line">    zval z;</span><br><span class="line">    union &#123;</span><br><span class="line">        gc_root_buffer *buffer;</span><br><span class="line">        struct _zval_gc_info *next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>除此之外，在开启Zend内存池的情况下，zval_gc_info 在内存池中分配，内存池会为每个zval_gc_info额外申请一个大小为16字节的zend_mm_block结构体，用来存放内存相关信息，zend_mm_block结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _zend_mm_block_info &#123;</span><br><span class="line">    size_t _size;</span><br><span class="line">    size_t _prev;</span><br><span class="line">&#125; zend_mm_block_info;</span><br><span class="line">typedef struct _zend_mm_block &#123;</span><br><span class="line">    zend_mm_block_info info;</span><br><span class="line">&#125; zend_mm_block;</span><br></pre></td></tr></table></figure></p>
+<p>最终一个变量在PHP5中占内存大小为48个字节（48个字节其实有很多浪费），占用情况如图：</p>
+<blockquote>
+<p>1.zend_mm_block 是啥<br>2.为什么会有循环引用的问题</p>
+</blockquote>
+<h2 id="PHP7的zval"><a href="#PHP7的zval" class="headerlink" title="PHP7的zval"></a>PHP7的zval</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">typedef union _zend_value &#123;</span><br><span class="line">	zend_long         lval;				/* long value */</span><br><span class="line">	double            dval;				/* double value */</span><br><span class="line">	zend_refcounted  *counted; 			// 引用计数</span><br><span class="line">	zend_string      *str;</span><br><span class="line">	zend_array       *arr;</span><br><span class="line">	zend_object      *obj;</span><br><span class="line">	zend_resource    *res;</span><br><span class="line">	zend_reference   *ref;</span><br><span class="line">	zend_ast_ref     *ast;</span><br><span class="line">	zval             *zv;</span><br><span class="line">	void             *ptr;</span><br><span class="line">	zend_class_entry *ce;</span><br><span class="line">	zend_function    *func;</span><br><span class="line">	struct &#123;</span><br><span class="line">		uint32_t w1;</span><br><span class="line">		uint32_t w2;</span><br><span class="line">	&#125; ww;</span><br><span class="line">&#125; zend_value;</span><br><span class="line"></span><br><span class="line">struct _zval_struct &#123;</span><br><span class="line">	zend_value        value;			/* value */</span><br><span class="line">	union &#123;</span><br><span class="line">		struct &#123;</span><br><span class="line">			ZEND_ENDIAN_LOHI_4(</span><br><span class="line">				zend_uchar    type,			/* active type 记录变量类型*/</span><br><span class="line">				zend_uchar    type_flags,</span><br><span class="line">				zend_uchar    const_flags,</span><br><span class="line">				zend_uchar    reserved)	    /* call info for EX(This) */</span><br><span class="line">		&#125; v; /* 4字节 */</span><br><span class="line">		uint32_t type_info; // 4字节 其实type_info 就是v 中4个char的组合</span><br><span class="line">	&#125; u1;</span><br><span class="line">	union &#123;</span><br><span class="line">		uint32_t     next;                 /* hash collision chain */</span><br><span class="line">		uint32_t     cache_slot;           /* literal cache slot */</span><br><span class="line">		uint32_t     lineno;               /* line number (for ast nodes) */</span><br><span class="line">		uint32_t     num_args;             /* arguments number for EX(This) */</span><br><span class="line">		uint32_t     fe_pos;               /* foreach position */</span><br><span class="line">		uint32_t     fe_iter_idx;          /* foreach iterator index */</span><br><span class="line">		uint32_t     access_flags;         /* class constant access flags */</span><br><span class="line">		uint32_t     property_guard;       /* single property guard 单一属性保护*/</span><br><span class="line">		uint32_t     extra;                /* not further specified 保留字段，暂无意义*/</span><br><span class="line">	&#125; u2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>PHP7的zval中value占8字节，u1占4字节，u2为辅助字段，占4字节，这样zval一共占16字节，即使没有u2，在内存对齐的情况下，zval也要占16字节，用u2记录了一些特殊信息，并不会浪费内存，反而是对内存的充分利用</p>
+<p>PHP7 Z_VAL内存占用图<br><img src="https://github.com/kris0923/kris0923.github.io/blob/master/images/php_z_val.png" alt="php7_z_val"></p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/php/">php</a>
+            
+        </div>
+        
+    </article>
+    
+    <p>本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner">
+        <p>
+            <a href="/about"  title="关于本站">关于本站</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="help" >急救中心</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/app" title="App下载">App下载</a>
+        </p>
+        <p>
+            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
+            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
+            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
+            ，Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+        </p>
+        
+
+    </div>
+</footer>
+<script src="/js/InsightSearch.js"></script>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        SimpleCore.init({
+            buildingTime: '01/20/2018',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            // snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate.png',
+        });
+    });
+</script>
+</body>
+</html>
