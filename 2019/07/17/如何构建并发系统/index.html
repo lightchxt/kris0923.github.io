@@ -50,7 +50,7 @@
 <link rel="shortcut icon" href="/images/favicon.png">
 
 
-<title>校验码 - 生活不只有眼前的苟且，还有诗和远方的田野</title>
+<title>如何构建并发系统 - 生活不只有眼前的苟且，还有诗和远方的田野</title>
 
 <meta name="keywords" content="">
 
@@ -184,26 +184,58 @@
                 </p>
                 <p></p>
             </div>
-            <h2 class="post-title">校验码</h2>
+            <h2 class="post-title">如何构建并发系统</h2>
             <div class="post-meta">
-                本文总共565个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+                本文总共1687个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
         <div class="post-content markdown-body">
-            <p>为了保证计算机系统运行时数据在传输过程中正确无误，提高硬件电路的可靠性和提高代码的校验能力,通常使用校验码来检测传输数据是否出错，常用的3种校验码：</p>
-<h4 id="1-奇偶校验"><a href="#1-奇偶校验" class="headerlink" title="1. 奇偶校验"></a>1. 奇偶校验</h4><ul>
-<li>专门设置一个奇偶校验位来保证发出数据中的1的个数是奇数（或者偶数)，</li>
-<li>缺点:只能发现有奇数个位出错的情况，不能发现有偶数个位出错的情况<h4 id="2-海明码校验"><a href="#2-海明码校验" class="headerlink" title="2. 海明码校验"></a>2. 海明码校验</h4>在数据的特定位置上插入 k 个校验位,假设原来的数据有n位，这样编码后的数据有n+k位，数据就会有n+k位出错和一种正确情况，所以k应该满足：<br>2^k - 1 &gt;= n+k </li>
-</ul>
+            <blockquote>
+<p>本文简单说明几个设计并发系统时需要考虑的问题，内容摘抄自《GO语言并发之道》</p>
+</blockquote>
+<h2 id="异常传递"><a href="#异常传递" class="headerlink" title="异常传递"></a>异常传递</h2><blockquote>
+<p>异常是什么，什么时候发生，提供了哪些好处</p>
+</blockquote>
+<p>首先，异常需要传达几个关键信息：</p>
+<ol>
+<li>发生了什么：<br> 这部分异常信息包括了岁异常时间的描述。例如：磁盘已满，连接被重置，证书过期等</li>
+<li>发生在什么时间，什么位置：<br> 异常应该包含完整的轨迹信息，从调用的启动方式开始，已异常的实例结尾。栈轨迹信息不应该被包含在异常信息中，但当需要处理栈中的异常时应该很容易被找到</li>
+<li>对用户友好的信息：应当对展现给用户的信息进行自定义，应该只包含前两点的概述以及相关信息。对用户友好的信息是从用户的角度出发，给出一些信息，说明这些信息是否是暂时的，并且最好是一行以内的文本</li>
+<li>告诉用户如何获取更多信息：某些情况下，用户希望知道当异常发生时具体发生了那些故障，展示给用户的异常信息应该提供一个id，利用这个id可以查到对应的详细日志，日志应该包含有完整的信息（异常的发生时间和异常时的堆栈调用）</li>
+</ol>
+<p>当展示给用户的信息不包含这些信息，不是出错了就是有BUG。所以异常可以分为两类：</p>
 <ul>
-<li>检验码的位置都在数据的2^m位上</li>
-<li>校验码的每一个值可以表示一位数据是否正确</li>
-<li>将每个海明码出现的位置做异或运算，得到的结果就是出错的位置-进行取反操作<h4 id="3-循环冗余码校验"><a href="#3-循环冗余码校验" class="headerlink" title="3. 循环冗余码校验"></a>3. 循环冗余码校验</h4>广泛用于数据通信领域和磁介质存储系统中.<h5 id="循环冗余校验码原理："><a href="#循环冗余校验码原理：" class="headerlink" title="循环冗余校验码原理："></a>循环冗余校验码原理：</h5></li>
-<li>发送端和接收端共同设置一个除数（生成多项式），通常最高位和最低位都是1，或者公式 G(x) = 2^x + 2^(x-1) + 1</li>
-<li>在原数据后面添加n个校验位，n=除数的位数 -1 (校验位上存的是余数，所以不会比除数大)</li>
-<li>发送端用原数据补充n-1个0后，对多项式进行模2运算，将余数放到校验位上</li>
-<li>接收端用接收到的数据和多项式也进行模2运算，如果余数伟0，则数据正确，否则数据错误，需要发送端重传</li>
+<li>BUG</li>
+<li>已知信息</li>
 </ul>
+<h2 id="超时和取消"><a href="#超时和取消" class="headerlink" title="超时和取消"></a>超时和取消</h2><h4 id="为什么要支持超时？"><a href="#为什么要支持超时？" class="headerlink" title="为什么要支持超时？"></a>为什么要支持超时？</h4><h6 id="系统饱和"><a href="#系统饱和" class="headerlink" title="系统饱和"></a>系统饱和</h6><p>如果系统已经饱和（已经达到系统处理请求的能力），希望可以返回超时，而不是花很长的时间等待响应。</p>
+<h6 id="陈旧的数据"><a href="#陈旧的数据" class="headerlink" title="陈旧的数据"></a>陈旧的数据</h6><p>数据通常有一个窗口期，一般是在这个窗口中先处理更多相关数据或者处理数据的需求已经过期。<br>如果知道窗口期，那么将context.WithDeadline或context.WithTimeout创建的context传递给并发进程是有意义的，如果事先不知道窗口，我们希望并发进程的父节点能够在不再需要时取消并发进程。context.WithCancel是达到这个目的的最佳选择</p>
+<h6 id="试图防止死锁"><a href="#试图防止死锁" class="headerlink" title="试图防止死锁"></a>试图防止死锁</h6><p>通过设置超时可以将一个死锁系统转变为一个活锁系统，在系统死锁后，很可能会遇到时序配置不同步的情况。因此最好是在允许饿时间内修复活锁，好过发生死锁后只能通过重启系统才能恢复系统</p>
+<blockquote>
+<p>这不是如何正确构建系统的建议，而是如何建立一个对时间问题有容错能力的系统</p>
+</blockquote>
+<h4 id="什么时候应当设置超时"><a href="#什么时候应当设置超时" class="headerlink" title="什么时候应当设置超时"></a>什么时候应当设置超时</h4><ul>
+<li>请求在超时时不太可能重复</li>
+<li>没有资源来存储请求</li>
+<li>对系统的响应或请求发送数据有时效性要求</li>
+</ul>
+<h4 id="并发进程可能被取消的原因"><a href="#并发进程可能被取消的原因" class="headerlink" title="并发进程可能被取消的原因"></a>并发进程可能被取消的原因</h4><ul>
+<li>超时-隐式取消</li>
+<li>用户干预</li>
+<li>父进程取消：如果父进程停止，那子进程也将被取消</li>
+<li>复制请求：将数据发送给多个并发进程，以尝试从其中一个系统获得更快的响应。当第一个响应回来的时候，取消其余的进程。</li>
+</ul>
+<h2 id="心跳"><a href="#心跳" class="headerlink" title="心跳"></a>心跳</h2><p>心跳是并发进程向外界发出信号的一种方式。</p>
+<h4 id="心跳类型"><a href="#心跳类型" class="headerlink" title="心跳类型"></a>心跳类型</h4><ul>
+<li>在一段时间间隔内发出的心跳</li>
+<li>在工作单元开始时发出的心跳</li>
+</ul>
+<p>golang通过channel发送心跳的时候，需要注意有可能没有人接收发出去的心跳（因为心跳不一定重要）</p>
+<h2 id="复制请求"><a href="#复制请求" class="headerlink" title="复制请求"></a>复制请求</h2><p>某些情况下，可以将请求分发到多个处理程序（goroutine，进程，或者服务器均可），其中一个将比其他程序更快的返回结果，这样就可以立即返回结果。但是会消耗更多的资源。当多个处理程序需要多个进程，服务器，或者数据中心时，代价会相当昂贵，所以要权衡是否值得这么做</p>
+<h2 id="速率限制"><a href="#速率限制" class="headerlink" title="速率限制"></a>速率限制</h2><h4 id="为什么需要速率限制"><a href="#为什么需要速率限制" class="headerlink" title="为什么需要速率限制"></a>为什么需要速率限制</h4><p>通常对系统进行限速，可以避免系统被攻击，如果恶意用户在资源允许的情况下可以频繁访问系统，他们可以做各种事情。比如：使用日志或有效请求打满服务器磁盘，或者DDos攻击。<br>速率限制可以将系统的性能和稳定性平衡在可控范围内</p>
+<h4 id="如何限速"><a href="#如何限速" class="headerlink" title="如何限速"></a>如何限速</h4><p>大多数是基于令牌桶算法的，相对容易实现。golang中 golang.org/x/time/rate <a href="https://github.com/golang/time" target="_blank" rel="noopener">[github 地址]</a> 包实现了这个功能</p>
+<h2 id="治愈异常的goroutine"><a href="#治愈异常的goroutine" class="headerlink" title="治愈异常的goroutine"></a>治愈异常的goroutine</h2><p>在一个长期运行的程序中，建立一个机制来监控你的goroutine是否处于健康状态是很有用的，当goroutine异常时，可以尽快的重启。重启的过程成为“治愈”（Healing）。</p>
+<h4 id="如何治愈goroutine？"><a href="#如何治愈goroutine？" class="headerlink" title="如何治愈goroutine？"></a>如何治愈goroutine？</h4><p>使用心跳模式检查我们正在监控的goroutine是否活跃。我们需要一个管理员来监视一个管理区的goroutine，如果有goroutine变得不健康，管理员负责重启这个管理区的goroutine。</p>
 
         </div>
         <div class="post-tool">
@@ -214,7 +246,7 @@
         
         <div class="post-tags">Tags：
             
-            <a href="/tags/computer-science/">computer-science</a>
+            <a href="/tags/go/">go</a>
             
         </div>
         
