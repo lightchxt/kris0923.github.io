@@ -1,244 +1,595 @@
-<!DOCTYPE HTML>
-<html class="no-js" lang="zh-CN">
-<!--
-//                            _ooOoo_
-//                           o8888888o
-//                           88" . "88
-//                           (| -_- |)
-//                            O\ = /O
-//                        ____/`---'\____
-//                      .   ' \\| |// `.
-//                       / \\||| : |||// \
-//                     / _||||| -:- |||||- \
-//                       | | \\\ - /// | |
-//                     | \_| ''\---/'' | |
-//                      \ .-\__ `-` ___/-. /
-//                   ___`. .' /--.--\ `. . __
-//                ."" '< `.___\_<|>_/___.' >'"".
-//               | | : `- \`.;`\ _ /`;.`/ - ` : | |
-//                 \ \ `-. \_ __\ /__ _/ .-` / /
-//         ======`-.____`-.___\_____/___.-`____.-'======
-//                            `=---='
-//                 拦截插件累计拦截逗比攻击"1381438"次！
-//         .............................................
-//                  佛祖保佑             永无BUG
-//          佛曰:
-//                  写字楼里写字间，写字间里程序员；
-//                  程序人员写程序，又拿程序换酒钱。
-//                  酒醒只在网上坐，酒醉还来网下眠；
-//                  酒醉酒醒日复日，网上网下年复年。
-//                  但愿老死电脑间，不愿鞠躬老板前；
-//                  奔驰宝马贵者趣，公交自行程序员。
-//                  别人笑我忒疯癫，我笑自己命太贱；
-//                  不见满街漂亮妹，哪个归得程序员？
--->
+<!DOCTYPE html>
+<html>
 <head>
-    <!--[if lte IE 9]>
-<meta http-equiv="refresh" content="0;url=https://kris0923.github.io/warn.html">
-<![endif]-->
-<meta charset="utf-8">
+  <meta charset="utf-8">
+  <title>生活不只有眼前的苟且，还有诗和远方的田野</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="生活不只有眼前的苟且，还有诗和远方的田野">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="定义将“请求”封装成命令对象，以便使用不同的请求，队列或者日志来参数化其他对象。命令模式也支持可撤销的操做。 适用场景当需要将发出请求的对象和执行请求的对象解耦的时候，使用命令模式。比如我们有一个遥控器，需要控制客厅灯的点亮和关闭，电视的打开和关闭，风扇的关闭等，这是需要遥控器判断当前的对象类型，并执行不同的操作，此时就可以使用命令模式将遥控器和电灯，电视，风扇解耦 举个例子假设有一下三个类，分别">
+<meta name="keywords" content="design-pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之命令模式">
+<meta property="og:url" content="https://kris0923.github.io/2019/07/17/设计模式之命令模式/index.html">
+<meta property="og:site_name" content="生活不只有眼前的苟且，还有诗和远方的田野">
+<meta property="og:description" content="定义将“请求”封装成命令对象，以便使用不同的请求，队列或者日志来参数化其他对象。命令模式也支持可撤销的操做。 适用场景当需要将发出请求的对象和执行请求的对象解耦的时候，使用命令模式。比如我们有一个遥控器，需要控制客厅灯的点亮和关闭，电视的打开和关闭，风扇的关闭等，这是需要遥控器判断当前的对象类型，并执行不同的操作，此时就可以使用命令模式将遥控器和电灯，电视，风扇解耦 举个例子假设有一下三个类，分别">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-17T15:13:53.883Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之命令模式">
+<meta name="twitter:description" content="定义将“请求”封装成命令对象，以便使用不同的请求，队列或者日志来参数化其他对象。命令模式也支持可撤销的操做。 适用场景当需要将发出请求的对象和执行请求的对象解耦的时候，使用命令模式。比如我们有一个遥控器，需要控制客厅灯的点亮和关闭，电视的打开和关闭，风扇的关闭等，这是需要遥控器判断当前的对象类型，并执行不同的操作，此时就可以使用命令模式将遥控器和电灯，电视，风扇解耦 举个例子假设有一下三个类，分别">
 
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<meta name="renderer" content="webkit">
-<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
-<meta http-equiv="mobile-agent" content="format=html5; url=https://kris0923.github.io">
-<meta name="author" content="Magicio">
-<link rel="stylesheet" href="/css/SimpleStyle.min.css">
+<link rel="icon" href="/images/home_logo1.jpg">
 
-<link rel="shortcut icon" href="/images/favicon.png">
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1" ></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
 
 
-<title>标签 - computer-science - 生活不只有眼前的苟且，还有诗和远方的田野</title>
 
-<meta name="keywords" content="">
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js" ></script>
 
-<meta name="description " content="">
+<script src="/js/iconfont.js?v=1.0.1" ></script>
 
 </head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value="">
+</div>
+
 <body>
-<div id="nav">
-    <nav class="nav-menu">
-        <a class="site-name current" href="/" title="码">码</a>
-        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>Home</span></a>
-        <a href="/archives" title="Archives"><i class="fa fa-archives"></i><span>Archives</span></a>
-        <!--<a href="/tags" title="Tags"><i class="fa fa-tags"></i><span>Tags</span></a>-->
-        <!-- custom single page of menus -->
+<aside class="nav mobile">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/images/home_logo1.jpg" />
+</a>
+<div class="author">
+    <span>Magicio</span>
+</div>
+
+<div class="icon">
+    
         
+        <a title="github" href="https://github.com/kris0923" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
         
-        <a href="/help" title="帮助">
-            <i class="fa fa-question-circle"></i>
-            <span>帮助</span>
+    
+        
+        <a title="weibo" href="https://weibo.com/3260183737/profile?topnav=1&amp;wvr=6" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-weibo"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(12)</small></div></li>
+    
+        
+            
+            <li><div data-rel="go">go<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="php">php<small>(4)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="mysql">mysql<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="computer-science">computer-science<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="design-pattern">design-pattern<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    </div>
+    <div><a  class="about site_url"  href="/about">关于</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="12">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color3">go</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">php</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">mysql</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color2">computer-science</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">design-pattern</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="go "
+           href="/2018/12/09/GO 基础语法/"
+           data-tag="go"
+           data-author="" >
+            <span class="post-title" title="GO语言语法基础">GO语言语法基础</span>
+            <span class="post-date" title="2018-12-09 19:42:24">2018/12/09</span>
+        </a>
+        
+        <a  class="php "
+           href="/2019/07/17/Laravel-Facades-门面模式的实现/"
+           data-tag="php"
+           data-author="" >
+            <span class="post-title" title="Laravel Facades 门面模式的实现">Laravel Facades 门面模式的实现</span>
+            <span class="post-date" title="2019-07-17 23:08:42">2019/07/17</span>
+        </a>
+        
+        <a  class="mysql "
+           href="/2019/07/17/MySql-修改表结构时-ALTER-MODIFY-CHANGE的区别/"
+           data-tag="mysql"
+           data-author="" >
+            <span class="post-title" title="MySql 修改表结构时 ALTER,MODIFY,CHANGE的区别">MySql 修改表结构时 ALTER,MODIFY,CHANGE的区别</span>
+            <span class="post-date" title="2019-07-17 23:09:55">2019/07/17</span>
+        </a>
+        
+        <a  class="php "
+           href="/2018/12/08/PHP 内核分析笔记（一）/"
+           data-tag="php"
+           data-author="" >
+            <span class="post-title" title="PHP 内核分析笔记（一）单进程SAPI生命周期">PHP 内核分析笔记（一）单进程SAPI生命周期</span>
+            <span class="post-date" title="2018-12-08 11:55:54">2018/12/08</span>
+        </a>
+        
+        <a  class="php "
+           href="/2018/12/08/PHP 内核分析笔记（二）/"
+           data-tag="php"
+           data-author="" >
+            <span class="post-title" title="PHP 内核分析笔记（二）多进程与多线程SAPI生命周期">PHP 内核分析笔记（二）多进程与多线程SAPI生命周期</span>
+            <span class="post-date" title="2018-12-08 18:08:48">2018/12/08</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/07/17/PHP5与PHP7的zval比较/"
+           data-tag="php"
+           data-author="" >
+            <span class="post-title" title="PHP5与PHP7的zval比较">PHP5与PHP7的zval比较</span>
+            <span class="post-date" title="2019-07-17 12:16:53">2019/07/17</span>
+        </a>
+        
+        <a  class="php "
+           href="/2018/09/24/php-summarize/"
+           data-tag="php"
+           data-author="" >
+            <span class="post-title" title="PHP 知识总结（一）">PHP 知识总结（一）</span>
+            <span class="post-date" title="2018-09-24 18:41:27">2018/09/24</span>
+        </a>
+        
+        <a  class=""
+           href="/2018/06/15/从Hello-World开始/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Mysql事务和锁">Mysql事务和锁</span>
+            <span class="post-date" title="2018-06-15 22:50:45">2018/06/15</span>
+        </a>
+        
+        <a  class="go "
+           href="/2019/07/17/如何构建并发系统/"
+           data-tag="go"
+           data-author="" >
+            <span class="post-title" title="如何构建并发系统">如何构建并发系统</span>
+            <span class="post-date" title="2019-07-17 23:10:51">2019/07/17</span>
+        </a>
+        
+        <a  class="computer-science "
+           href="/2019/07/17/校验码/"
+           data-tag="computer-science"
+           data-author="" >
+            <span class="post-title" title="校验码">校验码</span>
+            <span class="post-date" title="2019-07-17 12:18:45">2019/07/17</span>
+        </a>
+        
+        <a  class="computer-science "
+           href="/2019/07/17/计算机组成/"
+           data-tag="computer-science"
+           data-author="" >
+            <span class="post-title" title="计算机组成">计算机组成</span>
+            <span class="post-date" title="2019-07-17 22:50:45">2019/07/17</span>
+        </a>
+        
+        <a  class="design-pattern "
+           href="/2019/07/17/设计模式之命令模式/"
+           data-tag="design-pattern"
+           data-author="" >
+            <span class="post-title" title="设计模式之命令模式">设计模式之命令模式</span>
+            <span class="post-date" title="2019-07-17 23:11:48">2019/07/17</span>
         </a>
         
     </nav>
 </div>
-
-<div class="nav-user">
-    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
-    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
-    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
-</div>
-
-<div id="wrapper" class="clearfix">
-    <div id="body">
-        <div class="main" id="main">
-            <div id="cover">
-    <div class="cover-img"></div>
-    <div class="cover-info">
-        
-        <h1 class="cover-siteName">Magicio</h1>
-        <h3 class="cover-siteTitle">生活不只有眼前的苟且，还有诗和远方的田野</h3>
-        <p class="cover-siteDesc">程序员眼中的世界</p>
-        <div class="cover-sns">
-            
-            <div class="btn btn-github">
-                <a href="https://github.com/kris0923" target="_blank" title="github" ref="friend">
-                    <i class="fa fa-github"></i>
-                </a>
-            </div>
-            
-            <div class="btn btn-weibo">
-                <a href="https://weibo.com/3260183737/profile?topnav=1&amp;wvr=6" target="_blank" title="weibo" ref="friend">
-                    <i class="fa fa-weibo"></i>
-                </a>
-            </div>
-            
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
         </div>
     </div>
+</aside>
+<div class="post index">
+    <div class="pjax">
+        <article class="index">
+            <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对博客的理解"><span class="toc-text">对博客的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客平台"><span class="toc-text">博客平台</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
 </div>
-            <div class="page-title">
-    <ul>
-        <li class="">
-            <a href="/" data-name="最近文章">最近</a>
-        </li>
+            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
+<blockquote>
+<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
+</blockquote>
+<blockquote>
+<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
+</blockquote>
+<blockquote>
+<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
+</blockquote>
+<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
+<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
+<p>到目前为止已经写了<code class="article_number"></code>篇文章， 共<code class="site_word_count"></code>字。</p>
+<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
+<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>这个博客通过 <a href="https://hexo.io/">Hexo</a> 生成，部署在 <a href="https://pages.github.com/">GitHub Pages</a>，主题 <a href="https://github.com/yelog/hexo-theme-3-hexo">3-hexo</a> 已经在github上开源</p>
+<p>主要功能：</p>
+<ul>
+<li>搜索支持文章标题、标签(#标签)、作者(@作者)</li>
+<li>pad/手机等移动端适配</li>
+<li>页面全局快捷键 <a href='http://yelog.org/2017/03/24/3-hexo-shortcuts/'>3-hexo快捷键说明</a></li>
+</ul>
+
+        </article>
         
-        <li class="">
-            <a href="/categories/php" data-name="PHP">PHP</a>
-        </li>
-        
-        <li class="">
-            <a href="/categories/go" data-name="GO">GO</a>
-        </li>
-        
-        <li class="">
-            <a href="/categories/computer-science" data-name="CS">CS</a>
-        </li>
-        
-        <li class="">
-            <a href="/categories/游戏人生" data-name="游戏人生">游戏人生</a>
-        </li>
-        
-        <li class="page-search">
-    <form id="search" class="search-form">
-        <label for="s" class="sr-only">Input Search key Words Here</label>
-        <input class="search-field" type="text" name="s" class="text" placeholder="Input Search key Words Here" />
-        <button type="submit" class="search-form-submit" title="Search"><i class="fa fa-search"></i></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..."/>
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-</li>
-
-    </ul>
-</div>
-<div class="main-inner">
-    
-    
-    
-<article class="post">
-    
-    <div class="post-header">
-        <div class="post-meta">
-            <a href="" target="_blank">
-                <strong></strong>
-            </a>
-            <em>·</em>2019-07-17
-        </div>
-        <a class="post-title" href="/2019/07/17/校验码/" target="_blank" title="校验码">校验码</a>
-        <div class="post-meta">
-            <a href="/tags" target="_blank"><i class="fa fa-tags"></i></a>
-            
-                <em>·</em>
-                <a href="https://kris0923.github.io/tags/computer-science/" target="_blank">computer-science</a>
-            
-        </div>
-    </div>
-    <div class="post-desc">
-        校验码
-    </div>
-</article>
-
-
-
-    
-</div>
-<!-- 分页开始 -->
-
-
-        </div><!-- end #main-->
-    </div><!-- end #body -->
-    <footer class="footer">
-    <div class="footer-inner">
         <p>
-            <a href="/about"  title="About">About</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
-            <!-- 自定义链接 -->
-            <a href="/help" title="help" >急救中心</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
-            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
-            <a href="/app" title="App下载">App下载</a>
-        </p>
-        <p>
-            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
-            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
-            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
-            ，Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            <a href="javascript:void(0)" class="dashang" onclick="dashangToggle()">赏</a>
         </p>
         
+        
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '',
+            clientSecret: '',
+            repo: 'kris0923.github.io',
+            owner: 'kris0923',
+            admin: ['kris0923'],
+            id: location.pathname,
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
+
 
     </div>
-</footer>
-<script src="/js/InsightSearch.js"></script>
-<script src="/js/SimpleCore.js"></script>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2019 magicio</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
 </div>
-<div class="fixed-btn">
-    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+<a class="" id="rocket" href="javascript:void(0)"></a>
+    </div>
 </div>
-<script>
-    $(function () {
-        SimpleCore.init({
-            buildingTime: '01/20/2018',
-            current: $('.post-tags').length > 0 ? 'post' : 'archive',
-            // snsQRCode: '/images/sns-qrcode.png',
-            donateImg: '/images/donate.png',
-        });
-    });
-</script>
+<div class="acParent"></div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/donate.png" class="alipay" title="扫码支持">
+            <!-- <img src="/img/weixin.jpg" class="weixin" title="扫码支持"> -->
+        </div>
+    </div>
+    <!-- <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div> -->
+</div>
+
+
 </body>
+<script src="//cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+
+<script src="/js/script.js?v=1.0.1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#go','#php','#mysql','#computer-science','#design-pattern',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
 </html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://kris0923.github.io/"/>
-  <updated>2019-07-17T15:19:43.111Z</updated>
+  <updated>2019-07-17T15:13:53.883Z</updated>
   <id>https://kris0923.github.io/</id>
   
   <author>
@@ -15,20 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="https://kris0923.github.io/2019/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/"/>
-    <id>https://kris0923.github.io/2019/07/17/计算机组成/</id>
-    <published>2019-07-17T15:19:25.343Z</published>
-    <updated>2019-07-17T15:19:43.111Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>设计模式之命令模式</title>
@@ -135,6 +121,37 @@
     
     
       <category term="php" scheme="https://kris0923.github.io/tags/php/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>计算机组成</title>
+    <link href="https://kris0923.github.io/2019/07/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/"/>
+    <id>https://kris0923.github.io/2019/07/17/计算机组成/</id>
+    <published>2019-07-17T14:50:45.000Z</published>
+    <updated>2019-07-18T00:06:52.770Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>运算器</li><li>控制器</li><li>存储器</li><li>输入输出设备</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;运算器&lt;/li&gt;
+&lt;li&gt;控制器&lt;/li&gt;
+&lt;li&gt;存储器&lt;/li&gt;
+&lt;li&gt;输入输出设备&lt;/li&gt;
+&lt;/ul&gt;
+
+      
+    
+    </summary>
+    
+      <category term="computer-science" scheme="https://kris0923.github.io/categories/computer-science/"/>
+    
+    
+      <category term="computer-science" scheme="https://kris0923.github.io/tags/computer-science/"/>
     
   </entry>
   
