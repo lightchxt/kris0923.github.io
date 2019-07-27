@@ -102,7 +102,7 @@
     
         
             
-            <li><div data-rel="php">php<small>(4)</small></div>
+            <li><div data-rel="mysql">mysql<small>(1)</small></div>
                 
             </li>
             
@@ -110,7 +110,7 @@
     
         
             
-            <li><div data-rel="mysql">mysql<small>(1)</small></div>
+            <li><div data-rel="php">php<small>(4)</small></div>
                 
             </li>
             
@@ -178,11 +178,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color4">php</a>
+        <a href="javascript:" class="color1">mysql</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a href="javascript:" class="color1">mysql</a>
+        <a href="javascript:" class="color4">php</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -207,20 +207,20 @@
             <span class="post-date" title="2018-12-09 19:42:24">2018/12/09</span>
         </a>
         
-        <a  class="php "
-           href="/2019/07/17/Laravel-Facades-门面模式的实现/"
-           data-tag="php"
-           data-author="" >
-            <span class="post-title" title="Laravel Facades 门面模式的实现">Laravel Facades 门面模式的实现</span>
-            <span class="post-date" title="2019-07-17 23:08:42">2019/07/17</span>
-        </a>
-        
         <a  class="mysql "
            href="/2019/07/17/MySql-修改表结构时-ALTER-MODIFY-CHANGE的区别/"
            data-tag="mysql"
            data-author="" >
             <span class="post-title" title="MySql 修改表结构时 ALTER,MODIFY,CHANGE的区别">MySql 修改表结构时 ALTER,MODIFY,CHANGE的区别</span>
             <span class="post-date" title="2019-07-17 23:09:55">2019/07/17</span>
+        </a>
+        
+        <a  class="php "
+           href="/2019/07/17/Laravel-Facades-门面模式的实现/"
+           data-tag="php"
+           data-author="" >
+            <span class="post-title" title="Laravel Facades 门面模式的实现">Laravel Facades 门面模式的实现</span>
+            <span class="post-date" title="2019-07-17 23:08:42">2019/07/17</span>
         </a>
         
         <a  class="php "
@@ -231,20 +231,20 @@
             <span class="post-date" title="2018-12-08 11:55:54">2018/12/08</span>
         </a>
         
-        <a  class="php "
-           href="/2018/12/08/PHP 内核分析笔记（二）/"
-           data-tag="php"
-           data-author="" >
-            <span class="post-title" title="PHP 内核分析笔记（二）多进程与多线程SAPI生命周期">PHP 内核分析笔记（二）多进程与多线程SAPI生命周期</span>
-            <span class="post-date" title="2018-12-08 18:08:48">2018/12/08</span>
-        </a>
-        
         <a  class=""
            href="/2019/07/17/PHP5与PHP7的zval比较/"
            data-tag="php"
            data-author="" >
             <span class="post-title" title="PHP5与PHP7的zval比较">PHP5与PHP7的zval比较</span>
             <span class="post-date" title="2019-07-17 12:16:53">2019/07/17</span>
+        </a>
+        
+        <a  class="php "
+           href="/2018/12/08/PHP 内核分析笔记（二）/"
+           data-tag="php"
+           data-author="" >
+            <span class="post-title" title="PHP 内核分析笔记（二）多进程与多线程SAPI生命周期">PHP 内核分析笔记（二）多进程与多线程SAPI生命周期</span>
+            <span class="post-date" title="2018-12-08 18:08:48">2018/12/08</span>
         </a>
         
         <a  class="php "
@@ -263,20 +263,20 @@
             <span class="post-date" title="2018-06-15 22:50:45">2018/06/15</span>
         </a>
         
-        <a  class="go "
-           href="/2019/07/17/如何构建并发系统/"
-           data-tag="go"
-           data-author="" >
-            <span class="post-title" title="如何构建并发系统">如何构建并发系统</span>
-            <span class="post-date" title="2019-07-17 23:10:51">2019/07/17</span>
-        </a>
-        
         <a  class="computer-science "
            href="/2019/07/17/校验码/"
            data-tag="computer-science"
            data-author="" >
             <span class="post-title" title="校验码">校验码</span>
             <span class="post-date" title="2019-07-17 12:18:45">2019/07/17</span>
+        </a>
+        
+        <a  class="go "
+           href="/2019/07/17/如何构建并发系统/"
+           data-tag="go"
+           data-author="" >
+            <span class="post-title" title="如何构建并发系统">如何构建并发系统</span>
+            <span class="post-date" title="2019-07-17 23:10:51">2019/07/17</span>
         </a>
         
         <a  class="computer-science "
@@ -485,7 +485,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#go','#php','#mysql','#computer-science','#design-pattern',],
+            'data': ['#go','#mysql','#php','#computer-science','#design-pattern',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
