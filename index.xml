@@ -2,13 +2,229 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
-    <link>http://kris0923.github.io/</link>
+    <link>https://kris0923.github.io/</link>
     <description>Recent content on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
+    <lastBuildDate>Sun, 28 Jul 2019 21:11:18 +0800</lastBuildDate>
     
-	<atom:link href="http://kris0923.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://kris0923.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MySql如何使用索引（二）</title>
+      <link>https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%BA%8C/</link>
+      <pubDate>Sun, 28 Jul 2019 21:11:18 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%BA%8C/</guid>
+      <description>上篇介绍了MySql什么时候会尝试使用索引，本文介绍一下我了解的不会使用索引的情况, 仍然使用上次建立好的表
+ 1. where 子句中like 使用了前缀通配符 %keyword select * from test_user where name like &amp;quot;%Kiven%&amp;quot;;  2. 使用&amp;gt;, &amp;gt;=, &amp;lt;,&amp;lt;=, !=,NOT IN 范围查找或否定查找,且范围查找时选择的边界查找条件范围过大 select * from test_user where height&amp;gt;=180 # 不会使用索引  select * from test_user where height&amp;gt;=190 # 会使用索引  3. 数据类型隐式转换 例如：name字段为varchar类型的
+select * from test_user where name=1  将不能使用索引，而
+select * from test_user where name=&#39;1&#39;  可以使用索引
+原因是当不同的字段类型比较时，MySql会做引式类型转换，而 int类型的1可能等于 &amp;lsquo;01&amp;rsquo;, &amp;lsquo;0001&amp;rsquo;或者 &amp;lsquo;01.e1&amp;rsquo;
+4. 不符合最左匹配原则（联合索引） 我们建立的索引顺序是</description>
+    </item>
+    
+    <item>
+      <title>MySql如何使用索引（一）</title>
+      <link>https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%B8%80/</link>
+      <pubDate>Sun, 28 Jul 2019 21:10:51 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%B8%80/</guid>
+      <description>我们都知道在 MySql 中使用索引可以提高查询效率,但有时候真正执行Sql查询的时候却没有按照我们的预想使用索引，而是全表扫描，导致有慢Sql影响了整个网站的效率，甚至导致网站崩溃，所以我们需要了解Mysql是如何选择使用索引的，以便建立合适的索引 （本文基于MySql5.7，InnoDB引擎）
+ 前提：建立一张测试表 假设有一张用户表
+CREATE TABLE `test_user` ( `user_id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL DEFAULT &#39;&#39;, `birthday` date NOT NULL, `sex` tinyint(1) DEFAULT NULL, `height` int(11) NOT NULL, `weight` int(11) NOT NULL, PRIMARY KEY (`user_id`), KEY `idx_name_height_weight` (`name`,`height`,`weight`), KEY `idx_height` (`height`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;  我们建立了name,height,weight 的联合索引，插入测试数据
+INSERT INTO `test_user` (`user_id`, `name`, `birthday`, `sex`, `height`, `weight`) VALUES (1, &#39;Tony&#39;, &#39;1991-01-01&#39;, 1, 176, 65), (2, &#39;Mary&#39;, &#39;1989-12-19&#39;, 2, 160, 50), (3, &#39;Tom&#39;, &#39;1996-05-29&#39;, 1, 180, 70), (4, &#39;Kiven&#39;, &#39;1994-08-09&#39;, 1, 190, 80), (5, &#39;John&#39;, &#39;1992-11-12&#39;, 1, 182, 75);  执行什么操作的时候Mysql会使用索引 查找与WHERE子句匹配的行 select * from test_user where name=&#39;mary&#39;  查看执行计划</description>
+    </item>
+    
+    <item>
+      <title>Linux命令之sed</title>
+      <link>https://kris0923.github.io/post/sed/</link>
+      <pubDate>Sun, 28 Jul 2019 21:09:34 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/sed/</guid>
+      <description>sed 流处理编辑器  行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向）  命令行格式 sed [option] &#39;command&#39; file(s)  脚本格式 sed -f scriptfile file(s)  sed 命令 p 打印命令 -n 只打印匹配的行  定位一行 sed -n &#39;2p&#39; test.txt 定位多行 sed -n &#39;2,5p&#39; test.txt // (2和5也可以用正则代替) 定位反向选择 sed -n &#39;2,5!p&#39; test.txt // 第2-5行不被选择 定位间隔几行 sed -n &#39;2~2p&#39; test.txt // 间隔输出  行命令  a （新增行）/ i（插入行） c（替代行） d（删除行）
+linux 用法 sed -n &amp;quot;2a text2++&amp;quot; test.txt sed -n &amp;quot;2,5a text2++&amp;quot; test.</description>
+    </item>
+    
+    <item>
+      <title>Linux 命令之 Awk</title>
+      <link>https://kris0923.github.io/post/awk/</link>
+      <pubDate>Sun, 28 Jul 2019 21:08:44 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/awk/</guid>
+      <description>awk 文本处理工具  可编程，功能强大 可以用来统计，制表等功能  处理方式  一次处理一行内容 可以对每行进行切片处理
+格式 命令行格式
+awk [options] &#39;command&#39; file(s)  脚本格式
+awk -f script_file file(s)   内置参数  $0 当前整行 $1 每行第一个字段 $2 每行第二个字段 NR 行号 NF 字符总数 FILENAME 文件名 ARGC 命令行参数个数 ARGV 命令行参数数组   -F 指定分割符，默认空格
+awk -F &#39;:&#39; &#39;{print $1,$3, NR}&#39; test.txt // 以: 分割 awk -F &#39;:&#39; &#39;{if ($3&amp;gt;100) print &amp;quot;This Msg&amp;quot;}&#39; test.txt  正则匹配 ～ ， 不匹配(！～) 打印第一个字符以m开头的 - BEGIN 行处理前执行 - END 行处理完成后执行 eg：文件夹大小求和  AWK 是一种程序设计语言，语法和C语言相似，把AWK命令写到脚本文件中可以完成更复杂的文本处理</description>
+    </item>
+    
+    <item>
+      <title>设计模式之命令模式</title>
+      <link>https://kris0923.github.io/post/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 27 Jul 2019 13:29:24 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 将“请求”封装成命令对象，以便使用不同的请求，队列或者日志来参数化其他对象。命令模式也支持可撤销的操做。
+适用场景 当需要将发出请求的对象和执行请求的对象解耦的时候，使用命令模式。比如我们有一个遥控器，需要控制客厅灯的点亮和关闭，电视的打开和关闭，风扇的关闭等，这是需要遥控器判断当前的对象类型，并执行不同的操作，此时就可以使用命令模式将遥控器和电灯，电视，风扇解耦
+举个例子 假设有一下三个类，分别表示电灯，电风扇和电视：
+/** * Class Light */ class Light { public function on() { } public function off() { } } /** * Class ElectricFan */ class ElectricFan { public function on() { } public function off() { } public function speedHigh() { } public function speedLow() { } } /** * Class Television */ class Television { public function on() { } public function off() { } public function voiceHigh() { } public function voiceLow() { } }  按照一般的写法，当我们需要在实现遥控器类的时候可能会这样写</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://kris0923.github.io/about/</link>
+      <pubDate>Sat, 27 Jul 2019 10:21:41 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/about/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>如何构建并发系统</title>
+      <link>https://kris0923.github.io/post/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Wed, 17 Jul 2019 23:10:51 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</guid>
+      <description>本文简单说明几个设计并发系统时需要考虑的问题，内容摘抄自《GO语言并发之道》
+异常传递 异常是什么，什么时候发生，提供了哪些好处
+ 首先，异常需要传达几个关键信息：
+ 发生了什么： 这部分异常信息包括了岁异常时间的描述。例如：磁盘已满，连接被重置，证书过期等 发生在什么时间，什么位置： 异常应该包含完整的轨迹信息，从调用的启动方式开始，已异常的实例结尾。栈轨迹信息不应该被包含在异常信息中，但当需要处理栈中的异常时应该很容易被找到 对用户友好的信息：应当对展现给用户的信息进行自定义，应该只包含前两点的概述以及相关信息。对用户友好的信息是从用户的角度出发，给出一些信息，说明这些信息是否是暂时的，并且最好是一行以内的文本 告诉用户如何获取更多信息：某些情况下，用户希望知道当异常发生时具体发生了那些故障，展示给用户的异常信息应该提供一个id，利用这个id可以查到对应的详细日志，日志应该包含有完整的信息（异常的发生时间和异常时的堆栈调用）  当展示给用户的信息不包含这些信息，不是出错了就是有BUG。所以异常可以分为两类： - BUG - 已知信息
+超时和取消 为什么要支持超时？ 系统饱和 如果系统已经饱和（已经达到系统处理请求的能力），希望可以返回超时，而不是花很长的时间等待响应。
+陈旧的数据 数据通常有一个窗口期，一般是在这个窗口中先处理更多相关数据或者处理数据的需求已经过期。 如果知道窗口期，那么将context.WithDeadline或context.WithTimeout创建的context传递给并发进程是有意义的，如果事先不知道窗口，我们希望并发进程的父节点能够在不再需要时取消并发进程。context.WithCancel是达到这个目的的最佳选择
+试图防止死锁 通过设置超时可以将一个死锁系统转变为一个活锁系统，在系统死锁后，很可能会遇到时序配置不同步的情况。因此最好是在允许饿时间内修复活锁，好过发生死锁后只能通过重启系统才能恢复系统 &amp;gt; 这不是如何正确构建系统的建议，而是如何建立一个对时间问题有容错能力的系统
+什么时候应当设置超时  请求在超时时不太可能重复 没有资源来存储请求 对系统的响应或请求发送数据有时效性要求  并发进程可能被取消的原因  超时-隐式取消 用户干预 父进程取消：如果父进程停止，那子进程也将被取消 复制请求：将数据发送给多个并发进程，以尝试从其中一个系统获得更快的响应。当第一个响应回来的时候，取消其余的进程。  心跳 心跳是并发进程向外界发出信号的一种方式。
+心跳类型  在一段时间间隔内发出的心跳 在工作单元开始时发出的心跳  golang通过channel发送心跳的时候，需要注意有可能没有人接收发出去的心跳（因为心跳不一定重要）
+复制请求 某些情况下，可以将请求分发到多个处理程序（goroutine，进程，或者服务器均可），其中一个将比其他程序更快的返回结果，这样就可以立即返回结果。但是会消耗更多的资源。当多个处理程序需要多个进程，服务器，或者数据中心时，代价会相当昂贵，所以要权衡是否值得这么做
+速率限制 为什么需要速率限制 通常对系统进行限速，可以避免系统被攻击，如果恶意用户在资源允许的情况下可以频繁访问系统，他们可以做各种事情。比如：使用日志或有效请求打满服务器磁盘，或者DDos攻击。 速率限制可以将系统的性能和稳定性平衡在可控范围内
+如何限速 大多数是基于令牌桶算法的，相对容易实现。golang中 golang.org/x/time/rate [github 地址] 包实现了这个功能
+治愈异常的goroutine 在一个长期运行的程序中，建立一个机制来监控你的goroutine是否处于健康状态是很有用的，当goroutine异常时，可以尽快的重启。重启的过程成为“治愈”（Healing）。
+如何治愈goroutine？ 使用心跳模式检查我们正在监控的goroutine是否活跃。我们需要一个管理员来监视一个管理区的goroutine，如果有goroutine变得不健康，管理员负责重启这个管理区的goroutine。</description>
+    </item>
+    
+    <item>
+      <title>MySql 修改表结构时 ALTER,MODIFY,CHANGE的区别</title>
+      <link>https://kris0923.github.io/post/mysql-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E6%97%B6-alter-modify-change%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Wed, 17 Jul 2019 23:09:55 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/mysql-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E6%97%B6-alter-modify-change%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>根据MySql文档，我们知道在修改表内某一列的属性的时候，MySql支持3中语法结构：
+ ALTER [ONLINE|OFFLINE] [IGNORE] TABLE tbl_name ALTER [COLUMN] col_name {SET DEFAULT literal | DROP DEFAULT}  ALTER [ONLINE|OFFLINE] [IGNORE] TABLE tbl_name CHANGE [COLUMN] old_col_name new_col_name column_definition [FIRST|AFTER col_name]  ALTER [ONLINE|OFFLINE] [IGNORE] TABLE tbl_name MODIFY [COLUMN] col_name column_definition [FIRST | AFTER col_name]  这里比较一下这三种语法的不同之处，以及什么情况下应该选用什么语法
+   语法 功能 说明     ALTER 只能更改列的默认值    CHANGE 可以重命名列或者修改列的定义 标准SQL的扩展   MODIFY 可以更改列的定义，但不能更改列的名称 兼容Oracle的扩展    通过文档介绍的功能，我们就基本能够判断处该使用使用哪种语法，CHANGE功能最强大，什么情况下都可以使用(达到预期的效果)。但是还有一个区别： - ALTER 语法只是修改 .</description>
+    </item>
+    
+    <item>
+      <title>Laravel Facades 门面模式的实现</title>
+      <link>https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Wed, 17 Jul 2019 23:08:42 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/</guid>
+      <description>以下是Laravel官方文档的介绍
+ Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，拥有简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和灵活性。
+从介绍中可以看出，Facades 好处就是让代码更加简介，优雅，这也是Laravel追求的特性，如何使用Facades这里就不介绍了，可以参考Laravel文档(中文) ，本文介绍一下Facades是如何知道和创建你需要的类实例。
+以 log Facade 为例，我们看下是如何通过log这个字符串找到 \Illuminate\Log\Writer 这个类的 先看 \Illuminate\Support\Facades\Log 门面
+class Log extends Facade { /** * Get the registered name of the component. * * @return string */ protected static function getFacadeAccessor() { return &#39;log&#39;; } }  这个类非常简单，只有一个静态方法 getFacadeAccessor(), 返回了一个log字符串。 然后看Log的父类 Facade, Facede中有很多方法，这里关注其中两个：
+abstract class Facade { /** * The application instance being facaded. * * @var \Illuminate\Contracts\Foundation\Application */ protected static $app; /** * The resolved object instances.</description>
+    </item>
+    
+    <item>
+      <title>计算机组成</title>
+      <link>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/</link>
+      <pubDate>Wed, 17 Jul 2019 22:50:45 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/</guid>
+      <description> 运算器 控制器 存储器 输入输出设备  </description>
+    </item>
+    
+    <item>
+      <title>校验码</title>
+      <link>https://kris0923.github.io/post/%E6%A0%A1%E9%AA%8C%E7%A0%81/</link>
+      <pubDate>Wed, 17 Jul 2019 12:18:45 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/%E6%A0%A1%E9%AA%8C%E7%A0%81/</guid>
+      <description> 为了保证计算机系统运行时数据在传输过程中正确无误，提高硬件电路的可靠性和提高代码的校验能力,通常使用校验码来检测传输数据是否出错，常用的3种校验码：
+1. 奇偶校验  专门设置一个奇偶校验位来保证发出数据中的1的个数是奇数（或者偶数)， 缺点:只能发现有奇数个位出错的情况，不能发现有偶数个位出错的情况
+2. 海明码校验 在数据的特定位置上插入 k 个校验位,假设原来的数据有n位，这样编码后的数据有n+k位，数据就会有n+k位出错和一种正确情况，所以k应该满足： 2^k - 1 &amp;gt;= n+k
+ 检验码的位置都在数据的2^m位上
+ 校验码的每一个值可以表示一位数据是否正确
+ 将每个海明码出现的位置做异或运算，得到的结果就是出错的位置-进行取反操作
+3. 循环冗余码校验 广泛用于数据通信领域和磁介质存储系统中.
+循环冗余校验码原理： 发送端和接收端共同设置一个除数（生成多项式），通常最高位和最低位都是1，或者公式 G(x) = 2^x + 2^(x-1) + 1
+ 在原数据后面添加n个校验位，n=除数的位数 -1 (校验位上存的是余数，所以不会比除数大)
+ 发送端用原数据补充n-1个0后，对多项式进行模2运算，将余数放到校验位上
+ 接收端用接收到的数据和多项式也进行模2运算，如果余数伟0，则数据正确，否则数据错误，需要发送端重传
+  </description>
+    </item>
+    
+    <item>
+      <title>PHP5与PHP7的zval比较</title>
+      <link>https://kris0923.github.io/post/php5%E4%B8%8Ephp7%E7%9A%84zval%E6%AF%94%E8%BE%83/</link>
+      <pubDate>Wed, 17 Jul 2019 12:16:53 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/php5%E4%B8%8Ephp7%E7%9A%84zval%E6%AF%94%E8%BE%83/</guid>
+      <description>PHP5中zval定义 struct _zval struct { zvalue_value value; // 16 zend_unit refcount_gc; // 4字节 引用计数 zend_uchar type; // 1 zend_uchar is_ref__gc; // 1 是否为引用类型 } typedef union _avalue_value { long lval; // 8 double dval; // 8 struct { char *val; int len; } str; // 16 HashTable *ht; // HashTable 数组 8 zend_object_value obj; // 12 zend_ast * ast; // 8 } zvalue_value;  为了解决*循环引用问题*，PHP5.3之后通过重写分配zval的宏，对zval进行扩充，新的分配方式：
+#undef ALLOC_ZVAL #define ALLOC_ZVAL (z) do { (z) = (zval*) emalloc (sizeof(zval_gc_info)); GC_ZVAL_INT (z); } while(0) // _zval_gc_info 结构如下： typedef struct _zval_gc_info { zval z; union { gc_root_buffer *buffer; struct _zval_gc_info *next; } }  除此之外，在开启Zend内存池的情况下，zval_gc_info 在内存池中分配，内存池会为每个zval_gc_info额外申请一个大小为16字节的zend_mm_block结构体，用来存放内存相关信息，zend_mm_block结构如下：</description>
+    </item>
+    
+    <item>
+      <title>Mysql事务和锁</title>
+      <link>https://kris0923.github.io/post/%E4%BB%8Ehello-world%E5%BC%80%E5%A7%8B/</link>
+      <pubDate>Fri, 15 Jun 2018 22:50:45 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/%E4%BB%8Ehello-world%E5%BC%80%E5%A7%8B/</guid>
+      <description> 什么是事务 </description>
+    </item>
+    
+    <item>
+      <title>GO语言语法基础</title>
+      <link>https://kris0923.github.io/post/go-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/go-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</guid>
+      <description>基础语法  i++, i&amp;ndash; 在go语言中是语句，而不像其他语言一样是表达式，所以， j = i++ 在go语言里面是不合法的,并且只支持后缀， &amp;ndash;i 是不合法的 for 是go里面唯一的循环语句
+传统的while循环写成
+for condition {
+}
+ 函数
+函数的类型，称为函数签名，函数的实参都是按值传递的
+ 文件结束标示
+err = errors.New(&amp;quot;EOF&amp;quot;) in := bufio.NewReader(os.stdin) for { r,_,err = in.ReadRune() if err == io.EOF { break // 文本结束标记 } if err != nil { return fmt.Errorf(&amp;quot;read failed: $v&amp;quot;,err) } // 处理逻辑 }  go 文本结束标记不怎么友好，为什么要放到error信息中
+ 数组 Go 语言中的数组是一种 值类型（不像 C/C++ 中是指向首元素的指针），所以可以通过 new() 来创建： var arr1 = new([5]int)。</description>
+    </item>
+    
+    <item>
+      <title>PHP 内核分析笔记（一）单进程SAPI生命周期</title>
+      <link>https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>http://www.php-internals.com/images/book/chapt02/02-00-php-
+单进程SAPI生命周期 :start php -f test.php call each extension`s MINIT (模块初始化阶段，调用所有模块的MINIT函数) Request test.php call each extension`s RINIT (调用所有模块的RINIT函数) Execute test.php call each extension`s RSHUTDOWM Finsh cleaning up after test.php call each extension`s MSHUTDOWM （Web服务器退出或者命令行脚本执行完毕退出） terminate test.php :end  启动 模块初始化阶段  初始化若干全局变量 初始化若干常量，这里的常量是PHP自己的一些常量，如PHP_VERSION 初始化Zend引擎和核心组件 解析php.ini 全局操作函数的初始化 初始化静态构建的模块和共享模块(MINIT) 禁用函数和类 php_disable_functions, 其禁用的过程是调用zend_disable_function函数将指定的函数名从CG(function_table)函数表中删除,php_disable_classes,将指定的类名从CG(class_table)类表中删除  ACTIVATION  激活Zend引擎 激活SAPI 环境初始化 这里的环境初始化是指在用户空间中需要用到的一些环境变量初始化，这里的环境包括服务器环境、请求数据环境等。 实际到我们用到的变量，就是$_POST、$_GET、$_COOKIE、$_SERVER、$_ENV、$_FILES。 和sapi_module.default_post_reader一样，sapi_module.treat_data的值也是在模块初始化时， 通过php_startup_sapi_content_types函数注册了默认数据处理函数为main/php_variables.c文件中php_default_treat_data函数 模块请求初始化 (Call each extension&amp;rsquo;s RINIT)
+运行 php_execute_script 函数包含了运行PHP脚本的全部过程
+DEACTIVATION PHP关闭请求的过程是一个若干个关闭操作的集合，这个集合存在于php_request_shutdown函数中</description>
+    </item>
+    
+    <item>
+      <title>PHP 内核分析笔记（二）多进程与多线程SAPI生命周期</title>
+      <link>https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
+      <description> 多进程SAPI生命周期 以Apache为例，PHP编译为apache的一个模块来处理php请求，Apache启动后会fork多个进程，每个进程拥有独立的内存空间，单独处理php请求，所以每个子进程都是完整的生命周期 多线程的SAPI生命周期 同一组线程只有一个模块初始化和销毁的过程 </description>
+    </item>
+    
+    <item>
+      <title>PHP 知识总结（一）</title>
+      <link>https://kris0923.github.io/post/php-summarize/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/php-summarize/</guid>
+      <description>语法基础 变量类型  boolean integet float
+# 判断是否是一个数值类型 bool is_nan(float $val)  string
+// 字符串转数值 //如果 字符串中包含 &#39;.&#39;, &#39;e&#39;或者&#39;E&#39; 转换为float，其余转为 int  Array
+// 数组的key只能是int 或string 合法的整型字符串会被转成int，例如：&amp;quot;8&amp;quot;，&amp;quot;08&amp;quot;不会，因为08不是合法的十进制数 浮点数也会被转换为整型，意味着其小数部分会被舍去。例如键名 8.7 实际会被储存为 8。 布尔值也会被转换成整型。即键名 true 实际会被储存为 1 而键名 false 会被储存为 0。 Null 会被转换为空字符串，即键名 null 实际会被储存为 &amp;quot;&amp;quot;。 数组和对象不能被用为键名。坚持这么做会导致警告：Illegal offset type 默认键： 当前最大整数索引值加1 // 其他类型转为数组 $a = array($a); or $a = (array) $a; 如果一个 object 类型转换为 array，则结果为一个数组，其单元为该对象的属性。键名将为成员变量名，不过有几点例外：整数属性不可访问；私有变量前会加上类名作前缀；保护变量前会加上一个 &#39;*&#39; 做前缀。这些前缀的前后都各有一个 NULL 字符。这会导致一些不可预知的行为： class A { private $A; // This will become &#39;\0A\0A&#39; } class B extends A { private $A; // This will become &#39;\0B\0A&#39; public $AA; // This will become &#39;AA&#39; } var_dump((array) new B()); //上例会有两个键名为 &#39;AA&#39;，不过其中一个实际上是 &#39;\0A\0A&#39;  Object</description>
+    </item>
     
   </channel>
 </rss>

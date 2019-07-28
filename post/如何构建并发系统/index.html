@@ -1,0 +1,281 @@
+
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>如何构建并发系统</title>
+  <script src="https://kris0923.github.io//bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="https://kris0923.github.io//bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-drawer-panel/paper-drawer-panel.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-fab/paper-fab.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-item/paper-item.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-menu/paper-menu.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/iron-image/iron-image.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style is="custom-style">
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .nav {
+      border-right: 1px solid #ccc;
+    }
+    
+    paper-scroll-header-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: var(--paper-grey-200, #eee);
+       
+      --paper-scroll-header-panel-full-header: {
+        background-image: url(https://kris0923.github.io//images/cover.png);
+      };
+       
+      --paper-scroll-header-panel-condensed-header: {
+        background-image: url(https://kris0923.github.io//images/cover.png);
+      };
+    }
+    
+    paper-toolbar {
+       
+      height: 256px;
+      background-color: transparent;
+    }
+    .profile{
+      width: 100%;
+      padding-bottom: 20px;
+    }
+    .photo{
+      margin: 20px;
+      display: inline-block;
+      height: 64px; width: 64px;
+      border-radius: 50%;
+    }
+    .article{
+      border: 1px solid #bebebe;
+      padding: 16px;
+      margin: 16px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .title{
+      font-size: 22px;
+      padding: 8px 0 16px;
+    }
+    .description{
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
+    .author{
+      font-size: 16px;
+      padding-left: 20px;
+      color: white;
+    }
+    .design{
+      font-size: 14px;
+    }
+    .copyright{
+      font-size: 16px;
+    }
+    paper-menu a {
+      text-decoration: none;
+      color: #212121;
+    }
+  </style>
+
+</head>
+<body>
+  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+    <div class="nav scroll" drawer>
+    
+      <iron-image class="profile" sizing="cover" src="https://kris0923.github.io//images/profile.png">
+    
+        
+          <iron-image class="photo" sizing="cover" src="https://kris0923.github.io//images/logo.jpeg"></iron-image>
+        
+          <div class="author">magicio</div>
+      </iron-image>
+      <paper-menu>
+        <a href="https://kris0923.github.io/"><paper-item>
+          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io//categories/"><paper-item>
+          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io//tags/"><paper-item>
+          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+      </paper-menu>
+    </div>
+
+    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
+
+      <paper-toolbar>
+
+        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+        <div class="bottom title">地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</div>
+        <div class="flex"></div>
+        
+        
+        
+        
+        
+          <a href="https://github.com/kris0923"><paper-icon-button src="https://kris0923.github.io//images/github2-dreamstale35.png"></paper-icon-button></a>
+        
+          <a href="https://kris0923.github.io//index.xml"><paper-icon-button src="https://kris0923.github.io//images/feed-dreamstale27.png"></paper-icon-button></a>
+      
+      </paper-toolbar>
+
+
+
+<div class="content">
+
+  <div class="article">
+    <div class="title">如何构建并发系统</div>
+    
+      <div class="categories">
+        
+          <a href="https://kris0923.github.io//categories/go/">go</a>
+        
+      </div>
+     
+    <div class="description">
+
+<blockquote>
+<p>本文简单说明几个设计并发系统时需要考虑的问题，内容摘抄自《GO语言并发之道》</p>
+
+<h2 id="异常传递">异常传递</h2>
+
+<p>异常是什么，什么时候发生，提供了哪些好处</p>
+</blockquote>
+
+<p>首先，异常需要传达几个关键信息：</p>
+
+<ol>
+<li>发生了什么：
+这部分异常信息包括了岁异常时间的描述。例如：磁盘已满，连接被重置，证书过期等</li>
+<li>发生在什么时间，什么位置：
+异常应该包含完整的轨迹信息，从调用的启动方式开始，已异常的实例结尾。栈轨迹信息不应该被包含在异常信息中，但当需要处理栈中的异常时应该很容易被找到</li>
+<li>对用户友好的信息：应当对展现给用户的信息进行自定义，应该只包含前两点的概述以及相关信息。对用户友好的信息是从用户的角度出发，给出一些信息，说明这些信息是否是暂时的，并且最好是一行以内的文本</li>
+<li>告诉用户如何获取更多信息：某些情况下，用户希望知道当异常发生时具体发生了那些故障，展示给用户的异常信息应该提供一个id，利用这个id可以查到对应的详细日志，日志应该包含有完整的信息（异常的发生时间和异常时的堆栈调用）</li>
+</ol>
+
+<p>当展示给用户的信息不包含这些信息，不是出错了就是有BUG。所以异常可以分为两类：
+- BUG
+- 已知信息</p>
+
+<h2 id="超时和取消">超时和取消</h2>
+
+<h4 id="为什么要支持超时">为什么要支持超时？</h4>
+
+<h6 id="系统饱和">系统饱和</h6>
+
+<p>如果系统已经饱和（已经达到系统处理请求的能力），希望可以返回超时，而不是花很长的时间等待响应。</p>
+
+<h6 id="陈旧的数据">陈旧的数据</h6>
+
+<p>数据通常有一个窗口期，一般是在这个窗口中先处理更多相关数据或者处理数据的需求已经过期。
+如果知道窗口期，那么将context.WithDeadline或context.WithTimeout创建的context传递给并发进程是有意义的，如果事先不知道窗口，我们希望并发进程的父节点能够在不再需要时取消并发进程。context.WithCancel是达到这个目的的最佳选择</p>
+
+<h6 id="试图防止死锁">试图防止死锁</h6>
+
+<p>通过设置超时可以将一个死锁系统转变为一个活锁系统，在系统死锁后，很可能会遇到时序配置不同步的情况。因此最好是在允许饿时间内修复活锁，好过发生死锁后只能通过重启系统才能恢复系统
+&gt; 这不是如何正确构建系统的建议，而是如何建立一个对时间问题有容错能力的系统</p>
+
+<h4 id="什么时候应当设置超时">什么时候应当设置超时</h4>
+
+<ul>
+<li>请求在超时时不太可能重复</li>
+<li>没有资源来存储请求</li>
+<li>对系统的响应或请求发送数据有时效性要求</li>
+</ul>
+
+<h4 id="并发进程可能被取消的原因">并发进程可能被取消的原因</h4>
+
+<ul>
+<li>超时-隐式取消</li>
+<li>用户干预</li>
+<li>父进程取消：如果父进程停止，那子进程也将被取消</li>
+<li>复制请求：将数据发送给多个并发进程，以尝试从其中一个系统获得更快的响应。当第一个响应回来的时候，取消其余的进程。</li>
+</ul>
+
+<h2 id="心跳">心跳</h2>
+
+<p>心跳是并发进程向外界发出信号的一种方式。</p>
+
+<h4 id="心跳类型">心跳类型</h4>
+
+<ul>
+<li>在一段时间间隔内发出的心跳</li>
+<li>在工作单元开始时发出的心跳</li>
+</ul>
+
+<p>golang通过channel发送心跳的时候，需要注意有可能没有人接收发出去的心跳（因为心跳不一定重要）</p>
+
+<h2 id="复制请求">复制请求</h2>
+
+<p>某些情况下，可以将请求分发到多个处理程序（goroutine，进程，或者服务器均可），其中一个将比其他程序更快的返回结果，这样就可以立即返回结果。但是会消耗更多的资源。当多个处理程序需要多个进程，服务器，或者数据中心时，代价会相当昂贵，所以要权衡是否值得这么做</p>
+
+<h2 id="速率限制">速率限制</h2>
+
+<h4 id="为什么需要速率限制">为什么需要速率限制</h4>
+
+<p>通常对系统进行限速，可以避免系统被攻击，如果恶意用户在资源允许的情况下可以频繁访问系统，他们可以做各种事情。比如：使用日志或有效请求打满服务器磁盘，或者DDos攻击。
+速率限制可以将系统的性能和稳定性平衡在可控范围内</p>
+
+<h4 id="如何限速">如何限速</h4>
+
+<p>大多数是基于令牌桶算法的，相对容易实现。golang中 golang.org/x/time/rate <a href="https://github.com/golang/time">[github 地址]</a> 包实现了这个功能</p>
+
+<h2 id="治愈异常的goroutine">治愈异常的goroutine</h2>
+
+<p>在一个长期运行的程序中，建立一个机制来监控你的goroutine是否处于健康状态是很有用的，当goroutine异常时，可以尽快的重启。重启的过程成为“治愈”（Healing）。</p>
+
+<h4 id="如何治愈goroutine">如何治愈goroutine？</h4>
+
+<p>使用心跳模式检查我们正在监控的goroutine是否活跃。我们需要一个管理员来监视一个管理区的goroutine，如果有goroutine变得不健康，管理员负责重启这个管理区的goroutine。</p>
+</div>
+    <div class="tags">
+      17 Jul 2019
+      
+        
+          <a href="https://kris0923.github.io//tags/go/">#go</a>
+        
+       
+    </div>
+    
+  </div>
+
+</div>
+
+<paper-item>
+  
+    <a href="https://kris0923.github.io/post/mysql-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E6%97%B6-alter-modify-change%E7%9A%84%E5%8C%BA%E5%88%AB/"><paper-fab icon="chevron-left"><a></a></paper-fab></a>
+  
+    <div class="flex"></div>
+  
+    <a href="https://kris0923.github.io/about/"><paper-fab icon="chevron-right"></paper-fab></a>
+  
+</paper-item>
+
+      <paper-item>
+        <div class="copyright"></div>
+        <div class="flex"></div>
+        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </paper-item>
+    </paper-scroll-header-panel>
+  </paper-drawer-panel>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+</body>
+</html>

@@ -1,0 +1,278 @@
+
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>PHP 知识总结（一）</title>
+  <script src="https://kris0923.github.io//bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="https://kris0923.github.io//bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-drawer-panel/paper-drawer-panel.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-fab/paper-fab.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-item/paper-item.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-menu/paper-menu.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/iron-image/iron-image.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style is="custom-style">
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .nav {
+      border-right: 1px solid #ccc;
+    }
+    
+    paper-scroll-header-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: var(--paper-grey-200, #eee);
+       
+      --paper-scroll-header-panel-full-header: {
+        background-image: url(https://kris0923.github.io//images/cover.png);
+      };
+       
+      --paper-scroll-header-panel-condensed-header: {
+        background-image: url(https://kris0923.github.io//images/cover.png);
+      };
+    }
+    
+    paper-toolbar {
+       
+      height: 256px;
+      background-color: transparent;
+    }
+    .profile{
+      width: 100%;
+      padding-bottom: 20px;
+    }
+    .photo{
+      margin: 20px;
+      display: inline-block;
+      height: 64px; width: 64px;
+      border-radius: 50%;
+    }
+    .article{
+      border: 1px solid #bebebe;
+      padding: 16px;
+      margin: 16px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .title{
+      font-size: 22px;
+      padding: 8px 0 16px;
+    }
+    .description{
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
+    .author{
+      font-size: 16px;
+      padding-left: 20px;
+      color: white;
+    }
+    .design{
+      font-size: 14px;
+    }
+    .copyright{
+      font-size: 16px;
+    }
+    paper-menu a {
+      text-decoration: none;
+      color: #212121;
+    }
+  </style>
+
+</head>
+<body>
+  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+    <div class="nav scroll" drawer>
+    
+      <iron-image class="profile" sizing="cover" src="https://kris0923.github.io//images/profile.png">
+    
+        
+          <iron-image class="photo" sizing="cover" src="https://kris0923.github.io//images/logo.jpeg"></iron-image>
+        
+          <div class="author">magicio</div>
+      </iron-image>
+      <paper-menu>
+        <a href="https://kris0923.github.io/"><paper-item>
+          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io//categories/"><paper-item>
+          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io//tags/"><paper-item>
+          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+      </paper-menu>
+    </div>
+
+    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
+
+      <paper-toolbar>
+
+        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+        <div class="bottom title">地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</div>
+        <div class="flex"></div>
+        
+        
+        
+        
+        
+          <a href="https://github.com/kris0923"><paper-icon-button src="https://kris0923.github.io//images/github2-dreamstale35.png"></paper-icon-button></a>
+        
+          <a href="https://kris0923.github.io//index.xml"><paper-icon-button src="https://kris0923.github.io//images/feed-dreamstale27.png"></paper-icon-button></a>
+      
+      </paper-toolbar>
+
+
+
+<div class="content">
+
+  <div class="article">
+    <div class="title">PHP 知识总结（一）</div>
+    
+      <div class="categories">
+        
+          <a href="https://kris0923.github.io//categories/php/">php</a>
+        
+      </div>
+     
+    <div class="description">
+
+<h1 id="语法基础">语法基础</h1>
+
+<h2 id="变量类型">变量类型</h2>
+
+<ol>
+<li>boolean</li>
+<li>integet</li>
+
+<li><p>float</p>
+
+<pre><code># 判断是否是一个数值类型
+bool is_nan(float $val)
+</code></pre></li>
+
+<li><p>string</p>
+
+<pre><code>// 字符串转数值
+//如果 字符串中包含 '.', 'e'或者'E' 转换为float，其余转为 int
+</code></pre></li>
+
+<li><p>Array</p>
+
+<pre><code>// 数组的key只能是int 或string
+合法的整型字符串会被转成int，例如：&quot;8&quot;，&quot;08&quot;不会，因为08不是合法的十进制数
+浮点数也会被转换为整型，意味着其小数部分会被舍去。例如键名 8.7 实际会被储存为 8。
+布尔值也会被转换成整型。即键名 true 实际会被储存为 1 而键名 false 会被储存为 0。
+Null 会被转换为空字符串，即键名 null 实际会被储存为 &quot;&quot;。
+数组和对象不能被用为键名。坚持这么做会导致警告：Illegal offset type
+默认键： 当前最大整数索引值加1
+// 其他类型转为数组
+$a = array($a);
+or
+$a = (array) $a;
+如果一个 object 类型转换为 array，则结果为一个数组，其单元为该对象的属性。键名将为成员变量名，不过有几点例外：整数属性不可访问；私有变量前会加上类名作前缀；保护变量前会加上一个 '*' 做前缀。这些前缀的前后都各有一个 NULL 字符。这会导致一些不可预知的行为：
+class A {
+    private $A; // This will become '\0A\0A'
+}
+
+class B extends A {
+    private $A; // This will become '\0B\0A'
+    public $AA; // This will become 'AA'
+}
+
+var_dump((array) new B());
+//上例会有两个键名为 'AA'，不过其中一个实际上是 '\0A\0A'
+</code></pre></li>
+
+<li><p>Object</p></li>
+
+<li><p>Reource 资源类型</p>
+
+<pre><code>资源 resource 是一种特殊变量，保存了到外部资源的一个引用
+可以用 is_resource()函数测定一个变量是否是资源，函数 get_resource_type()则返回该资源的类型
+</code></pre></li>
+
+<li><p>NULL</p></li>
+
+<li><p>Callback/Callable</p>
+
+<h2 id="魔术方法">魔术方法</h2>
+
+<p><a href="http://php.net/manual/zh/language.oop5.magic.php#">http://php.net/manual/zh/language.oop5.magic.php#</a></p>
+
+<pre><code>__construct()，
+__destruct()， 
+__call()， 
+__callStatic()， 
+__get()， 
+__set()， 
+__isset()， 
+__unset()， 
+__sleep()， 
+__wakeup()， 
+__toString()， 
+__invoke()， 
+__set_state()， 
+__clone() 和 
+__debugInfo() 
+</code></pre></li>
+</ol>
+
+<h2 id="运算符">运算符</h2>
+
+<p>算数运算符</p>
+
+<p>$a ** $b 表示已$a的$b次方（PHP5.6之后支持）, $a ** $b = exp($a*log($a));</p>
+
+<p>赋值运算符=</p>
+
+<p>一般情况下赋值运算是将原变量的值拷贝到新变量中，但有个例外，就是碰到对象*object*时是引用赋值，除非明确使用*clone*关键字</p>
+</div>
+    <div class="tags">
+      1 Jan 0001
+      
+        
+          <a href="https://kris0923.github.io//tags/php/">#php</a>
+        
+       
+    </div>
+    
+  </div>
+
+</div>
+
+<paper-item>
+  
+    <paper-fab disabled icon="chevron-left"></paper-fab>
+  
+    <div class="flex"></div>
+  
+    <a href="https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%BA%8C/"><paper-fab icon="chevron-right"></paper-fab></a>
+  
+</paper-item>
+
+      <paper-item>
+        <div class="copyright"></div>
+        <div class="flex"></div>
+        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </paper-item>
+    </paper-scroll-header-panel>
+  </paper-drawer-panel>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+</body>
+</html>

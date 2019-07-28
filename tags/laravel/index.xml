@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>laravel on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+    <link>https://kris0923.github.io/tags/laravel/</link>
+    <description>Recent content in laravel on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 17 Jul 2019 23:08:42 +0000</lastBuildDate>
+    
+	<atom:link href="https://kris0923.github.io/tags/laravel/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Laravel Facades 门面模式的实现</title>
+      <link>https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Wed, 17 Jul 2019 23:08:42 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/</guid>
+      <description>以下是Laravel官方文档的介绍
+ Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，拥有简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和灵活性。
+从介绍中可以看出，Facades 好处就是让代码更加简介，优雅，这也是Laravel追求的特性，如何使用Facades这里就不介绍了，可以参考Laravel文档(中文) ，本文介绍一下Facades是如何知道和创建你需要的类实例。
+以 log Facade 为例，我们看下是如何通过log这个字符串找到 \Illuminate\Log\Writer 这个类的 先看 \Illuminate\Support\Facades\Log 门面
+class Log extends Facade { /** * Get the registered name of the component. * * @return string */ protected static function getFacadeAccessor() { return &#39;log&#39;; } }  这个类非常简单，只有一个静态方法 getFacadeAccessor(), 返回了一个log字符串。 然后看Log的父类 Facade, Facede中有很多方法，这里关注其中两个：
+abstract class Facade { /** * The application instance being facaded. * * @var \Illuminate\Contracts\Foundation\Application */ protected static $app; /** * The resolved object instances.</description>
+    </item>
+    
+  </channel>
+</rss>

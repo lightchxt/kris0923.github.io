@@ -1,0 +1,301 @@
+
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>PHP5与PHP7的zval比较</title>
+  <script src="https://kris0923.github.io//bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="https://kris0923.github.io//bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-drawer-panel/paper-drawer-panel.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-fab/paper-fab.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-item/paper-item.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-menu/paper-menu.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/iron-image/iron-image.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style is="custom-style">
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .nav {
+      border-right: 1px solid #ccc;
+    }
+    
+    paper-scroll-header-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: var(--paper-grey-200, #eee);
+       
+      --paper-scroll-header-panel-full-header: {
+        background-image: url(https://kris0923.github.io//images/cover.png);
+      };
+       
+      --paper-scroll-header-panel-condensed-header: {
+        background-image: url(https://kris0923.github.io//images/cover.png);
+      };
+    }
+    
+    paper-toolbar {
+       
+      height: 256px;
+      background-color: transparent;
+    }
+    .profile{
+      width: 100%;
+      padding-bottom: 20px;
+    }
+    .photo{
+      margin: 20px;
+      display: inline-block;
+      height: 64px; width: 64px;
+      border-radius: 50%;
+    }
+    .article{
+      border: 1px solid #bebebe;
+      padding: 16px;
+      margin: 16px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .title{
+      font-size: 22px;
+      padding: 8px 0 16px;
+    }
+    .description{
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
+    .author{
+      font-size: 16px;
+      padding-left: 20px;
+      color: white;
+    }
+    .design{
+      font-size: 14px;
+    }
+    .copyright{
+      font-size: 16px;
+    }
+    paper-menu a {
+      text-decoration: none;
+      color: #212121;
+    }
+  </style>
+
+</head>
+<body>
+  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+    <div class="nav scroll" drawer>
+    
+      <iron-image class="profile" sizing="cover" src="https://kris0923.github.io//images/profile.png">
+    
+        
+          <iron-image class="photo" sizing="cover" src="https://kris0923.github.io//images/logo.jpeg"></iron-image>
+        
+          <div class="author">magicio</div>
+      </iron-image>
+      <paper-menu>
+        <a href="https://kris0923.github.io/"><paper-item>
+          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io//categories/"><paper-item>
+          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io//tags/"><paper-item>
+          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+      </paper-menu>
+    </div>
+
+    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
+
+      <paper-toolbar>
+
+        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+        <div class="bottom title">地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</div>
+        <div class="flex"></div>
+        
+        
+        
+        
+        
+          <a href="https://github.com/kris0923"><paper-icon-button src="https://kris0923.github.io//images/github2-dreamstale35.png"></paper-icon-button></a>
+        
+          <a href="https://kris0923.github.io//index.xml"><paper-icon-button src="https://kris0923.github.io//images/feed-dreamstale27.png"></paper-icon-button></a>
+      
+      </paper-toolbar>
+
+
+
+<div class="content">
+
+  <div class="article">
+    <div class="title">PHP5与PHP7的zval比较</div>
+    
+      <div class="categories">
+        
+          <a href="https://kris0923.github.io//categories/php/">php</a>
+        
+      </div>
+     
+    <div class="description">
+
+<h2 id="php5中zval定义">PHP5中zval定义</h2>
+
+<pre><code class="language-C">struct _zval struct {
+    zvalue_value value; // 16
+    zend_unit refcount_gc; // 4字节 引用计数
+    zend_uchar type;        // 1 
+    zend_uchar is_ref__gc; // 1 是否为引用类型
+}
+
+typedef union _avalue_value {
+    long lval; // 8
+    double dval; // 8
+    struct {
+        char *val;
+        int len;
+    } str; // 16
+    HashTable *ht; // HashTable 数组 8
+    zend_object_value obj; // 12
+    zend_ast * ast; // 8
+} zvalue_value;
+</code></pre>
+
+<p>为了解决*循环引用问题*，PHP5.3之后通过重写分配zval的宏，对zval进行扩充，新的分配方式：</p>
+
+<pre><code>#undef ALLOC_ZVAL
+#define ALLOC_ZVAL (z)
+    do {
+        (z) = (zval*) emalloc (sizeof(zval_gc_info));
+        GC_ZVAL_INT (z);
+    } while(0)
+
+// _zval_gc_info 结构如下：
+typedef struct _zval_gc_info {
+    zval z;
+    union {
+        gc_root_buffer *buffer;
+        struct _zval_gc_info *next;
+    }
+}
+</code></pre>
+
+<p>除此之外，在开启Zend内存池的情况下，zval_gc_info 在内存池中分配，内存池会为每个zval_gc_info额外申请一个大小为16字节的zend_mm_block结构体，用来存放内存相关信息，zend_mm_block结构如下：</p>
+
+<pre><code>typedef struct _zend_mm_block_info {
+    size_t _size;
+    size_t _prev;
+} zend_mm_block_info;
+typedef struct _zend_mm_block {
+    zend_mm_block_info info;
+} zend_mm_block;
+</code></pre>
+
+<p>最终一个变量在PHP5中占内存大小为48个字节（48个字节其实有很多浪费），占用情况如图：</p>
+
+<blockquote>
+<p>1.zend_mm_block 是啥
+2.为什么会有循环引用的问题</p>
+</blockquote>
+
+<h2 id="php7的zval">PHP7的zval</h2>
+
+<pre><code>typedef union _zend_value {
+	zend_long         lval;				/* long value */
+	double            dval;				/* double value */
+	zend_refcounted  *counted; 			// 引用计数
+	zend_string      *str;
+	zend_array       *arr;
+	zend_object      *obj;
+	zend_resource    *res;
+	zend_reference   *ref;
+	zend_ast_ref     *ast;
+	zval             *zv;
+	void             *ptr;
+	zend_class_entry *ce;
+	zend_function    *func;
+	struct {
+		uint32_t w1;
+		uint32_t w2;
+	} ww;
+} zend_value;
+
+struct _zval_struct {
+	zend_value        value;			/* value */
+	union {
+		struct {
+			ZEND_ENDIAN_LOHI_4(
+				zend_uchar    type,			/* active type 记录变量类型*/
+				zend_uchar    type_flags,
+				zend_uchar    const_flags,
+				zend_uchar    reserved)	    /* call info for EX(This) */
+		} v; /* 4字节 */
+		uint32_t type_info; // 4字节 其实type_info 就是v 中4个char的组合
+	} u1;
+	union {
+		uint32_t     next;                 /* hash collision chain */
+		uint32_t     cache_slot;           /* literal cache slot */
+		uint32_t     lineno;               /* line number (for ast nodes) */
+		uint32_t     num_args;             /* arguments number for EX(This) */
+		uint32_t     fe_pos;               /* foreach position */
+		uint32_t     fe_iter_idx;          /* foreach iterator index */
+		uint32_t     access_flags;         /* class constant access flags */
+		uint32_t     property_guard;       /* single property guard 单一属性保护*/
+		uint32_t     extra;                /* not further specified 保留字段，暂无意义*/
+	} u2;
+};
+
+
+</code></pre>
+
+<p>PHP7的zval中value占8字节，u1占4字节，u2为辅助字段，占4字节，这样zval一共占16字节，即使没有u2，在内存对齐的情况下，zval也要占16字节，用u2记录了一些特殊信息，并不会浪费内存，反而是对内存的充分利用</p>
+
+<p>PHP7 Z_VAL内存占用图
+<img src="https://github.com/kris0923/kris0923.github.io/blob/master/images/php_z_val.png" alt="php7_z_val" /></p>
+</div>
+    <div class="tags">
+      17 Jul 2019
+      
+        
+          <a href="https://kris0923.github.io//tags/php/">#php</a>
+        
+       
+    </div>
+    
+  </div>
+
+</div>
+
+<paper-item>
+  
+    <a href="https://kris0923.github.io/post/%E4%BB%8Ehello-world%E5%BC%80%E5%A7%8B/"><paper-fab icon="chevron-left"><a></a></paper-fab></a>
+  
+    <div class="flex"></div>
+  
+    <a href="https://kris0923.github.io/post/%E6%A0%A1%E9%AA%8C%E7%A0%81/"><paper-fab icon="chevron-right"></paper-fab></a>
+  
+</paper-item>
+
+      <paper-item>
+        <div class="copyright"></div>
+        <div class="flex"></div>
+        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </paper-item>
+    </paper-scroll-header-panel>
+  </paper-drawer-panel>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+</body>
+</html>

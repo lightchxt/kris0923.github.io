@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+    <link>https://kris0923.github.io/tags/linux/</link>
+    <description>Recent content in Linux on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 28 Jul 2019 21:09:34 +0800</lastBuildDate>
+    
+	<atom:link href="https://kris0923.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux命令之sed</title>
+      <link>https://kris0923.github.io/post/sed/</link>
+      <pubDate>Sun, 28 Jul 2019 21:09:34 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/sed/</guid>
+      <description>sed 流处理编辑器  行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向）  命令行格式 sed [option] &#39;command&#39; file(s)  脚本格式 sed -f scriptfile file(s)  sed 命令 p 打印命令 -n 只打印匹配的行  定位一行 sed -n &#39;2p&#39; test.txt 定位多行 sed -n &#39;2,5p&#39; test.txt // (2和5也可以用正则代替) 定位反向选择 sed -n &#39;2,5!p&#39; test.txt // 第2-5行不被选择 定位间隔几行 sed -n &#39;2~2p&#39; test.txt // 间隔输出  行命令  a （新增行）/ i（插入行） c（替代行） d（删除行）
+linux 用法 sed -n &amp;quot;2a text2++&amp;quot; test.txt sed -n &amp;quot;2,5a text2++&amp;quot; test.</description>
+    </item>
+    
+  </channel>
+</rss>

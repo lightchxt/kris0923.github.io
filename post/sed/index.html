@@ -1,0 +1,356 @@
+
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>Linux命令之sed</title>
+  <script src="https://kris0923.github.io//bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="https://kris0923.github.io//bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-drawer-panel/paper-drawer-panel.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-fab/paper-fab.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-item/paper-item.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/paper-menu/paper-menu.html">
+  <link rel="import" href="https://kris0923.github.io//bower_components/iron-image/iron-image.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style is="custom-style">
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .nav {
+      border-right: 1px solid #ccc;
+    }
+    
+    paper-scroll-header-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: var(--paper-grey-200, #eee);
+       
+      --paper-scroll-header-panel-full-header: {
+        background-image: url(https://kris0923.github.io//images/cover.png);
+      };
+       
+      --paper-scroll-header-panel-condensed-header: {
+        background-image: url(https://kris0923.github.io//images/cover.png);
+      };
+    }
+    
+    paper-toolbar {
+       
+      height: 256px;
+      background-color: transparent;
+    }
+    .profile{
+      width: 100%;
+      padding-bottom: 20px;
+    }
+    .photo{
+      margin: 20px;
+      display: inline-block;
+      height: 64px; width: 64px;
+      border-radius: 50%;
+    }
+    .article{
+      border: 1px solid #bebebe;
+      padding: 16px;
+      margin: 16px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .title{
+      font-size: 22px;
+      padding: 8px 0 16px;
+    }
+    .description{
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
+    .author{
+      font-size: 16px;
+      padding-left: 20px;
+      color: white;
+    }
+    .design{
+      font-size: 14px;
+    }
+    .copyright{
+      font-size: 16px;
+    }
+    paper-menu a {
+      text-decoration: none;
+      color: #212121;
+    }
+  </style>
+
+</head>
+<body>
+  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+    <div class="nav scroll" drawer>
+    
+      <iron-image class="profile" sizing="cover" src="https://kris0923.github.io//images/profile.png">
+    
+        
+          <iron-image class="photo" sizing="cover" src="https://kris0923.github.io//images/logo.jpeg"></iron-image>
+        
+          <div class="author">magicio</div>
+      </iron-image>
+      <paper-menu>
+        <a href="https://kris0923.github.io/"><paper-item>
+          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io//categories/"><paper-item>
+          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io//tags/"><paper-item>
+          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+      </paper-menu>
+    </div>
+
+    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
+
+      <paper-toolbar>
+
+        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+        <div class="bottom title">地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</div>
+        <div class="flex"></div>
+        
+        
+        
+        
+        
+          <a href="https://github.com/kris0923"><paper-icon-button src="https://kris0923.github.io//images/github2-dreamstale35.png"></paper-icon-button></a>
+        
+          <a href="https://kris0923.github.io//index.xml"><paper-icon-button src="https://kris0923.github.io//images/feed-dreamstale27.png"></paper-icon-button></a>
+      
+      </paper-toolbar>
+
+
+
+<div class="content">
+
+  <div class="article">
+    <div class="title">Linux命令之sed</div>
+    
+      <div class="categories">
+        
+          <a href="https://kris0923.github.io//categories/linux/">Linux</a>
+        
+      </div>
+     
+    <div class="description">
+
+<h2 id="sed-流处理编辑器">sed 流处理编辑器</h2>
+
+<ul>
+<li>行处理一次只处理一行数据 （sed处理文件内容的核心思想）</li>
+<li>不改变文件内容（除非重定向）</li>
+</ul>
+
+<h5 id="命令行格式">命令行格式</h5>
+
+<pre><code>sed [option] 'command' file(s)
+</code></pre>
+
+<h5 id="脚本格式">脚本格式</h5>
+
+<pre><code>sed -f scriptfile file(s)
+</code></pre>
+
+<h5 id="sed-命令">sed 命令</h5>
+
+<h6 id="p-打印命令">p 打印命令</h6>
+
+<pre><code>-n 只打印匹配的行
+</code></pre>
+
+<pre><code>定位一行 
+	sed -n '2p' test.txt
+定位多行
+	sed -n '2,5p' test.txt
+	// (2和5也可以用正则代替)
+定位反向选择
+	sed -n '2,5!p' test.txt // 第2-5行不被选择
+定位间隔几行
+	sed -n '2~2p' test.txt // 间隔输出 
+</code></pre>
+
+<h6 id="行命令">行命令</h6>
+
+<ul>
+<li>a （新增行）/ i（插入行）</li>
+<li>c（替代行）</li>
+
+<li><p>d（删除行）</p>
+
+<pre><code>linux 用法
+sed -n &quot;2a text2++&quot; test.txt
+sed -n &quot;2,5a text2++&quot; test.txt
+</code></pre>
+
+<pre><code>mac os 用法
+sed -n &quot;2a \
+text2++
+&quot; test.txt
+
+sed -n &quot;2,5a \
+text2++
+&quot; test.txt
+</code></pre></li>
+</ul>
+
+<h6 id="替换命令-s-sed命令的核心">替换命令 s - sed命令的核心</h6>
+
+<p>基本命令</p>
+
+<pre><code>sed 's/search/replace' filename （每行替换一次）
+</code></pre>
+
+<p>全局替换</p>
+
+<pre><code>sed 's/search/replace/g' filename 
+</code></pre>
+
+<p>eg:获取本机IP地址</p>
+
+<pre><code>ifconfig en0 | sed -n '/inet /p' | sed 's/inet //' | sed 's/netmask.*$//'
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310100020804.png" alt="在这里插入图片描述" /></p>
+
+<h4 id="sed高级命令">sed高级命令</h4>
+
+<blockquote>
+<p>假设有如下文本 test.txt</p>
+</blockquote>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310093056404.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+
+<ul>
+<li><p>{} : 多个sed命令，用;分开</p>
+
+<pre><code># 删除1，2行，并将5替换为12
+sed &quot;{1,2d;s/5/12/}&quot; test.txt
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310200450522.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p></li>
+
+<li><p>n 读取下一个输入行，用下一个命令处理</p>
+
+<pre><code>隔行输出 与 sed -n '2~2p' test.txt 效果相同
+sed -n &quot;{n;p}&quot; // 打印偶数行
+sed -n &quot;{p;n}&quot; // 打印奇数行
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310200006195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" />
+<img src="https://img-blog.csdnimg.cn/20190310200036784.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p></li>
+
+<li><p>&amp; 替换固定字符串</p>
+
+<pre><code>sed 's/[a-z]\+/&amp;-/' test.txt  
+// &amp;符号代替了前面的正则表达式匹配到的内容
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310202023188.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+
+<ul>
+<li>u/l/U/l 大小写转换</li>
+<li>u 首字母大些</li>
+<li>l 首字母小写</li>
+<li>U 单词大写</li>
+
+<li><p>L  单词小写</p>
+
+<pre><code>sed 's/[a-z]\+/\u&amp;/' test.txt
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/2019031020241712.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p></li>
+</ul></li>
+
+<li><p>() 获取匹配的内容</p>
+
+<pre><code># 获取文件中的所有小写字符
+sed 's/\([a-z]\+\).*$/\1/' test.txt
+# 获取本机ip
+ifconfig en0 | sed -n '/inet /p' | sed 's/inet \([0-9.]\+\) .*$/\1/'
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310203530323.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" />
+<img src="https://img-blog.csdnimg.cn/20190310204355128.png" alt="在这里插入图片描述" /></p></li>
+
+<li><p>r 复制指定文件到匹配行</p></li>
+
+<li><p>w 复制匹配行到指定文件
+&gt; 再添加一个测试文件123.txt</p></li>
+</ul>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310211331445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" />
+<img src="https://img-blog.csdnimg.cn/20190310211435499.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+
+<pre><code>把test.txt文件内容写到123.txt中，如果需要指定行，在w前加行号
+</code></pre>
+
+<p><strong>attention： w 会改写文件，使用是应慎重</strong></p>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310211824916.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+
+<ul>
+<li>q 退出sed</li>
+</ul>
+
+<p>第5行后退出sed
+<img src="https://img-blog.csdnimg.cn/20190310212414444.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" /></p>
+
+<p><strong>sed 还有一个重要的选项 -i: 直接修改读取的文件内容，而不是输出到终端</strong></p>
+
+<pre><code>sed -i 's/5/13/' test.txt
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/20190310213643546.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" />
+&gt; 更多用法请查看 <a href="!https://www.gnu.org/software/sed/">gnu sed 官方文档</a></p>
+</div>
+    <div class="tags">
+      28 Jul 2019
+      
+        
+          <a href="https://kris0923.github.io//tags/linux/">#Linux</a>
+        
+       
+    </div>
+    
+  </div>
+
+</div>
+
+<paper-item>
+  
+    <a href="https://kris0923.github.io/post/awk/"><paper-fab icon="chevron-left"><a></a></paper-fab></a>
+  
+    <div class="flex"></div>
+  
+    <a href="https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%B8%80/"><paper-fab icon="chevron-right"></paper-fab></a>
+  
+</paper-item>
+
+      <paper-item>
+        <div class="copyright"></div>
+        <div class="flex"></div>
+        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </paper-item>
+    </paper-scroll-header-panel>
+  </paper-drawer-panel>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+</body>
+</html>
