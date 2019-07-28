@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
-    <link>https://kris0923.github.io/categories/</link>
+    <link>http://kris0923.github.io/categories/</link>
     <description>Recent content in Categories on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     
-	<atom:link href="https://kris0923.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://kris0923.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>
