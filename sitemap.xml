@@ -9,13 +9,13 @@
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/tags/mysql/</loc>
+    <loc>https://kris0923.github.io/categories/mysql/</loc>
     <lastmod>2019-07-28T21:11:18+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/categories/mysql/</loc>
+    <loc>https://kris0923.github.io/tags/mysql/</loc>
     <lastmod>2019-07-28T21:11:18+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -49,13 +49,13 @@
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/tags/linux/</loc>
+    <loc>https://kris0923.github.io/categories/linux/</loc>
     <lastmod>2019-07-28T21:09:34+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/categories/linux/</loc>
+    <loc>https://kris0923.github.io/tags/linux/</loc>
     <lastmod>2019-07-28T21:09:34+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -71,13 +71,13 @@
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>https://kris0923.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2019-07-27T13:29:24+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>https://kris0923.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2019-07-27T13:29:24+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -93,13 +93,13 @@
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/tags/go/</loc>
+    <loc>https://kris0923.github.io/categories/go/</loc>
     <lastmod>2019-07-17T23:10:51+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/categories/go/</loc>
+    <loc>https://kris0923.github.io/tags/go/</loc>
     <lastmod>2019-07-17T23:10:51+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -120,19 +120,13 @@
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/tags/laravel/</loc>
-    <lastmod>2019-07-17T23:08:42+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://kris0923.github.io/categories/laravel/</loc>
     <lastmod>2019-07-17T23:08:42+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/tags/php/</loc>
+    <loc>https://kris0923.github.io/tags/laravel/</loc>
     <lastmod>2019-07-17T23:08:42+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -144,13 +138,19 @@
   </url>
   
   <url>
-    <loc>https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2019-07-17T22:50:45+00:00</lastmod>
+    <loc>https://kris0923.github.io/tags/php/</loc>
+    <lastmod>2019-07-17T23:08:42+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://kris0923.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2019-07-17T22:50:45+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2019-07-17T22:50:45+00:00</lastmod>
     <priority>0</priority>
   </url>
