@@ -141,6 +141,32 @@
 
 
   <div class="article">
+    <div class="title"><a href="https://kris0923.github.io/post/laravel%E4%B8%AD%E9%97%B4%E4%BB%B6/">Laravel中间件实现分析</a></div>
+    
+      <div class="categories">
+        
+          <a href="https://kris0923.github.io/categories/laravel/">Laravel</a>
+        
+      </div>
+     
+    <div class="description">Laravel的中间件提供了一种方便的机制过滤进入应用程序的 HTTP 请求，并且Laravel自带了一些中间件包括身份验证、CSRF保护、COOKIE加密解密等，使用非常方便。那么Laravel中“中间件”是怎么实现的，为什么只需要简单修改几个配置就能试中间件生效，中间件的执行顺序又是怎样的呢。出于对这些问题的好奇，我阅读了一下Laravel中间件的实现相关源码。
+\Illuminate\Pipeline\Pipeline - 实现中间件的核心类 在介绍Pipeline这个类之前，我们先简单浏览一下Laravel应用程序的生命周期。接下里我一步一步的说明如何实例化Pipeline方法的。
+ 在入口文件index.php只有几行代码
+$app = require_once __DIR__.'/../bootstrap/app.php'; $kernel = $app-&gt;make(Illuminate\Contracts\Http\Kernel::class); $response = $kernel-&gt;handle( $request = Illuminate\Http\Request::capture() ); $response-&gt;send(); $kernel-&gt;terminate($request, $response);   首先实例化了一个Illuminate\Contracts\Http\Kernel，在bootstrap/app.php文件中， Illuminate\Contracts\Http\Kernel接口已经被绑定了App\Http\Kernel类，所以这里的$kernel是一个App\Http\Kernel的对象
+bootstrap/app.php
+// 此处对Illuminate\Contracts\Http\Kernel进行类绑定 $app-&gt;singleton( Illuminate\Contracts\Http\Kernel::class, App\Http\Kernel::class ); $app-&gt;singleton( Illuminate\Contracts\Console\Kernel::class, App\Console\Kernel::class ); $app-&gt;singleton( Illuminate\Contracts\Debug\ExceptionHandler::class, App\Exceptions\Handler::class ); return $app;  然后接着往下看，调用了Kernel的handel方法，并传入了一个Request对象。
+class Kernel implements KernelContract ... /** * Handle an incoming HTTP request. * * @param \Illuminate\Http\Request $request * @return \Illuminate\Http\Response */ public function handle($request) { try { $request-&gt;enableHttpMethodParameterOverride(); $response = $this-&gt;sendRequestThroughRouter($request); // sendRequestThroughRouter 方里面实例化了Pipeline } catch (Exception $e) { $this-&gt;reportException($e); $response = $this-&gt;renderException($request, $e); } catch (Throwable $e) { $this-&gt;reportException($e = new FatalThrowableError($e)); $response = $this-&gt;renderException($request, $e); } $this-&gt;app['events']-&gt;dispatch( new Events\RequestHandled($request, $response) ); return $response; } /** * Send the given request through the middleware / router.</div>
+    <div class="tags">
+      26 Sep 2019
+      
+        
+          <a href="https://kris0923.github.io/tags/laravel/">#Laravel</a>
+        
+       
+    </div>
+  </div>
+
+  <div class="article">
     <div class="title"><a href="https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/">Laravel Facades 门面模式的实现</a></div>
     
       <div class="categories">

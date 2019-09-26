@@ -6,10 +6,53 @@
     <description>Recent content in Posts on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 28 Jul 2019 21:11:18 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 26 Sep 2019 21:05:04 +0800</lastBuildDate>
     
 	<atom:link href="https://kris0923.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Laravel中间件实现分析</title>
+      <link>https://kris0923.github.io/post/laravel%E4%B8%AD%E9%97%B4%E4%BB%B6/</link>
+      <pubDate>Thu, 26 Sep 2019 21:05:04 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/laravel%E4%B8%AD%E9%97%B4%E4%BB%B6/</guid>
+      <description>Laravel的中间件提供了一种方便的机制过滤进入应用程序的 HTTP 请求，并且Laravel自带了一些中间件包括身份验证、CSRF保护、COOKIE加密解密等，使用非常方便。那么Laravel中“中间件”是怎么实现的，为什么只需要简单修改几个配置就能试中间件生效，中间件的执行顺序又是怎样的呢。出于对这些问题的好奇，我阅读了一下Laravel中间件的实现相关源码。
+\Illuminate\Pipeline\Pipeline - 实现中间件的核心类 在介绍Pipeline这个类之前，我们先简单浏览一下Laravel应用程序的生命周期。接下里我一步一步的说明如何实例化Pipeline方法的。
+ 在入口文件index.php只有几行代码
+$app = require_once __DIR__.&#39;/../bootstrap/app.php&#39;; $kernel = $app-&amp;gt;make(Illuminate\Contracts\Http\Kernel::class); $response = $kernel-&amp;gt;handle( $request = Illuminate\Http\Request::capture() ); $response-&amp;gt;send(); $kernel-&amp;gt;terminate($request, $response);   首先实例化了一个Illuminate\Contracts\Http\Kernel，在bootstrap/app.php文件中， Illuminate\Contracts\Http\Kernel接口已经被绑定了App\Http\Kernel类，所以这里的$kernel是一个App\Http\Kernel的对象
+bootstrap/app.php
+// 此处对Illuminate\Contracts\Http\Kernel进行类绑定 $app-&amp;gt;singleton( Illuminate\Contracts\Http\Kernel::class, App\Http\Kernel::class ); $app-&amp;gt;singleton( Illuminate\Contracts\Console\Kernel::class, App\Console\Kernel::class ); $app-&amp;gt;singleton( Illuminate\Contracts\Debug\ExceptionHandler::class, App\Exceptions\Handler::class ); return $app;  然后接着往下看，调用了Kernel的handel方法，并传入了一个Request对象。
+class Kernel implements KernelContract ... /** * Handle an incoming HTTP request. * * @param \Illuminate\Http\Request $request * @return \Illuminate\Http\Response */ public function handle($request) { try { $request-&amp;gt;enableHttpMethodParameterOverride(); $response = $this-&amp;gt;sendRequestThroughRouter($request); // sendRequestThroughRouter 方里面实例化了Pipeline } catch (Exception $e) { $this-&amp;gt;reportException($e); $response = $this-&amp;gt;renderException($request, $e); } catch (Throwable $e) { $this-&amp;gt;reportException($e = new FatalThrowableError($e)); $response = $this-&amp;gt;renderException($request, $e); } $this-&amp;gt;app[&#39;events&#39;]-&amp;gt;dispatch( new Events\RequestHandled($request, $response) ); return $response; } /** * Send the given request through the middleware / router.</description>
+    </item>
+    
+    <item>
+      <title>Nginx介绍</title>
+      <link>https://kris0923.github.io/post/nginx%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Sun, 01 Sep 2019 23:46:27 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/nginx%E4%BB%8B%E7%BB%8D/</guid>
+      <description>Nginx是什么 nginx 是一个免费的，开源的，高性能HTTP服务器和反向代理，以及IMAP / POP3代理服务器。NGINX以其高性能，稳定性，丰富的功能集，简单的配置和低资源消耗而闻名。与传统服务器不同的是，Nginx不依赖线程来处理请求，它使用了更加可扩展的异步事件驱动的架构，因此与其他的服务器相比，Nginx可以使用很少的内存来同时处理上千个请求。
+netcraft调查显示，到2019年8月nginx拥有超过31％的计算机市场份额，仅落后于Apache5.39%
+Nginx可以做什么 1 基本HTTP服务  静态文件处理（如HTML静态网页），处理索引文件以及支持自动个索引 打开并自行管理文件描述符缓存 提供反向代理服务，并可以使用缓存加速反向代理，同时完成简单的负载均衡及容错 提供缘层FastCGI服务缓存机制，加速访问，同时完成简单的负载均衡及容错 过滤器功能，Nginx基本过滤器有：gzip压缩、ranges支持、chunked支持、XSTL、SSI、以及图像缩放等 支持SSL
+2 高级HTTP服务 基于名字和IP的虚拟主机设置
+ 支持HTTP/1.0中的KEEP-ALIVE模式和PipeLined模型连接
+ 支持重新加载配置及升级时无需中断正在处理的请求
+ 自定义日志格式、带缓存的日志写操作以及快速日志轮转
+ 提供3XX～5XX错误代码重定向功能
+ 支持HTTP DAV模块，从而为HTTP WEBDAV提供PUT、DELETE、MKCOL、COPY、以及MOVE方法
+ 支持FLV流和MP4传输
+ 支持网络监控，基于客户端IP地址和HTTP基本认证机制的访问控制，速率限制，来自同一IP的同时连接数或请求限制等
+ 支持Perl语言
+邮件代理服务 使用外部HTTP认证服务器重定向 到用户的IMAP/POP3后端，并支持IMAP认证方式（LOGIN、AUTH LOGIN/PLAIN/CRAM-MD5）和POP3认证方式(USER/PASS、APOP、AUTH LOGIN/PLIAN/CRAM-MD5)
+ 使用外部HTTP认证服务器认证用户后重定向到内部STMP后端，并支持 STMP认证方式
+ 支持邮件代理服务下的安全套接层安全协议SSL
+ 支持纯文本通信协议的扩展协议STARTTLS
+优点 在Nginx之前市面上已经有Apache，tomcat，IIS等服务器 与这些Web服务器相比，Nginx具有高并发，低内存消耗的优势，Nginx在处理静态文件方面比其他服务器要优秀很多。
+  Nginx的Rewrite功能 地址重写与地址转发  在ngx_http_rewrite_module中 用法：
+rewrite regex replacement [flag]  flag 为 last，break，redirect，permanent
+～ 大小写敏感 ～* 大小写不敏感</description>
+    </item>
     
     <item>
       <title>MySql如何使用索引（二）</title>

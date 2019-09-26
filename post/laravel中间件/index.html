@@ -1,0 +1,369 @@
+
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>Laravel中间件实现分析</title>
+  <script src="https://kris0923.github.io/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="https://kris0923.github.io/bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="https://kris0923.github.io/bower_components/paper-drawer-panel/paper-drawer-panel.html">
+  <link rel="import" href="https://kris0923.github.io/bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="https://kris0923.github.io/bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="https://kris0923.github.io/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+  <link rel="import" href="https://kris0923.github.io/bower_components/paper-fab/paper-fab.html">
+  <link rel="import" href="https://kris0923.github.io/bower_components/paper-item/paper-item.html">
+  <link rel="import" href="https://kris0923.github.io/bower_components/paper-menu/paper-menu.html">
+  <link rel="import" href="https://kris0923.github.io/bower_components/iron-image/iron-image.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+  <style is="custom-style">
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .nav {
+      border-right: 1px solid #ccc;
+    }
+    
+    paper-scroll-header-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: var(--paper-grey-200, #eee);
+       
+      --paper-scroll-header-panel-full-header: {
+        background-image: url(https://kris0923.github.io/images/cover.png);
+      };
+       
+      --paper-scroll-header-panel-condensed-header: {
+        background-image: url(https://kris0923.github.io/images/cover.png);
+      };
+    }
+    
+    paper-toolbar {
+       
+      height: 256px;
+      background-color: transparent;
+    }
+    .profile{
+      width: 100%;
+      padding-bottom: 20px;
+    }
+    .photo{
+      margin: 20px;
+      display: inline-block;
+      height: 64px; width: 64px;
+      border-radius: 50%;
+    }
+    .article{
+      border: 1px solid #bebebe;
+      padding: 16px;
+      margin: 16px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    .title{
+      font-size: 22px;
+      padding: 8px 0 16px;
+    }
+    .description{
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
+    .author{
+      font-size: 16px;
+      padding-left: 20px;
+      color: white;
+    }
+    .design{
+      font-size: 14px;
+    }
+    .copyright{
+      font-size: 16px;
+    }
+    paper-menu a {
+      text-decoration: none;
+      color: #212121;
+    }
+  </style>
+
+</head>
+<body>
+  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+    <div class="nav scroll" drawer>
+    
+      <iron-image class="profile" sizing="cover" src="https://kris0923.github.io/images/profile.png">
+    
+        
+          <iron-image class="photo" sizing="cover" src="https://kris0923.github.io/images/logo.jpeg"></iron-image>
+        
+          <div class="author">magicio</div>
+      </iron-image>
+      <paper-menu>
+        <a href="https://kris0923.github.io"><paper-item>
+          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io/categories/"><paper-item>
+          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+        <a href="https://kris0923.github.io/tags/"><paper-item>
+          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
+          <iron-icon icon="chevron-right"></iron-icon>
+        </paper-item></a>
+      </paper-menu>
+    </div>
+
+    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
+
+      <paper-toolbar>
+
+        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+        <div class="bottom title">地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</div>
+        <div class="flex"></div>
+        
+        
+        
+        
+        
+          <a href="https://github.com/kris0923"><paper-icon-button src="https://kris0923.github.io/images/github2-dreamstale35.png"></paper-icon-button></a>
+        
+          <a href="https://kris0923.github.io/index.xml"><paper-icon-button src="https://kris0923.github.io/images/feed-dreamstale27.png"></paper-icon-button></a>
+      
+      </paper-toolbar>
+
+
+
+<div class="content">
+
+  <div class="article">
+    <div class="title">Laravel中间件实现分析</div>
+    
+      <div class="categories">
+        
+          <a href="https://kris0923.github.io/categories/laravel/">Laravel</a>
+        
+      </div>
+     
+    <div class="description">
+
+<p>Laravel的中间件提供了一种方便的机制过滤进入应用程序的 HTTP 请求，并且Laravel自带了一些中间件包括身份验证、CSRF保护、COOKIE加密解密等，使用非常方便。那么Laravel中“中间件”是怎么实现的，为什么只需要简单修改几个配置就能试中间件生效，中间件的执行顺序又是怎样的呢。出于对这些问题的好奇，我阅读了一下Laravel中间件的实现相关源码。</p>
+
+<h3 id="illuminate-pipeline-pipeline-实现中间件的核心类"><strong>\Illuminate\Pipeline\Pipeline</strong> - 实现中间件的核心类</h3>
+
+<p>在介绍Pipeline这个类之前，我们先简单浏览一下Laravel应用程序的<a href="https://learnku.com/docs/laravel/5.8/lifecycle/3885#lifecycle-overview">生命周期</a>。接下里我一步一步的说明如何实例化Pipeline方法的。</p>
+
+<ol>
+<li><p>在入口文件index.php只有几行代码</p>
+
+<pre><code class="language-php">$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$kernel = $app-&gt;make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel-&gt;handle(
+$request = Illuminate\Http\Request::capture()
+);
+
+$response-&gt;send();
+$kernel-&gt;terminate($request, $response);
+</code></pre></li>
+</ol>
+
+<p>首先实例化了一个Illuminate\Contracts\Http\Kernel，在bootstrap/app.php文件中，
+Illuminate\Contracts\Http\Kernel接口已经被绑定了App\Http\Kernel类，所以这里的$kernel是一个App\Http\Kernel的对象</p>
+
+<p>bootstrap/app.php</p>
+
+<pre><code>// 此处对Illuminate\Contracts\Http\Kernel进行类绑定
+$app-&gt;singleton(
+    Illuminate\Contracts\Http\Kernel::class,
+    App\Http\Kernel::class
+);
+
+$app-&gt;singleton(
+    Illuminate\Contracts\Console\Kernel::class,
+    App\Console\Kernel::class
+);
+
+$app-&gt;singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
+);
+
+return $app;
+</code></pre>
+
+<p>然后接着往下看，调用了Kernel的handel方法，并传入了一个Request对象。</p>
+
+<pre><code>class Kernel implements KernelContract
+...
+/**
+     * Handle an incoming HTTP request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function handle($request)
+    {
+        try {
+            $request-&gt;enableHttpMethodParameterOverride();
+
+            $response = $this-&gt;sendRequestThroughRouter($request);  // sendRequestThroughRouter 方里面实例化了Pipeline
+        } catch (Exception $e) {
+            $this-&gt;reportException($e);
+
+            $response = $this-&gt;renderException($request, $e);
+        } catch (Throwable $e) {
+            $this-&gt;reportException($e = new FatalThrowableError($e));
+
+            $response = $this-&gt;renderException($request, $e);
+        }
+
+        $this-&gt;app['events']-&gt;dispatch(
+            new Events\RequestHandled($request, $response)
+        );
+
+        return $response;
+    }
+    
+    /**
+     * Send the given request through the middleware / router.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendRequestThroughRouter($request)
+    {
+        $this-&gt;app-&gt;instance('request', $request);
+
+        Facade::clearResolvedInstance('request');
+
+        $this-&gt;bootstrap();
+    ## 这里实例化了Pipeline
+        return (new Pipeline($this-&gt;app))
+                    -&gt;send($request)
+                    -&gt;through($this-&gt;app-&gt;shouldSkipMiddleware() ? [] : $this-&gt;middleware)
+                    -&gt;then($this-&gt;dispatchToRouter());
+    }
+...
+</code></pre>
+
+<p>接下来就到中间件的核心了- Pipeline-&gt;then()方法</p>
+
+<pre><code>public function then(Closure $destination)
+    {
+        $pipeline = array_reduce(
+            array_reverse($this-&gt;pipes), $this-&gt;carry(), $this-&gt;prepareDestination($destination)
+        );
+
+        return $pipeline($this-&gt;passable);
+    }
+</code></pre>
+
+<p>最关键的就是array_reduce()，函数原型：array_reduce ( array $array , callable $callback [, mixed $initial = NULL ] ) : mixed
+&gt;  array_reduce() 将回调函数 callback 迭代地作用到 array 数组中的每一个单元中，从而将数组简化为单一的值。
+一般情况下，我们第二个参数返回的是一个基本的数据类型，比如：</p>
+
+<pre><code>$arr = [1, 2, 3, 4, 5];
+$sum = array_reduce($arr, function($carry, $item) {
+    return $carry + $item;
+}, 0);
+echo $sum;
+// 结果为 15
+</code></pre>
+
+<p>那么如果我们第二个参数放回一个闭包函数会是什么样呢？</p>
+
+<pre><code>$arr = [&quot;item1&quot;, &quot;item2&quot;, &quot;item3&quot;];
+$closure = array_reduce($arr, function ($carry, $item) {
+    return function () use ($carry, $item) {
+        dump($item);
+        if (is_null($carry)) {
+            return &quot;carry is  null &quot; . $item;
+        }
+        if($carry instanceof Closure) {
+            dump($carry());
+            return $item . '++';
+        }
+    };
+});
+dump(&quot;r:&quot;);
+dump($closure());
+
+</code></pre>
+
+<p>结果为：</p>
+
+<p>&ldquo;r:&rdquo;</p>
+
+<p>&ldquo;item3&rdquo;</p>
+
+<p>&ldquo;item2&rdquo;</p>
+
+<p>&ldquo;item1&rdquo;</p>
+
+<p>&ldquo;carry is  null item1&rdquo;</p>
+
+<p>&ldquo;item2++&rdquo;</p>
+
+<p>&ldquo;item3++&rdquo;</p>
+
+<p>为什么是这个结果呢？array_reduce返回的是一个闭包，只有执行这个闭包函数，里面的逻辑才会执行，所以相当于是把函数暂存起来了，类似于存到了一个栈中。</p>
+
+<p>理解了array_reduce,然后我们看一下Laravel中carry()函数每次都返回了什么，打印一下每次调用的的 pipe 和 method:</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2019/9/17/16d3ebcf37b2440b?w=945&amp;h=242&amp;f=png&amp;s=25701" alt="" /></p>
+
+<p>输出：</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2019/9/17/16d3ebd35f39a95f?w=675&amp;h=436&amp;f=png&amp;s=25385" alt="" /></p>
+
+<p>所有carry方法每次都返回了我们配置了的中间件的handle方法，而$pipeline 就是一个由众多handle方法组成的闭包函数，然后执行</p>
+
+<pre><code>return $pipeline($this-&gt;passable);
+</code></pre>
+
+<p>对当前的Request进行过滤。因为后从carry()中返回的方法会被先执行，所以 array_reverse($this-&gt;pipes) 对我们的中间件顺序进行了翻转，这样执行的顺序就和我们配置中间件的顺序一致了</p>
+
+<blockquote>
+<p>以上就是 Laravel 中间件的实现了</p>
+</blockquote>
+</div>
+    <div class="tags">
+      26 Sep 2019
+      
+        
+          <a href="https://kris0923.github.io/tags/laravel/">#Laravel</a>
+        
+       
+    </div>
+    
+  </div>
+
+</div>
+
+<paper-item>
+  
+    <a href="https://kris0923.github.io/post/nginx%E4%BB%8B%E7%BB%8D/"><paper-fab icon="chevron-left"><a></a></paper-fab></a>
+  
+    <div class="flex"></div>
+  
+    <paper-fab disabled icon="chevron-right"></paper-fab>
+  
+</paper-item>
+
+      <paper-item>
+        <div class="copyright"></div>
+        <div class="flex"></div>
+        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
+      </paper-item>
+    </paper-scroll-header-panel>
+  </paper-drawer-panel>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+</body>
+</html>

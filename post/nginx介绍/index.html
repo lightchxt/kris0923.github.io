@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-  <title>Linux</title>
+  <title>Nginx介绍</title>
   <script src="https://kris0923.github.io/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="https://kris0923.github.io/bower_components/iron-icons/iron-icons.html">
   <link rel="import" href="https://kris0923.github.io/bower_components/paper-drawer-panel/paper-drawer-panel.html">
@@ -139,66 +139,111 @@
 
 <div class="content">
 
-
   <div class="article">
-    <div class="title"><a href="https://kris0923.github.io/post/sed/">Linux命令之sed</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://kris0923.github.io/categories/linux/">Linux</a>
-        
-      </div>
+    <div class="title">Nginx介绍</div>
      
-    <div class="description">sed 流处理编辑器  行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向）  命令行格式 sed [option] 'command' file(s)  脚本格式 sed -f scriptfile file(s)  sed 命令 p 打印命令 -n 只打印匹配的行  定位一行 sed -n '2p' test.txt 定位多行 sed -n '2,5p' test.txt // (2和5也可以用正则代替) 定位反向选择 sed -n '2,5!p' test.txt // 第2-5行不被选择 定位间隔几行 sed -n '2~2p' test.txt // 间隔输出  行命令  a （新增行）/ i（插入行） c（替代行） d（删除行）
-linux 用法 sed -n &quot;2a text2++&quot; test.txt sed -n &quot;2,5a text2++&quot; test.</div>
+    <div class="description">
+
+<h2 id="nginx是什么">Nginx是什么</h2>
+
+<p>nginx 是一个免费的，开源的，高性能HTTP服务器和反向代理，以及IMAP / POP3代理服务器。NGINX以其高性能，稳定性，丰富的功能集，简单的配置和低资源消耗而闻名。与传统服务器不同的是，Nginx不依赖线程来处理请求，它使用了更加可扩展的异步事件驱动的架构，因此与其他的服务器相比，Nginx可以使用很少的内存来同时处理上千个请求。</p>
+
+<p><a href="https://news.netcraft.com/archives/2019/08/15/august-2019-web-server-survey.html">netcraft</a>调查显示，到2019年8月nginx拥有超过31％的计算机市场份额，仅落后于Apache5.39%</p>
+
+<h2 id="nginx可以做什么">Nginx可以做什么</h2>
+
+<h4 id="1-基本http服务">1 基本HTTP服务</h4>
+
+<ul>
+<li>静态文件处理（如HTML静态网页），处理索引文件以及支持自动个索引</li>
+<li>打开并自行管理文件描述符缓存</li>
+<li>提供反向代理服务，并可以使用缓存加速反向代理，同时完成简单的负载均衡及容错</li>
+<li>提供缘层FastCGI服务缓存机制，加速访问，同时完成简单的负载均衡及容错</li>
+<li>过滤器功能，Nginx基本过滤器有：gzip压缩、ranges支持、chunked支持、XSTL、SSI、以及图像缩放等</li>
+
+<li><p>支持SSL</p>
+
+<h4 id="2-高级http服务">2 高级HTTP服务</h4></li>
+
+<li><p>基于名字和IP的虚拟主机设置</p></li>
+
+<li><p>支持HTTP/1.0中的KEEP-ALIVE模式和PipeLined模型连接</p></li>
+
+<li><p>支持重新加载配置及升级时无需中断正在处理的请求</p></li>
+
+<li><p>自定义日志格式、带缓存的日志写操作以及快速日志轮转</p></li>
+
+<li><p>提供3XX～5XX错误代码重定向功能</p></li>
+
+<li><p>支持HTTP DAV模块，从而为HTTP WEBDAV提供PUT、DELETE、MKCOL、COPY、以及MOVE方法</p></li>
+
+<li><p>支持FLV流和MP4传输</p></li>
+
+<li><p>支持网络监控，基于客户端IP地址和HTTP基本认证机制的访问控制，速率限制，来自同一IP的同时连接数或请求限制等</p></li>
+
+<li><p>支持Perl语言</p>
+
+<h4 id="邮件代理服务">邮件代理服务</h4></li>
+
+<li><p>使用外部HTTP认证服务器重定向 到用户的IMAP/POP3后端，并支持IMAP认证方式（LOGIN、AUTH LOGIN/PLAIN/CRAM-MD5）和POP3认证方式(USER/PASS、APOP、AUTH LOGIN/PLIAN/CRAM-MD5)</p></li>
+
+<li><p>使用外部HTTP认证服务器认证用户后重定向到内部STMP后端，并支持 STMP认证方式</p></li>
+
+<li><p>支持邮件代理服务下的安全套接层安全协议SSL</p></li>
+
+<li><p>支持纯文本通信协议的扩展协议STARTTLS</p>
+
+<h2 id="优点">优点</h2>
+
+<p>在Nginx之前市面上已经有Apache，tomcat，IIS等服务器
+与这些Web服务器相比，Nginx具有高并发，低内存消耗的优势，Nginx在处理静态文件方面比其他服务器要优秀很多。</p></li>
+</ul>
+
+<h2 id="nginx的rewrite功能">Nginx的Rewrite功能</h2>
+
+<pre><code>地址重写与地址转发
+</code></pre>
+
+<p>在ngx_http_rewrite_module中
+用法：</p>
+
+<pre><code>rewrite regex replacement [flag]
+</code></pre>
+
+<p>flag 为 last，break，redirect，permanent</p>
+
+<p>～ 大小写敏感
+～* 大小写不敏感</p>
+
+<p>nginx 缓存</p>
+
+<p>Proxy Store， Proxy Cache，基于memcache的缓存机制，
+Squid联合，第三方模块 ncache</p>
+
+<h2 id="nginx-内存分配">Nginx 内存分配</h2>
+
+<p>当申请的内存大于4kb（一页内存的大小）时，该内存空间可用于分配的最大内存数据块不能超过4KB</p>
+
+<p>Nginx服务器架构</p>
+</div>
     <div class="tags">
-      28 Jul 2019
-      
-        
-          <a href="https://kris0923.github.io/tags/linux/">#Linux</a>
-        
+      1 Sep 2019
        
     </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://kris0923.github.io/post/awk/">Linux 命令之 Awk</a></div>
     
-      <div class="categories">
-        
-          <a href="https://kris0923.github.io/categories/linux/">Linux</a>
-        
-      </div>
-     
-    <div class="description">awk 文本处理工具  可编程，功能强大 可以用来统计，制表等功能  处理方式  一次处理一行内容 可以对每行进行切片处理
-格式 命令行格式
-awk [options] 'command' file(s)  脚本格式
-awk -f script_file file(s)   内置参数  $0 当前整行 $1 每行第一个字段 $2 每行第二个字段 NR 行号 NF 字符总数 FILENAME 文件名 ARGC 命令行参数个数 ARGV 命令行参数数组   -F 指定分割符，默认空格
-awk -F ':' '{print $1,$3, NR}' test.txt // 以: 分割 awk -F ':' '{if ($3&gt;100) print &quot;This Msg&quot;}' test.txt  正则匹配 ～ ， 不匹配(！～) 打印第一个字符以m开头的 - BEGIN 行处理前执行 - END 行处理完成后执行 eg：文件夹大小求和  AWK 是一种程序设计语言，语法和C语言相似，把AWK命令写到脚本文件中可以完成更复杂的文本处理</div>
-    <div class="tags">
-      28 Jul 2019
-      
-        
-          <a href="https://kris0923.github.io/tags/linux/">#Linux</a>
-        
-       
-    </div>
   </div>
-
 
 </div>
 
-
 <paper-item>
   
-    <paper-fab disabled icon="chevron-left"></paper-fab>
+    <a href="https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%BA%8C/"><paper-fab icon="chevron-left"><a></a></paper-fab></a>
   
     <div class="flex"></div>
   
-    <paper-fab disabled icon="chevron-right"></paper-fab>
+    <a href="https://kris0923.github.io/post/laravel%E4%B8%AD%E9%97%B4%E4%BB%B6/"><paper-fab icon="chevron-right"></paper-fab></a>
   
 </paper-item>
-
 
       <paper-item>
         <div class="copyright"></div>
