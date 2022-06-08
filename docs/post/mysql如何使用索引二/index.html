@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.96.0 with theme even" />
+<meta name="generator" content="Hugo 0.94.2 with theme even" />
 
 
 <link rel="canonical" href="https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%BA%8C/" />
@@ -141,13 +141,12 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#1-where-子句中like-使用了前缀通配符-keyword">1. where 子句中like 使用了前缀通配符 %keyword</a></li>
+    <li><a href="#2--使用---not-in-范围查找或否定查找且范围查找时选择的边界查找条件范围过大">2.  使用&gt;, &gt;=, &lt;,&lt;=, !=,NOT IN 范围查找或否定查找,且范围查找时选择的边界查找条件范围过大</a></li>
+    <li><a href="#3-数据类型隐式转换">3. 数据类型隐式转换</a>
       <ul>
         <li>
           <ul>
-            <li><a href="#1-where-子句中like-使用了前缀通配符-keyword">1. where 子句中like 使用了前缀通配符 %keyword</a></li>
-            <li><a href="#2--使用---not-in-范围查找或否定查找且范围查找时选择的边界查找条件范围过大">2.  使用&gt;, &gt;=, &lt;,&lt;=, !=,NOT IN 范围查找或否定查找,且范围查找时选择的边界查找条件范围过大</a></li>
-            <li><a href="#3-数据类型隐式转换">3. 数据类型隐式转换</a></li>
             <li><a href="#4-不符合最左匹配原则联合索引">4. 不符合最左匹配原则（联合索引）</a></li>
             <li><a href="#6-在索引列上进行运算">6. 在索引列上进行运算</a></li>
           </ul>
@@ -162,7 +161,7 @@
       <blockquote>
 <p><a href="!https://blog.csdn.net/Magicio/article/details/88374896">上篇</a>介绍了MySql什么时候会尝试使用索引，本文介绍一下我了解的不会使用索引的情况, 仍然使用上次建立好的表</p>
 </blockquote>
-<h3 id="1-where-子句中like-使用了前缀通配符-keyword">1. where 子句中like 使用了前缀通配符 %keyword</h3>
+<h1 id="1-where-子句中like-使用了前缀通配符-keyword">1. where 子句中like 使用了前缀通配符 %keyword</h1>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -172,7 +171,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><img src="https://img-blog.csdnimg.cn/20190311093338834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="2--使用---not-in-范围查找或否定查找且范围查找时选择的边界查找条件范围过大">2.  使用&gt;, &gt;=, &lt;,&lt;=, !=,NOT IN 范围查找或否定查找,且范围查找时选择的边界查找条件范围过大</h3>
+<h1 id="2--使用---not-in-范围查找或否定查找且范围查找时选择的边界查找条件范围过大">2.  使用&gt;, &gt;=, &lt;,&lt;=, !=,NOT IN 范围查找或否定查找,且范围查找时选择的边界查找条件范围过大</h1>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -195,7 +194,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p><img src="https://img-blog.csdnimg.cn/2019031109342113.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="3-数据类型隐式转换">3. 数据类型隐式转换</h3>
+<h1 id="3-数据类型隐式转换">3. 数据类型隐式转换</h1>
 <p>例如：name字段为varchar类型的</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.96.0 with theme even" />
+<meta name="generator" content="Hugo 0.94.2 with theme even" />
 
 
 <link rel="canonical" href="https://kris0923.github.io/" />
@@ -120,6 +120,27 @@
       <div class="content-wrapper">
         <div id="content" class="content">
           <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/apue/thread/">【APUE】线程控制</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-05-12 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"> 读书笔记 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      在UNIX系统中，线程提供了分解并发任务的另一种模型 线程终止 单个线程可以通过3种方式退出： 简单的从单个启动例程中返回，返回值是线程的退出码 线
+    </div>
+    <div class="read-more">
+      <a href="/post/apue/thread/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
     <article class="post">
   <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/redis/">Redis数据过期策略</a></h1>
@@ -221,6 +242,90 @@
     </div>
     <div class="read-more">
       <a href="/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%B8%80/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/sed/">Linux命令之sed</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-07-28 </span>
+      <div class="post-category">
+          <a href="/categories/linux/"> Linux </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      sed 流处理编辑器 行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向） 命令行格式 sed [option] 'command' file(s) 脚本格式 sed -f scriptfile file(s) sed 命令 p
+    </div>
+    <div class="read-more">
+      <a href="/post/sed/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/awk/">Linux 命令之 Awk</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-07-28 </span>
+      <div class="post-category">
+          <a href="/categories/linux/"> Linux </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      awk 文本处理工具 可编程，功能强大 可以用来统计，制表等功能 处理方式 一次处理一行内容 可以对每行进行切片处理 格式 命令行格式 1 awk [options] &#39;command&#39; file(s) 脚本格式 1 awk -f script_file
+    </div>
+    <div class="read-more">
+      <a href="/post/awk/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">设计模式之命令模式</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-07-27 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      定义 将“请求”封装成命令对象，以便使用不同的请求，队列或者日志来参数化其他对象。命令模式也支持可撤销的操做。 适用场景 当需要将发出请求的对象和
+    </div>
+    <div class="read-more">
+      <a href="/post/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/">如何构建并发系统</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-07-17 </span>
+      <div class="post-category">
+          <a href="/categories/go/"> go </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      本文简单说明几个设计并发系统时需要考虑的问题，内容摘抄自《GO语言并发之道》 异常传递 异常是什么，什么时候发生，提供了哪些好处 首先，异常需要传
+    </div>
+    <div class="read-more">
+      <a href="/post/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>

@@ -7,12 +7,12 @@ tags: ["MySql"]
 ---
 > [上篇](!https://blog.csdn.net/Magicio/article/details/88374896)介绍了MySql什么时候会尝试使用索引，本文介绍一下我了解的不会使用索引的情况, 仍然使用上次建立好的表
 
-### 1. where 子句中like 使用了前缀通配符 %keyword
+# 1. where 子句中like 使用了前缀通配符 %keyword
 ```SQL
  select * from test_user where name like "%Kiven%";
 ```
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190311093338834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70)
-### 2.  使用>, >=, <,<=, !=,NOT IN 范围查找或否定查找,且范围查找时选择的边界查找条件范围过大
+# 2.  使用>, >=, <,<=, !=,NOT IN 范围查找或否定查找,且范围查找时选择的边界查找条件范围过大
 ```SQL
 select * from test_user where height>=180
 # 不会使用索引
@@ -23,7 +23,7 @@ select * from test_user where height>=190
 # 会使用索引
 ```
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2019031109342113.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70)
-### 3. 数据类型隐式转换
+# 3. 数据类型隐式转换
 例如：name字段为varchar类型的
 ```SQL
 select * from test_user where name=1

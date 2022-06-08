@@ -8,7 +8,7 @@ tags: ["Laravel"]
 
 Laravel的中间件提供了一种方便的机制过滤进入应用程序的 HTTP 请求，并且Laravel自带了一些中间件包括身份验证、CSRF保护、COOKIE加密解密等，使用非常方便。那么Laravel中“中间件”是怎么实现的，为什么只需要简单修改几个配置就能试中间件生效，中间件的执行顺序又是怎样的呢。出于对这些问题的好奇，我阅读了一下Laravel中间件的实现相关源码。
 
-### **\Illuminate\Pipeline\Pipeline** - 实现中间件的核心类
+> **\Illuminate\Pipeline\Pipeline** - 实现中间件的核心类
 
 在介绍Pipeline这个类之前，我们先简单浏览一下Laravel应用程序的[生命周期](https://learnku.com/docs/laravel/5.8/lifecycle/3885#lifecycle-overview)。接下里我一步一步的说明如何实例化Pipeline方法的。
 

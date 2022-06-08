@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>APUE on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+    <link>https://kris0923.github.io/tags/apue/</link>
+    <description>Recent content in APUE on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 12 May 2022 22:16:13 +0800</lastBuildDate><atom:link href="https://kris0923.github.io/tags/apue/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【APUE】线程控制</title>
+      <link>https://kris0923.github.io/post/apue/thread/</link>
+      <pubDate>Thu, 12 May 2022 22:16:13 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/apue/thread/</guid>
+      <description>在UNIX系统中，线程提供了分解并发任务的另一种模型 线程终止 单个线程可以通过3种方式退出： 简单的从单个启动例程中返回，返回值是线程的退出码 线</description>
+    </item>
+    
+  </channel>
+</rss>

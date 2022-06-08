@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>【APUE】线程控制 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chengxiaotian" /><meta name="description" content="在UNIX系统中，线程提供了分解并发任务的另一种模型 线程终止 单个线程可以通过3种方式退出： 简单的从单个启动例程中返回，返回值是线程的退出码 线" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.94.2 with theme even" />
+
+
+<link rel="canonical" href="https://kris0923.github.io/post/apue/thread/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="【APUE】线程控制" />
+<meta property="og:description" content="在UNIX系统中，线程提供了分解并发任务的另一种模型 线程终止 单个线程可以通过3种方式退出： 简单的从单个启动例程中返回，返回值是线程的退出码 线" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kris0923.github.io/post/apue/thread/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-05-12T22:16:13+08:00" />
+<meta property="article:modified_time" content="2022-05-12T22:16:13+08:00" />
+
+<meta itemprop="name" content="【APUE】线程控制">
+<meta itemprop="description" content="在UNIX系统中，线程提供了分解并发任务的另一种模型 线程终止 单个线程可以通过3种方式退出： 简单的从单个启动例程中返回，返回值是线程的退出码 线"><meta itemprop="datePublished" content="2022-05-12T22:16:13+08:00" />
+<meta itemprop="dateModified" content="2022-05-12T22:16:13+08:00" />
+<meta itemprop="wordCount" content="963">
+<meta itemprop="keywords" content="APUE,Linux," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="【APUE】线程控制"/>
+<meta name="twitter:description" content="在UNIX系统中，线程提供了分解并发任务的另一种模型 线程终止 单个线程可以通过3种方式退出： 简单的从单个启动例程中返回，返回值是线程的退出码 线"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">指北针</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">指北针</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">【APUE】线程控制</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-05-12 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"> 读书笔记 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#线程终止">线程终止</a></li>
+        <li><a href="#线程同步">线程同步</a>
+          <ul>
+            <li><a href="#避免死锁">避免死锁</a></li>
+            <li><a href="#读写锁">读写锁</a></li>
+            <li><a href="#自旋锁">自旋锁</a></li>
+            <li><a href="#屏障barrier">屏障（barrier）</a></li>
+          </ul>
+        </li>
+        <li><a href="#线程控制">线程控制</a></li>
+        <li><a href="#重入">重入</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#线程特定数据线程私有数据">线程特定数据（线程私有数据）</a></li>
+        <li><a href="#线程和信号">线程和信号</a></li>
+        <li><a href="#线程和fork">线程和fork</a></li>
+        <li><a href="#线程和io">线程和I/O</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>在UNIX系统中，线程提供了分解并发任务的另一种模型</p>
+<h2 id="线程终止">线程终止</h2>
+<p>单个线程可以通过3种方式退出：</p>
+<ul>
+<li>简单的从单个启动例程中返回，返回值是线程的退出码</li>
+<li>线程可以被同一进程中的其他线程取消 int pthread_cancel(pthread_t tid)</li>
+<li>线程调用pthread_exit
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#include &lt;pthread.h&gt;
+</span></span><span class="line"><span class="cl">void pthread_exit(void *rval_ptr);
+</span></span><span class="line"><span class="cl">void pthread_join(pthread_t thread, void **rval_ptr)  // 访问线程返回的指针
+</span></span></code></pre></td></tr></table>
+</div>
+</div>分配在栈上的变量作为pthread_exit的参数时，其他线程在使用该变量的时候栈上的内容可能已经被更改或撤销，导致程序报错或者访问到错误的数据</li>
+</ul>
+<h2 id="线程同步">线程同步</h2>
+<p>为了保证每个线程看到一致的数据视图，需要使用<strong>互斥量</strong>来保证同一时间只有一个线程访问数据</p>
+<p>当一个以上的线程需要访问动态分配的对象时，可以在对象中嵌入<strong>引用计数</strong></p>
+<h3 id="避免死锁">避免死锁</h3>
+<ul>
+<li>使所有的线程都以相同的顺序加锁</li>
+<li>当程序结构复杂时，对互斥量排序比较困难，就需要先释放占有的锁，过一段时间再试</li>
+</ul>
+<h3 id="读写锁">读写锁</h3>
+<h4 id="三种状态">三种状态</h4>
+<ul>
+<li>读模式加锁；写模式加锁；不加锁</li>
+</ul>
+<blockquote>
+<p>当读写锁时写加锁状态时，所有试图对这个锁加锁的线程都会被阻塞；当读模式加锁状态时，所有读模式加锁都可以得到访问权，但是写模式加锁的线程都会阻塞；当有线程试图进行写模式加锁时，之后所有的读模式加锁都会被阻塞。</p>
+</blockquote>
+<h3 id="自旋锁">自旋锁</h3>
+<blockquote>
+<p>在获取锁之前一直处于忙等阻塞的状态，适用于：锁被持有的时间短，线程不希望在重新调度上花费太多的成本；在非抢占式内核中非常有用，在用户程序中并不是非常有用</p>
+</blockquote>
+<h3 id="屏障barrier">屏障（barrier）</h3>
+<p>允许某个线程等待，直到所有的合作线程都到达某一点（所有等待的线程都完成工作），然乎从该点继续执行；</p>
+<h2 id="线程控制">线程控制</h2>
+<ul>
+<li>一个进程可以创建的最大线程数没有确定的限制，但并不是说没有限制；</li>
+<li>互斥量属性控制同一线程是否可以对一个互斥量多次加锁</li>
+</ul>
+<h2 id="重入">重入</h2>
+<p>在多任务环境中，一个函数可以在任何时刻中断它，转入OS调度下去执行另外一段代码，而返回控制时不会出现任何错误；</p>
+<h4 id="线程安全">线程安全</h4>
+<ul>
+<li>如果要一个函数在同一时间点可以被多个线程安全的调用，称该函数是线程安全的</li>
+<li>如果一个函数对多个线程来说是可重入的，就说这个函数是线程安全的</li>
+</ul>
+<h2 id="线程特定数据线程私有数据">线程特定数据（线程私有数据）</h2>
+<p>查询或存储某个特定线程相关数据的一种机制，，防止某个线程数据于其他线程数据混淆，提供了让基于进程的接口适应多线程环境的机制</p>
+<h2 id="线程和信号">线程和信号</h2>
+<p>一个进程中的信号处理是所有线程共享的</p>
+<h2 id="线程和fork">线程和fork</h2>
+<p>子进程和父进程都没有对内存内容作出改动时，子进程和父进程共享内存页的副本</p>
+<h2 id="线程和io">线程和I/O</h2>
+<p>进程中所有线程共享文件描述符，文件读取可以使用原子操作</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">chengxiaotian</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2022-05-12
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/apue/">APUE</a>
+          <a href="/tags/linux/">Linux</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/redis/">
+            <span class="next-text nav-default">Redis数据过期策略</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+  <a href="https://kris0923.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>chengxiaotian</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

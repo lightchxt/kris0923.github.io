@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.96.0 with theme even" />
+<meta name="generator" content="Hugo 0.94.2 with theme even" />
 
 
 <link rel="canonical" href="https://kris0923.github.io/post/sed/" />
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Linux命令之sed">
 <meta itemprop="description" content="sed 流处理编辑器 行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向） 命令行格式 sed [option] &#39;command&#39; file(s) 脚本格式 sed -f scriptfile file(s) sed 命令 p"><meta itemprop="datePublished" content="2019-07-28T21:09:34+08:00" />
 <meta itemprop="dateModified" content="2019-07-28T21:09:34+08:00" />
-<meta itemprop="wordCount" content="673">
+<meta itemprop="wordCount" content="672">
 <meta itemprop="keywords" content="Linux," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux命令之sed"/>
 <meta name="twitter:description" content="sed 流处理编辑器 行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向） 命令行格式 sed [option] &#39;command&#39; file(s) 脚本格式 sed -f scriptfile file(s) sed 命令 p"/>
@@ -141,13 +141,18 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#sed-流处理编辑器">sed 流处理编辑器</a>
       <ul>
-        <li><a href="#sed-流处理编辑器">sed 流处理编辑器</a>
+        <li><a href="#命令行格式">命令行格式</a></li>
+        <li><a href="#脚本格式">脚本格式</a></li>
+        <li><a href="#sed-命令">sed 命令</a>
           <ul>
-            <li></li>
+            <li><a href="#p-打印命令">p 打印命令</a></li>
+            <li><a href="#行命令">行命令</a></li>
+            <li><a href="#替换命令-s---sed命令的核心">替换命令 s - sed命令的核心</a></li>
           </ul>
         </li>
+        <li><a href="#sed高级命令">sed高级命令</a></li>
       </ul>
     </li>
   </ul>
@@ -155,19 +160,19 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="sed-流处理编辑器">sed 流处理编辑器</h2>
+      <h1 id="sed-流处理编辑器">sed 流处理编辑器</h1>
 <ul>
 <li>行处理一次只处理一行数据 （sed处理文件内容的核心思想）</li>
 <li>不改变文件内容（除非重定向）</li>
 </ul>
-<h5 id="命令行格式">命令行格式</h5>
+<h2 id="命令行格式">命令行格式</h2>
 <pre><code>sed [option] 'command' file(s)
 </code></pre>
-<h5 id="脚本格式">脚本格式</h5>
+<h2 id="脚本格式">脚本格式</h2>
 <pre><code>sed -f scriptfile file(s)
 </code></pre>
-<h5 id="sed-命令">sed 命令</h5>
-<h6 id="p-打印命令">p 打印命令</h6>
+<h2 id="sed-命令">sed 命令</h2>
+<h3 id="p-打印命令">p 打印命令</h3>
 <pre><code>-n 只打印匹配的行
 </code></pre>
 <div class="highlight"><div class="chroma">
@@ -194,7 +199,7 @@
 </span></span><span class="line"><span class="cl">	sed -n &#39;2~2p&#39; test.txt // 间隔输出 
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h6 id="行命令">行命令</h6>
+</div><h3 id="行命令">行命令</h3>
 <ul>
 <li>a （新增行）/ i（插入行）</li>
 <li>c（替代行）</li>
@@ -234,7 +239,7 @@
 </span></span><span class="line"><span class="cl">&#34; test.txt
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h6 id="替换命令-s---sed命令的核心">替换命令 s - sed命令的核心</h6>
+</div><h3 id="替换命令-s---sed命令的核心">替换命令 s - sed命令的核心</h3>
 <p>基本命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -263,10 +268,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><img src="https://img-blog.csdnimg.cn/20190310100020804.png" alt="在这里插入图片描述"></p>
-<h4 id="sed高级命令">sed高级命令</h4>
-<blockquote>
+<h2 id="sed高级命令">sed高级命令</h2>
 <p>假设有如下文本 test.txt</p>
-</blockquote>
 <p><img src="https://img-blog.csdnimg.cn/20190310093056404.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ul>
 <li>{} : 多个sed命令，用;分开</li>
@@ -360,15 +363,10 @@
 </blockquote>
 <p><img src="https://img-blog.csdnimg.cn/20190310211331445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">
 <img src="https://img-blog.csdnimg.cn/20190310211435499.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">把test.txt文件内容写到123.txt中，如果需要指定行，在w前加行号
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong>attention： w 会改写文件，使用是应慎重</strong></p>
+<p>把test.txt文件内容写到123.txt中，如果需要指定行，在w前加行号</p>
+<blockquote>
+<p><strong>attention： w 会改写文件，使用是应慎重</strong></p>
+</blockquote>
 <p><img src="https://img-blog.csdnimg.cn/20190310211824916.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ul>
 <li>q 退出sed</li>

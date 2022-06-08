@@ -2,15 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kris0923.github.io/tags/apue/</loc>
+    <lastmod>2022-05-12T22:16:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://kris0923.github.io/categories/</loc>
-    <lastmod>2022-03-29T23:06:11+08:00</lastmod>
+    <lastmod>2022-05-12T22:16:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kris0923.github.io/tags/linux/</loc>
+    <lastmod>2022-05-12T22:16:13+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://kris0923.github.io/post/</loc>
-    <lastmod>2022-03-29T23:06:11+08:00</lastmod>
+    <lastmod>2022-05-12T22:16:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kris0923.github.io/tags/</loc>
+    <lastmod>2022-05-12T22:16:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kris0923.github.io/post/apue/thread/</loc>
+    <lastmod>2022-05-12T22:16:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kris0923.github.io/</loc>
+    <lastmod>2022-05-12T22:16:13+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kris0923.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2022-05-12T22:16:13+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -24,20 +66,6 @@
   
   <url>
     <loc>https://kris0923.github.io/post/redis/</loc>
-    <lastmod>2022-03-29T23:06:11+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kris0923.github.io/tags/</loc>
-    <lastmod>2022-03-29T23:06:11+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kris0923.github.io/</loc>
     <lastmod>2022-03-29T23:06:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -109,13 +137,6 @@
   <url>
     <loc>https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%B8%80/</loc>
     <lastmod>2019-07-28T21:10:51+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kris0923.github.io/tags/linux/</loc>
-    <lastmod>2019-07-28T21:09:34+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

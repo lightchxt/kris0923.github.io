@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.96.0 with theme even" />
+<meta name="generator" content="Hugo 0.94.2 with theme even" />
 
 
 <link rel="canonical" href="https://kris0923.github.io/post/laravel%E4%B8%AD%E9%97%B4%E4%BB%B6/" />
@@ -139,24 +139,14 @@
     <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#illuminatepipelinepipeline---实现中间件的核心类"><strong>\Illuminate\Pipeline\Pipeline</strong> - 实现中间件的核心类</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    <nav id="TableOfContents"></nav>
   </div>
 </div>
     <div class="post-content">
       <p>Laravel的中间件提供了一种方便的机制过滤进入应用程序的 HTTP 请求，并且Laravel自带了一些中间件包括身份验证、CSRF保护、COOKIE加密解密等，使用非常方便。那么Laravel中“中间件”是怎么实现的，为什么只需要简单修改几个配置就能试中间件生效，中间件的执行顺序又是怎样的呢。出于对这些问题的好奇，我阅读了一下Laravel中间件的实现相关源码。</p>
-<h3 id="illuminatepipelinepipeline---实现中间件的核心类"><strong>\Illuminate\Pipeline\Pipeline</strong> - 实现中间件的核心类</h3>
+<blockquote>
+<p><strong>\Illuminate\Pipeline\Pipeline</strong> - 实现中间件的核心类</p>
+</blockquote>
 <p>在介绍Pipeline这个类之前，我们先简单浏览一下Laravel应用程序的<a href="https://learnku.com/docs/laravel/5.8/lifecycle/3885#lifecycle-overview">生命周期</a>。接下里我一步一步的说明如何实例化Pipeline方法的。</p>
 <ol>
 <li>在入口文件index.php只有几行代码</li>

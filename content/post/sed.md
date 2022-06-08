@@ -7,17 +7,17 @@ tags: ["Linux"]
 ---
 
 
-## sed 流处理编辑器
+# sed 流处理编辑器
 - 行处理一次只处理一行数据 （sed处理文件内容的核心思想）
 - 不改变文件内容（除非重定向）
 
-##### 命令行格式
+## 命令行格式
 	sed [option] 'command' file(s)
-##### 脚本格式
+## 脚本格式
 	sed -f scriptfile file(s)
 
-##### sed 命令
-###### p 打印命令
+## sed 命令
+### p 打印命令
 
  	-n 只打印匹配的行
 ```
@@ -31,7 +31,7 @@ tags: ["Linux"]
 定位间隔几行
 	sed -n '2~2p' test.txt // 间隔输出 
 ```
-###### 行命令 
+### 行命令 
 - a （新增行）/ i（插入行）
 - c（替代行）
 - d（删除行）
@@ -52,7 +52,7 @@ sed -n "2,5a \
 text2++
 " test.txt
 ```
-###### 替换命令 s - sed命令的核心
+### 替换命令 s - sed命令的核心
 基本命令
 ```
 sed 's/search/replace' filename （每行替换一次）
@@ -66,8 +66,8 @@ eg:获取本机IP地址
 ifconfig en0 | sed -n '/inet /p' | sed 's/inet //' | sed 's/netmask.*$//'
 ```
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190310100020804.png)
-#### sed高级命令
->  假设有如下文本 test.txt
+## sed高级命令
+ 假设有如下文本 test.txt
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190310093056404.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70)
 
@@ -116,10 +116,10 @@ ifconfig en0 | sed -n '/inet /p' | sed 's/inet \([0-9.]\+\) .*$/\1/'
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190310211331445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190310211435499.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70)
-```
+
 把test.txt文件内容写到123.txt中，如果需要指定行，在w前加行号
-```
- **attention： w 会改写文件，使用是应慎重**
+
+> **attention： w 会改写文件，使用是应慎重**
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190310211824916.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01hZ2ljaW8=,size_16,color_FFFFFF,t_70)
 
