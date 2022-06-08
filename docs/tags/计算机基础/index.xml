@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>计算机基础 on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
@@ -6,38 +6,14 @@
     <description>Recent content in 计算机基础 on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 17 Jul 2019 22:50:45 +0000</lastBuildDate>
-    
-	<atom:link href="https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>计算机组成</title>
-      <link>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/</link>
-      <pubDate>Wed, 17 Jul 2019 22:50:45 +0000</pubDate>
-      
-      <guid>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/</guid>
-      <description> 运算器 控制器 存储器 输入输出设备  </description>
-    </item>
-    
+    <lastBuildDate>Wed, 17 Jul 2019 12:18:45 +0000</lastBuildDate><atom:link href="https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>校验码</title>
       <link>https://kris0923.github.io/post/%E6%A0%A1%E9%AA%8C%E7%A0%81/</link>
       <pubDate>Wed, 17 Jul 2019 12:18:45 +0000</pubDate>
       
       <guid>https://kris0923.github.io/post/%E6%A0%A1%E9%AA%8C%E7%A0%81/</guid>
-      <description> 为了保证计算机系统运行时数据在传输过程中正确无误，提高硬件电路的可靠性和提高代码的校验能力,通常使用校验码来检测传输数据是否出错，常用的3种校验码：
-1. 奇偶校验  专门设置一个奇偶校验位来保证发出数据中的1的个数是奇数（或者偶数)， 缺点:只能发现有奇数个位出错的情况，不能发现有偶数个位出错的情况
-2. 海明码校验 在数据的特定位置上插入 k 个校验位,假设原来的数据有n位，这样编码后的数据有n+k位，数据就会有n+k位出错和一种正确情况，所以k应该满足： 2^k - 1 &amp;gt;= n+k
- 检验码的位置都在数据的2^m位上
- 校验码的每一个值可以表示一位数据是否正确
- 将每个海明码出现的位置做异或运算，得到的结果就是出错的位置-进行取反操作
-3. 循环冗余码校验 广泛用于数据通信领域和磁介质存储系统中.
-循环冗余校验码原理： 发送端和接收端共同设置一个除数（生成多项式），通常最高位和最低位都是1，或者公式 G(x) = 2^x + 2^(x-1) + 1
- 在原数据后面添加n个校验位，n=除数的位数 -1 (校验位上存的是余数，所以不会比除数大)
- 发送端用原数据补充n-1个0后，对多项式进行模2运算，将余数放到校验位上
- 接收端用接收到的数据和多项式也进行模2运算，如果余数伟0，则数据正确，否则数据错误，需要发送端重传
-  </description>
+      <description>为了保证计算机系统运行时数据在传输过程中正确无误，提高硬件电路的可靠性和提高代码的校验能力,通常使用校验码来检测传输数据是否出错，常用的3种</description>
     </item>
     
   </channel>

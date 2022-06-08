@@ -1,285 +1,234 @@
-
-<!doctype html>
-<html lang="zh-cn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-  <title>php</title>
-  <script src="https://kris0923.github.io/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="https://kris0923.github.io/bower_components/iron-icons/iron-icons.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-drawer-panel/paper-drawer-panel.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-icon-button/paper-icon-button.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-toolbar/paper-toolbar.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-fab/paper-fab.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-item/paper-item.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-menu/paper-menu.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/iron-image/iron-image.html">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
-  <style is="custom-style">
-    body {
-      font-family: 'Roboto', sans-serif;
-    }
-    .nav {
-      border-right: 1px solid #ccc;
-    }
-    
-    paper-scroll-header-panel {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: var(--paper-grey-200, #eee);
-       
-      --paper-scroll-header-panel-full-header: {
-        background-image: url(https://kris0923.github.io/images/cover.png);
-      };
-       
-      --paper-scroll-header-panel-condensed-header: {
-        background-image: url(https://kris0923.github.io/images/cover.png);
-      };
-    }
-    
-    paper-toolbar {
-       
-      height: 256px;
-      background-color: transparent;
-    }
-    .profile{
-      width: 100%;
-      padding-bottom: 20px;
-    }
-    .photo{
-      margin: 20px;
-      display: inline-block;
-      height: 64px; width: 64px;
-      border-radius: 50%;
-    }
-    .article{
-      border: 1px solid #bebebe;
-      padding: 16px;
-      margin: 16px;
-      border-radius: 5px;
-      background-color: #fff;
-    }
-    .title{
-      font-size: 22px;
-      padding: 8px 0 16px;
-    }
-    .description{
-      font-size: 16px;
-      padding-bottom: 8px;
-    }
-    .author{
-      font-size: 16px;
-      padding-left: 20px;
-      color: white;
-    }
-    .design{
-      font-size: 14px;
-    }
-    .copyright{
-      font-size: 16px;
-    }
-    paper-menu a {
-      text-decoration: none;
-      color: #212121;
-    }
-  </style>
+  <title>php · 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chengxiaotian" /><meta name="description" content="Hugo theme even example site." /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.96.0 with theme even" />
+
+
+<link rel="canonical" href="https://kris0923.github.io/categories/php/" />
+  <link href="https://kris0923.github.io/categories/php/index.xml" rel="alternate" type="application/rss+xml" title="地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非" />
+  <link href="https://kris0923.github.io/categories/php/index.xml" rel="feed" type="application/rss+xml" title="地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="php" />
+<meta property="og:description" content="Hugo theme even example site." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://kris0923.github.io/categories/php/" />
+
+<meta itemprop="name" content="php">
+<meta itemprop="description" content="Hugo theme even example site."><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="php"/>
+<meta name="twitter:description" content="Hugo theme even example site."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
 
 </head>
 <body>
-  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
-    <div class="nav scroll" drawer>
-    
-      <iron-image class="profile" sizing="cover" src="https://kris0923.github.io/images/profile.png">
-    
-        
-          <iron-image class="photo" sizing="cover" src="https://kris0923.github.io/images/logo.jpeg"></iron-image>
-        
-          <div class="author">magicio</div>
-      </iron-image>
-      <paper-menu>
-        <a href="https://kris0923.github.io"><paper-item>
-          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-        <a href="https://kris0923.github.io/categories/"><paper-item>
-          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-        <a href="https://kris0923.github.io/tags/"><paper-item>
-          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-      </paper-menu>
-    </div>
-
-    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
-
-      <paper-toolbar>
-
-        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-        <div class="bottom title">地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</div>
-        <div class="flex"></div>
-        
-        
-        
-        
-        
-          <a href="https://github.com/kris0923"><paper-icon-button src="https://kris0923.github.io/images/github2-dreamstale35.png"></paper-icon-button></a>
-        
-          <a href="https://kris0923.github.io/index.xml"><paper-icon-button src="https://kris0923.github.io/images/feed-dreamstale27.png"></paper-icon-button></a>
-      
-      </paper-toolbar>
-
-
-
-<div class="content">
-
-
-  <div class="article">
-    <div class="title"><a href="https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/">Laravel Facades 门面模式的实现</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://kris0923.github.io/categories/php/">php</a>
-        
-          <a href="https://kris0923.github.io/categories/laravel/">laravel</a>
-        
-      </div>
-     
-    <div class="description">以下是Laravel官方文档的介绍
- Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，拥有简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和灵活性。
-从介绍中可以看出，Facades 好处就是让代码更加简介，优雅，这也是Laravel追求的特性，如何使用Facades这里就不介绍了，可以参考Laravel文档(中文) ，本文介绍一下Facades是如何知道和创建你需要的类实例。
-以 log Facade 为例，我们看下是如何通过log这个字符串找到 \Illuminate\Log\Writer 这个类的 先看 \Illuminate\Support\Facades\Log 门面
-class Log extends Facade { /** * Get the registered name of the component. * * @return string */ protected static function getFacadeAccessor() { return 'log'; } }  这个类非常简单，只有一个静态方法 getFacadeAccessor(), 返回了一个log字符串。 然后看Log的父类 Facade, Facede中有很多方法，这里关注其中两个：
-abstract class Facade { /** * The application instance being facaded. * * @var \Illuminate\Contracts\Foundation\Application */ protected static $app; /** * The resolved object instances.</div>
-    <div class="tags">
-      17 Jul 2019
-      
-        
-          <a href="https://kris0923.github.io/tags/php/">#php</a>
-        
-          <a href="https://kris0923.github.io/tags/laravel/">#laravel</a>
-        
-       
-    </div>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">指北针</a>
   </div>
-
-  <div class="article">
-    <div class="title"><a href="https://kris0923.github.io/post/php5%E4%B8%8Ephp7%E7%9A%84zval%E6%AF%94%E8%BE%83/">PHP5与PHP7的zval比较</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://kris0923.github.io/categories/php/">php</a>
-        
-      </div>
-     
-    <div class="description">PHP5中zval定义 struct _zval struct { zvalue_value value; // 16 zend_unit refcount_gc; // 4字节 引用计数 zend_uchar type; // 1 zend_uchar is_ref__gc; // 1 是否为引用类型 } typedef union _avalue_value { long lval; // 8 double dval; // 8 struct { char *val; int len; } str; // 16 HashTable *ht; // HashTable 数组 8 zend_object_value obj; // 12 zend_ast * ast; // 8 } zvalue_value;  为了解决*循环引用问题*，PHP5.3之后通过重写分配zval的宏，对zval进行扩充，新的分配方式：
-#undef ALLOC_ZVAL #define ALLOC_ZVAL (z) do { (z) = (zval*) emalloc (sizeof(zval_gc_info)); GC_ZVAL_INT (z); } while(0) // _zval_gc_info 结构如下： typedef struct _zval_gc_info { zval z; union { gc_root_buffer *buffer; struct _zval_gc_info *next; } }  除此之外，在开启Zend内存池的情况下，zval_gc_info 在内存池中分配，内存池会为每个zval_gc_info额外申请一个大小为16字节的zend_mm_block结构体，用来存放内存相关信息，zend_mm_block结构如下：</div>
-    <div class="tags">
-      17 Jul 2019
-      
-        
-          <a href="https://kris0923.github.io/tags/php/">#php</a>
-        
-       
-    </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
 
-  <div class="article">
-    <div class="title"><a href="https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%B8%80/">PHP 内核分析笔记（一）单进程SAPI生命周期</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://kris0923.github.io/categories/php/">php</a>
-        
-      </div>
-     
-    <div class="description">http://www.php-internals.com/images/book/chapt02/02-00-php-
-单进程SAPI生命周期 :start php -f test.php call each extension`s MINIT (模块初始化阶段，调用所有模块的MINIT函数) Request test.php call each extension`s RINIT (调用所有模块的RINIT函数) Execute test.php call each extension`s RSHUTDOWM Finsh cleaning up after test.php call each extension`s MSHUTDOWM （Web服务器退出或者命令行脚本执行完毕退出） terminate test.php :end  启动 模块初始化阶段  初始化若干全局变量 初始化若干常量，这里的常量是PHP自己的一些常量，如PHP_VERSION 初始化Zend引擎和核心组件 解析php.ini 全局操作函数的初始化 初始化静态构建的模块和共享模块(MINIT) 禁用函数和类 php_disable_functions, 其禁用的过程是调用zend_disable_function函数将指定的函数名从CG(function_table)函数表中删除,php_disable_classes,将指定的类名从CG(class_table)类表中删除  ACTIVATION  激活Zend引擎 激活SAPI 环境初始化 这里的环境初始化是指在用户空间中需要用到的一些环境变量初始化，这里的环境包括服务器环境、请求数据环境等。 实际到我们用到的变量，就是$_POST、$_GET、$_COOKIE、$_SERVER、$_ENV、$_FILES。 和sapi_module.default_post_reader一样，sapi_module.treat_data的值也是在模块初始化时， 通过php_startup_sapi_content_types函数注册了默认数据处理函数为main/php_variables.c文件中php_default_treat_data函数 模块请求初始化 (Call each extension&rsquo;s RINIT)
-运行 php_execute_script 函数包含了运行PHP脚本的全部过程
-DEACTIVATION PHP关闭请求的过程是一个若干个关闭操作的集合，这个集合存在于php_request_shutdown函数中</div>
-    <div class="tags">
-      1 Jan 0001
-      
-        
-          <a href="https://kris0923.github.io/tags/php/">#php</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%BA%8C/">PHP 内核分析笔记（二）多进程与多线程SAPI生命周期</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://kris0923.github.io/categories/php/">php</a>
-        
-      </div>
-     
-    <div class="description"> 多进程SAPI生命周期 以Apache为例，PHP编译为apache的一个模块来处理php请求，Apache启动后会fork多个进程，每个进程拥有独立的内存空间，单独处理php请求，所以每个子进程都是完整的生命周期 多线程的SAPI生命周期 同一组线程只有一个模块初始化和销毁的过程 </div>
-    <div class="tags">
-      1 Jan 0001
-      
-        
-          <a href="https://kris0923.github.io/tags/php/">#php</a>
-        
-       
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="title"><a href="https://kris0923.github.io/post/php-summarize/">PHP 知识总结（一）</a></div>
-    
-      <div class="categories">
-        
-          <a href="https://kris0923.github.io/categories/php/">php</a>
-        
-      </div>
-     
-    <div class="description">语法基础 变量类型  boolean integet float
-# 判断是否是一个数值类型 bool is_nan(float $val)  string
-// 字符串转数值 //如果 字符串中包含 '.', 'e'或者'E' 转换为float，其余转为 int  Array
-// 数组的key只能是int 或string 合法的整型字符串会被转成int，例如：&quot;8&quot;，&quot;08&quot;不会，因为08不是合法的十进制数 浮点数也会被转换为整型，意味着其小数部分会被舍去。例如键名 8.7 实际会被储存为 8。 布尔值也会被转换成整型。即键名 true 实际会被储存为 1 而键名 false 会被储存为 0。 Null 会被转换为空字符串，即键名 null 实际会被储存为 &quot;&quot;。 数组和对象不能被用为键名。坚持这么做会导致警告：Illegal offset type 默认键： 当前最大整数索引值加1 // 其他类型转为数组 $a = array($a); or $a = (array) $a; 如果一个 object 类型转换为 array，则结果为一个数组，其单元为该对象的属性。键名将为成员变量名，不过有几点例外：整数属性不可访问；私有变量前会加上类名作前缀；保护变量前会加上一个 '*' 做前缀。这些前缀的前后都各有一个 NULL 字符。这会导致一些不可预知的行为： class A { private $A; // This will become '\0A\0A' } class B extends A { private $A; // This will become '\0B\0A' public $AA; // This will become 'AA' } var_dump((array) new B()); //上例会有两个键名为 'AA'，不过其中一个实际上是 '\0A\0A'  Object</div>
-    <div class="tags">
-      1 Jan 0001
-      
-        
-          <a href="https://kris0923.github.io/tags/php/">#php</a>
-        
-       
-    </div>
-  </div>
+  
 
 
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">指北针</a>
 </div>
 
 
-<paper-item>
-  
-    <paper-fab disabled icon="chevron-left"></paper-fab>
-  
-    <div class="flex"></div>
-  
-    <paper-fab disabled icon="chevron-right"></paper-fab>
-  
-</paper-item>
 
 
-      <paper-item>
-        <div class="copyright"></div>
-        <div class="flex"></div>
-        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
-      </paper-item>
-    </paper-scroll-header-panel>
-  </paper-drawer-panel>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <section id="archive" class="archive">
+  <div class="archive-title category">
+        <h2 class="archive-name">php</h2>
+      </div>
+
+  <div class="archive-post">
+      <span class="archive-post-time">
+        2019-07-17
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="archive-post-link">
+          Laravel Facades 门面模式的实现
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        2019-07-17
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/php5%E4%B8%8Ephp7%E7%9A%84zval%E6%AF%94%E8%BE%83/" class="archive-post-link">
+          PHP5与PHP7的zval比较
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        0001-01-01
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%B8%80/" class="archive-post-link">
+          PHP 内核分析笔记（一）单进程SAPI生命周期
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        0001-01-01
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%BA%8C/" class="archive-post-link">
+          PHP 内核分析笔记（二）多进程与多线程SAPI生命周期
+        </a>
+      </span>
+    </div><div class="archive-post">
+      <span class="archive-post-time">
+        0001-01-01
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/php-summarize/" class="archive-post-link">
+          PHP 知识总结（一）
+        </a>
+      </span>
+    </div>
+</section>
+
+<nav class="pagination">
   
+  
+</nav>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+  <a href="https://kris0923.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>chengxiaotian</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+
+
+
+
+
+
+
+
 </body>
 </html>

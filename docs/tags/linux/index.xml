@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
@@ -6,19 +6,14 @@
     <description>Recent content in Linux on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 28 Jul 2019 21:09:34 +0800</lastBuildDate>
-    
-	<atom:link href="https://kris0923.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 28 Jul 2019 21:09:34 +0800</lastBuildDate><atom:link href="https://kris0923.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Linux命令之sed</title>
       <link>https://kris0923.github.io/post/sed/</link>
       <pubDate>Sun, 28 Jul 2019 21:09:34 +0800</pubDate>
       
       <guid>https://kris0923.github.io/post/sed/</guid>
-      <description>sed 流处理编辑器  行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向）  命令行格式 sed [option] &#39;command&#39; file(s)  脚本格式 sed -f scriptfile file(s)  sed 命令 p 打印命令 -n 只打印匹配的行  定位一行 sed -n &#39;2p&#39; test.txt 定位多行 sed -n &#39;2,5p&#39; test.txt // (2和5也可以用正则代替) 定位反向选择 sed -n &#39;2,5!p&#39; test.txt // 第2-5行不被选择 定位间隔几行 sed -n &#39;2~2p&#39; test.txt // 间隔输出  行命令  a （新增行）/ i（插入行） c（替代行） d（删除行）
-linux 用法 sed -n &amp;quot;2a text2++&amp;quot; test.txt sed -n &amp;quot;2,5a text2++&amp;quot; test.</description>
+      <description>sed 流处理编辑器 行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向） 命令行格式 sed [option] &#39;command&#39; file(s) 脚本格式 sed -f scriptfile file(s) sed 命令 p</description>
     </item>
     
     <item>
@@ -27,11 +22,7 @@ linux 用法 sed -n &amp;quot;2a text2++&amp;quot; test.txt sed -n &amp;quot;2,5
       <pubDate>Sun, 28 Jul 2019 21:08:44 +0800</pubDate>
       
       <guid>https://kris0923.github.io/post/awk/</guid>
-      <description>awk 文本处理工具  可编程，功能强大 可以用来统计，制表等功能  处理方式  一次处理一行内容 可以对每行进行切片处理
-格式 命令行格式
-awk [options] &#39;command&#39; file(s)  脚本格式
-awk -f script_file file(s)   内置参数  $0 当前整行 $1 每行第一个字段 $2 每行第二个字段 NR 行号 NF 字符总数 FILENAME 文件名 ARGC 命令行参数个数 ARGV 命令行参数数组   -F 指定分割符，默认空格
-awk -F &#39;:&#39; &#39;{print $1,$3, NR}&#39; test.txt // 以: 分割 awk -F &#39;:&#39; &#39;{if ($3&amp;gt;100) print &amp;quot;This Msg&amp;quot;}&#39; test.txt  正则匹配 ～ ， 不匹配(！～) 打印第一个字符以m开头的 - BEGIN 行处理前执行 - END 行处理完成后执行 eg：文件夹大小求和  AWK 是一种程序设计语言，语法和C语言相似，把AWK命令写到脚本文件中可以完成更复杂的文本处理</description>
+      <description>awk 文本处理工具 可编程，功能强大 可以用来统计，制表等功能 处理方式 一次处理一行内容 可以对每行进行切片处理 格式 命令行格式 1 awk [options] &amp;#39;command&amp;#39; file(s) 脚本格式 1 awk -f script_file</description>
     </item>
     
   </channel>

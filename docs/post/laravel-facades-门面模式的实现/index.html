@@ -1,390 +1,620 @@
-
-<!doctype html>
-<html lang="zh-cn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-  <title>Laravel Facades 门面模式的实现</title>
-  <script src="https://kris0923.github.io/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="https://kris0923.github.io/bower_components/iron-icons/iron-icons.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-drawer-panel/paper-drawer-panel.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-icon-button/paper-icon-button.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-toolbar/paper-toolbar.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-fab/paper-fab.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-item/paper-item.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/paper-menu/paper-menu.html">
-  <link rel="import" href="https://kris0923.github.io/bower_components/iron-image/iron-image.html">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
-  <style is="custom-style">
-    body {
-      font-family: 'Roboto', sans-serif;
-    }
-    .nav {
-      border-right: 1px solid #ccc;
-    }
-    
-    paper-scroll-header-panel {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: var(--paper-grey-200, #eee);
-       
-      --paper-scroll-header-panel-full-header: {
-        background-image: url(https://kris0923.github.io/images/cover.png);
-      };
-       
-      --paper-scroll-header-panel-condensed-header: {
-        background-image: url(https://kris0923.github.io/images/cover.png);
-      };
-    }
-    
-    paper-toolbar {
-       
-      height: 256px;
-      background-color: transparent;
-    }
-    .profile{
-      width: 100%;
-      padding-bottom: 20px;
-    }
-    .photo{
-      margin: 20px;
-      display: inline-block;
-      height: 64px; width: 64px;
-      border-radius: 50%;
-    }
-    .article{
-      border: 1px solid #bebebe;
-      padding: 16px;
-      margin: 16px;
-      border-radius: 5px;
-      background-color: #fff;
-    }
-    .title{
-      font-size: 22px;
-      padding: 8px 0 16px;
-    }
-    .description{
-      font-size: 16px;
-      padding-bottom: 8px;
-    }
-    .author{
-      font-size: 16px;
-      padding-left: 20px;
-      color: white;
-    }
-    .design{
-      font-size: 14px;
-    }
-    .copyright{
-      font-size: 16px;
-    }
-    paper-menu a {
-      text-decoration: none;
-      color: #212121;
-    }
-  </style>
+  <title>Laravel Facades 门面模式的实现 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chengxiaotian" /><meta name="description" content="以下是Laravel官方文档的介绍 Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.96.0 with theme even" />
+
+
+<link rel="canonical" href="https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Laravel Facades 门面模式的实现" />
+<meta property="og:description" content="以下是Laravel官方文档的介绍 Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-07-17T23:08:42+00:00" />
+<meta property="article:modified_time" content="2019-07-17T23:08:42+00:00" />
+
+<meta itemprop="name" content="Laravel Facades 门面模式的实现">
+<meta itemprop="description" content="以下是Laravel官方文档的介绍 Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你"><meta itemprop="datePublished" content="2019-07-17T23:08:42+00:00" />
+<meta itemprop="dateModified" content="2019-07-17T23:08:42+00:00" />
+<meta itemprop="wordCount" content="1402">
+<meta itemprop="keywords" content="php,laravel," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Laravel Facades 门面模式的实现"/>
+<meta name="twitter:description" content="以下是Laravel官方文档的介绍 Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
 
 </head>
 <body>
-  <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
-    <div class="nav scroll" drawer>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">指北针</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">指北针</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
     
-      <iron-image class="profile" sizing="cover" src="https://kris0923.github.io/images/profile.png">
-    
-        
-          <iron-image class="photo" sizing="cover" src="https://kris0923.github.io/images/logo.jpeg"></iron-image>
-        
-          <div class="author">magicio</div>
-      </iron-image>
-      <paper-menu>
-        <a href="https://kris0923.github.io"><paper-item>
-          <iron-icon icon="home"></iron-icon>　<div class="flex">Home</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-        <a href="https://kris0923.github.io/categories/"><paper-item>
-          <iron-icon icon="drafts"></iron-icon>　<div class="flex">Categories</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-        <a href="https://kris0923.github.io/tags/"><paper-item>
-          <iron-icon icon="loyalty"></iron-icon>　<div class="flex">Tags</div>
-          <iron-icon icon="chevron-right"></iron-icon>
-        </paper-item></a>
-      </paper-menu>
-    </div>
+    <header class="post-header">
+      <h1 class="post-title">Laravel Facades 门面模式的实现</h1>
 
-    <paper-scroll-header-panel main condenses header-height="256" condensed-header-height="64">
-
-      <paper-toolbar>
-
-        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-        <div class="bottom title">地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</div>
-        <div class="flex"></div>
-        
-        
-        
-        
-        
-          <a href="https://github.com/kris0923"><paper-icon-button src="https://kris0923.github.io/images/github2-dreamstale35.png"></paper-icon-button></a>
-        
-          <a href="https://kris0923.github.io/index.xml"><paper-icon-button src="https://kris0923.github.io/images/feed-dreamstale27.png"></paper-icon-button></a>
-      
-      </paper-toolbar>
-
-
-
-<div class="content">
-
-  <div class="article">
-    <div class="title">Laravel Facades 门面模式的实现</div>
-    
-      <div class="categories">
-        
-          <a href="https://kris0923.github.io/categories/php/">php</a>
-        
-          <a href="https://kris0923.github.io/categories/laravel/">laravel</a>
+      <div class="post-meta">
+        <span class="post-time"> 2019-07-17 </span>
+        <div class="post-category">
+            <a href="/categories/php/"> php </a>
+            <a href="/categories/laravel/"> laravel </a>
+            </div>
         
       </div>
-     
-    <div class="description"><blockquote>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
 <p>以下是Laravel官方文档的介绍</p>
 </blockquote>
-
 <p>Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，拥有简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和灵活性。</p>
-
 <p>从介绍中可以看出，Facades 好处就是让代码更加简介，优雅，这也是Laravel追求的特性，如何使用Facades这里就不介绍了，可以参考<a href="https://learnku.com/docs/laravel/5.2/facades/1111">Laravel文档(中文)</a> ，本文介绍一下Facades是如何知道和创建你需要的类实例。</p>
-
 <p>以 log Facade 为例，我们看下是如何通过log这个字符串找到 \Illuminate\Log\Writer 这个类的
 先看 \Illuminate\Support\Facades\Log 门面</p>
-
-<pre><code>class Log extends Facade
-{
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     */
-    protected static function getFacadeAccessor()
-    {
-        return 'log';
-    }
-}
-</code></pre>
-
-<p>这个类非常简单，只有一个静态方法 getFacadeAccessor(), 返回了一个log字符串。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">class Log extends Facade
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    /**
+</span></span><span class="line"><span class="cl">     * Get the registered name of the component.
+</span></span><span class="line"><span class="cl">     *
+</span></span><span class="line"><span class="cl">     * @return string
+</span></span><span class="line"><span class="cl">     */
+</span></span><span class="line"><span class="cl">    protected static function getFacadeAccessor()
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        return &#39;log&#39;;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个类非常简单，只有一个静态方法 getFacadeAccessor(), 返回了一个log字符串。
 然后看Log的父类 Facade, Facede中有很多方法，这里关注其中两个：</p>
-
-<pre><code>abstract class Facade
-{
-    /**
-     * The application instance being facaded.
-     *
-     * @var \Illuminate\Contracts\Foundation\Application
-     */
-    protected static $app;
-
-    /**
-     * The resolved object instances.
-     *
-     * @var array
-     */
-    protected static $resolvedInstance;
-	
-	/**
-     * Resolve the facade root instance from the container.
-     *
-     * @param  string|object  $name
-     * @return mixed
-     */
-    protected static function resolveFacadeInstance($name)
-    {
-        if (is_object($name)) {				// 如果$name已经是一个对象，则直接返回该对象
-            return $name;
-        }
-
-        if (isset(static::$resolvedInstance[$name])) {				// 如果是已经解析过的对象，直接从$resolvedInstance中返回该对象
-            return static::$resolvedInstance[$name];
-        }
-
-        return static::$resolvedInstance[$name] = static::$app[$name];  	// 从容器中寻找$name对象，并放入$resolvedInstance 中以便下次使用
-    }
-	/**
-     * Handle dynamic, static calls to the object.
-     *
-     * @param  string  $method
-     * @param  array   $args
-     * @return mixed
-     *
-     * @throws \RuntimeException
-     */
-    public static function __callStatic($method, $args)			// 魔术方法，当使用Log::error($msg) 的时候会调用该方法
-    {
-        $instance = static::getFacadeRoot();
-
-        if (! $instance) {
-            throw new RuntimeException('A facade root has not been set.');
-        }
-
-        switch (count($args)) {
-            case 0:
-                return $instance-&gt;$method();
-            case 1:
-                return $instance-&gt;$method($args[0]);
-            case 2:
-                return $instance-&gt;$method($args[0], $args[1]);
-            case 3:
-                return $instance-&gt;$method($args[0], $args[1], $args[2]);
-            case 4:
-                return $instance-&gt;$method($args[0], $args[1], $args[2], $args[3]);
-            default:
-                return call_user_func_array([$instance, $method], $args);
-        }
-    }
-}
-</code></pre>
-
-<p>通过以上分析知道最终Facede找的是容器中绑定的实例，所以接下来我们找一下log是在什么时候被注册的，</p>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">abstract class Facade
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    /**
+</span></span><span class="line"><span class="cl">     * The application instance being facaded.
+</span></span><span class="line"><span class="cl">     *
+</span></span><span class="line"><span class="cl">     * @var \Illuminate\Contracts\Foundation\Application
+</span></span><span class="line"><span class="cl">     */
+</span></span><span class="line"><span class="cl">    protected static $app;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    /**
+</span></span><span class="line"><span class="cl">     * The resolved object instances.
+</span></span><span class="line"><span class="cl">     *
+</span></span><span class="line"><span class="cl">     * @var array
+</span></span><span class="line"><span class="cl">     */
+</span></span><span class="line"><span class="cl">    protected static $resolvedInstance;
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	/**
+</span></span><span class="line"><span class="cl">     * Resolve the facade root instance from the container.
+</span></span><span class="line"><span class="cl">     *
+</span></span><span class="line"><span class="cl">     * @param  string|object  $name
+</span></span><span class="line"><span class="cl">     * @return mixed
+</span></span><span class="line"><span class="cl">     */
+</span></span><span class="line"><span class="cl">    protected static function resolveFacadeInstance($name)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        if (is_object($name)) {				// 如果$name已经是一个对象，则直接返回该对象
+</span></span><span class="line"><span class="cl">            return $name;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        if (isset(static::$resolvedInstance[$name])) {				// 如果是已经解析过的对象，直接从$resolvedInstance中返回该对象
+</span></span><span class="line"><span class="cl">            return static::$resolvedInstance[$name];
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        return static::$resolvedInstance[$name] = static::$app[$name];  	// 从容器中寻找$name对象，并放入$resolvedInstance 中以便下次使用
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">	/**
+</span></span><span class="line"><span class="cl">     * Handle dynamic, static calls to the object.
+</span></span><span class="line"><span class="cl">     *
+</span></span><span class="line"><span class="cl">     * @param  string  $method
+</span></span><span class="line"><span class="cl">     * @param  array   $args
+</span></span><span class="line"><span class="cl">     * @return mixed
+</span></span><span class="line"><span class="cl">     *
+</span></span><span class="line"><span class="cl">     * @throws \RuntimeException
+</span></span><span class="line"><span class="cl">     */
+</span></span><span class="line"><span class="cl">    public static function __callStatic($method, $args)			// 魔术方法，当使用Log::error($msg) 的时候会调用该方法
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        $instance = static::getFacadeRoot();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        if (! $instance) {
+</span></span><span class="line"><span class="cl">            throw new RuntimeException(&#39;A facade root has not been set.&#39;);
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        switch (count($args)) {
+</span></span><span class="line"><span class="cl">            case 0:
+</span></span><span class="line"><span class="cl">                return $instance-&gt;$method();
+</span></span><span class="line"><span class="cl">            case 1:
+</span></span><span class="line"><span class="cl">                return $instance-&gt;$method($args[0]);
+</span></span><span class="line"><span class="cl">            case 2:
+</span></span><span class="line"><span class="cl">                return $instance-&gt;$method($args[0], $args[1]);
+</span></span><span class="line"><span class="cl">            case 3:
+</span></span><span class="line"><span class="cl">                return $instance-&gt;$method($args[0], $args[1], $args[2]);
+</span></span><span class="line"><span class="cl">            case 4:
+</span></span><span class="line"><span class="cl">                return $instance-&gt;$method($args[0], $args[1], $args[2], $args[3]);
+</span></span><span class="line"><span class="cl">            default:
+</span></span><span class="line"><span class="cl">                return call_user_func_array([$instance, $method], $args);
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过以上分析知道最终Facede找的是容器中绑定的实例，所以接下来我们找一下log是在什么时候被注册的，</p>
 <p>这时候需要关注 \Illuminate\Foundation\Http\Kernel 类,Kernel类中包括以下几个方法：</p>
-
-<pre><code>/**
-* Handle an incoming HTTP request.
-*
-* @param  \Illuminate\Http\Request  $request
-* @return \Illuminate\Http\Response
-*/
-public function handle($request)
-{
-	try {
-		$request-&gt;enableHttpMethodParameterOverride();
-
-		$response = $this-&gt;sendRequestThroughRouter($request);
-	} catch (Exception $e) {
-		$this-&gt;reportException($e);
-
-		$response = $this-&gt;renderException($request, $e);
-	} catch (Throwable $e) {
-		$this-&gt;reportException($e = new FatalThrowableError($e));
-
-		$response = $this-&gt;renderException($request, $e);
-	}
-
-	$this-&gt;app['events']-&gt;fire('kernel.handled', [$request, $response]);
-
-	return $response;
-}
-	
-	
-/**
-* Send the given request through the middleware / router.
-*
-* @param  \Illuminate\Http\Request  $request
-* @return \Illuminate\Http\Response
-*/
-protected function sendRequestThroughRouter($request)
-{
-	$this-&gt;app-&gt;instance('request', $request);
-
-	Facade::clearResolvedInstance('request');
-
-	$this-&gt;bootstrap();
-
-	return (new Pipeline($this-&gt;app))
-		-&gt;send($request)
-		-&gt;through($this-&gt;app-&gt;shouldSkipMiddleware() ? [] : $this-&gt;middleware)
-		-&gt;then($this-&gt;dispatchToRouter());
-}
-
-/**
-* Bootstrap the application for HTTP requests.
-*
-* @return void
-*/
-public function bootstrap()
-{
-	if (! $this-&gt;app-&gt;hasBeenBootstrapped()) {
-		$this-&gt;app-&gt;bootstrapWith($this-&gt;bootstrappers());
-	}
-}
-</code></pre>
-
-<p>handle方法接收一个Request请求，并返回一个$response，$response-&gt;sendRequestThroughRouter()的时候调用了bootstrap()方法，继续看bootstrap方法里面加载了已经定义好的几个类：(这些定义都在Kernel类中)</p>
-
-<pre><code>/**
-* The bootstrap classes for the application.
-*
-* @var array
-*/
-protected $bootstrappers = [
-	'Illuminate\Foundation\Bootstrap\DetectEnvironment',
-	'Illuminate\Foundation\Bootstrap\LoadConfiguration',
-	'Illuminate\Foundation\Bootstrap\ConfigureLogging',
-	'Illuminate\Foundation\Bootstrap\HandleExceptions',
-	'Illuminate\Foundation\Bootstrap\RegisterFacades',
-	'Illuminate\Foundation\Bootstrap\RegisterProviders',
-	'Illuminate\Foundation\Bootstrap\BootProviders',
-];
-</code></pre>
-
-<p>然后我们看ConfigureLogging中的registerLogger()方法</p>
-
-<pre><code>/**
-* Register the logger instance in the container.
-*
-* @param  \Illuminate\Contracts\Foundation\Application  $app
-* @return \Illuminate\Log\Writer
-*/
-protected function registerLogger(Application $app)
-{
-	$app-&gt;instance('log', $log = new Writer(			 // 这里把Writer注册到了容器中
-		new Monolog($app-&gt;environment()), $app['events'])
-	);
-
-	return $log;
-}
-</code></pre>
-
-<p>到此为止，我们已经知道Facede是如何找到想要使用的类了。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/**
+</span></span><span class="line"><span class="cl">* Handle an incoming HTTP request.
+</span></span><span class="line"><span class="cl">*
+</span></span><span class="line"><span class="cl">* @param  \Illuminate\Http\Request  $request
+</span></span><span class="line"><span class="cl">* @return \Illuminate\Http\Response
+</span></span><span class="line"><span class="cl">*/
+</span></span><span class="line"><span class="cl">public function handle($request)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">	try {
+</span></span><span class="line"><span class="cl">		$request-&gt;enableHttpMethodParameterOverride();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		$response = $this-&gt;sendRequestThroughRouter($request);
+</span></span><span class="line"><span class="cl">	} catch (Exception $e) {
+</span></span><span class="line"><span class="cl">		$this-&gt;reportException($e);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		$response = $this-&gt;renderException($request, $e);
+</span></span><span class="line"><span class="cl">	} catch (Throwable $e) {
+</span></span><span class="line"><span class="cl">		$this-&gt;reportException($e = new FatalThrowableError($e));
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		$response = $this-&gt;renderException($request, $e);
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	$this-&gt;app[&#39;events&#39;]-&gt;fire(&#39;kernel.handled&#39;, [$request, $response]);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	return $response;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">/**
+</span></span><span class="line"><span class="cl">* Send the given request through the middleware / router.
+</span></span><span class="line"><span class="cl">*
+</span></span><span class="line"><span class="cl">* @param  \Illuminate\Http\Request  $request
+</span></span><span class="line"><span class="cl">* @return \Illuminate\Http\Response
+</span></span><span class="line"><span class="cl">*/
+</span></span><span class="line"><span class="cl">protected function sendRequestThroughRouter($request)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">	$this-&gt;app-&gt;instance(&#39;request&#39;, $request);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	Facade::clearResolvedInstance(&#39;request&#39;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	$this-&gt;bootstrap();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	return (new Pipeline($this-&gt;app))
+</span></span><span class="line"><span class="cl">		-&gt;send($request)
+</span></span><span class="line"><span class="cl">		-&gt;through($this-&gt;app-&gt;shouldSkipMiddleware() ? [] : $this-&gt;middleware)
+</span></span><span class="line"><span class="cl">		-&gt;then($this-&gt;dispatchToRouter());
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/**
+</span></span><span class="line"><span class="cl">* Bootstrap the application for HTTP requests.
+</span></span><span class="line"><span class="cl">*
+</span></span><span class="line"><span class="cl">* @return void
+</span></span><span class="line"><span class="cl">*/
+</span></span><span class="line"><span class="cl">public function bootstrap()
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">	if (! $this-&gt;app-&gt;hasBeenBootstrapped()) {
+</span></span><span class="line"><span class="cl">		$this-&gt;app-&gt;bootstrapWith($this-&gt;bootstrappers());
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>handle方法接收一个Request请求，并返回一个$response，$response-&gt;sendRequestThroughRouter()的时候调用了bootstrap()方法，继续看bootstrap方法里面加载了已经定义好的几个类：(这些定义都在Kernel类中)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/**
+</span></span><span class="line"><span class="cl">* The bootstrap classes for the application.
+</span></span><span class="line"><span class="cl">*
+</span></span><span class="line"><span class="cl">* @var array
+</span></span><span class="line"><span class="cl">*/
+</span></span><span class="line"><span class="cl">protected $bootstrappers = [
+</span></span><span class="line"><span class="cl">	&#39;Illuminate\Foundation\Bootstrap\DetectEnvironment&#39;,
+</span></span><span class="line"><span class="cl">	&#39;Illuminate\Foundation\Bootstrap\LoadConfiguration&#39;,
+</span></span><span class="line"><span class="cl">	&#39;Illuminate\Foundation\Bootstrap\ConfigureLogging&#39;,
+</span></span><span class="line"><span class="cl">	&#39;Illuminate\Foundation\Bootstrap\HandleExceptions&#39;,
+</span></span><span class="line"><span class="cl">	&#39;Illuminate\Foundation\Bootstrap\RegisterFacades&#39;,
+</span></span><span class="line"><span class="cl">	&#39;Illuminate\Foundation\Bootstrap\RegisterProviders&#39;,
+</span></span><span class="line"><span class="cl">	&#39;Illuminate\Foundation\Bootstrap\BootProviders&#39;,
+</span></span><span class="line"><span class="cl">];
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后我们看ConfigureLogging中的registerLogger()方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/**
+</span></span><span class="line"><span class="cl">* Register the logger instance in the container.
+</span></span><span class="line"><span class="cl">*
+</span></span><span class="line"><span class="cl">* @param  \Illuminate\Contracts\Foundation\Application  $app
+</span></span><span class="line"><span class="cl">* @return \Illuminate\Log\Writer
+</span></span><span class="line"><span class="cl">*/
+</span></span><span class="line"><span class="cl">protected function registerLogger(Application $app)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">	$app-&gt;instance(&#39;log&#39;, $log = new Writer(			 // 这里把Writer注册到了容器中
+</span></span><span class="line"><span class="cl">		new Monolog($app-&gt;environment()), $app[&#39;events&#39;])
+</span></span><span class="line"><span class="cl">	);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	return $log;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>到此为止，我们已经知道Facede是如何找到想要使用的类了。
 Facedes看起来挺高大上，但实现起来的原理挺简单的，实际上也是一种单例模式，只不过在调用处包装了一下</p>
-</div>
-    <div class="tags">
-      17 Jul 2019
-      
-        
-          <a href="https://kris0923.github.io/tags/php/">#php</a>
-        
-          <a href="https://kris0923.github.io/tags/laravel/">#laravel</a>
-        
-       
+
     </div>
-    
-  </div>
 
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">chengxiaotian</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-07-17
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/php/">php</a>
+          <a href="/tags/laravel/">laravel</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/mysql-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E6%97%B6-alter-modify-change%E7%9A%84%E5%8C%BA%E5%88%AB/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MySql 修改表结构时 ALTER,MODIFY,CHANGE的区别</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/%E6%A0%A1%E9%AA%8C%E7%A0%81/">
+            <span class="next-text nav-default">校验码</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+  <a href="https://kris0923.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
-<paper-item>
-  
-    <a href="https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/"><paper-fab icon="chevron-left"><a></a></paper-fab></a>
-  
-    <div class="flex"></div>
-  
-    <a href="https://kris0923.github.io/post/mysql-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E6%97%B6-alter-modify-change%E7%9A%84%E5%8C%BA%E5%88%AB/"><paper-fab icon="chevron-right"></paper-fab></a>
-  
-</paper-item>
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
 
-      <paper-item>
-        <div class="copyright"></div>
-        <div class="flex"></div>
-        <div class="design">Design <a href="http://pdevty.github.io/blog/">pdevty</a></div>
-      </paper-item>
-    </paper-scroll-header-panel>
-  </paper-drawer-panel>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
   
+
+  <span class="copyright-year">
+    &copy; 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>chengxiaotian</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+
+
+
+
+
+
+
+
 </body>
 </html>

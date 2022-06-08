@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>php on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
@@ -6,23 +6,14 @@
     <description>Recent content in php on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 17 Jul 2019 23:08:42 +0000</lastBuildDate>
-    
-	<atom:link href="https://kris0923.github.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 17 Jul 2019 23:08:42 +0000</lastBuildDate><atom:link href="https://kris0923.github.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Laravel Facades 门面模式的实现</title>
       <link>https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/</link>
       <pubDate>Wed, 17 Jul 2019 23:08:42 +0000</pubDate>
       
       <guid>https://kris0923.github.io/post/laravel-facades-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0/</guid>
-      <description>以下是Laravel官方文档的介绍
- Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，拥有简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和灵活性。
-从介绍中可以看出，Facades 好处就是让代码更加简介，优雅，这也是Laravel追求的特性，如何使用Facades这里就不介绍了，可以参考Laravel文档(中文) ，本文介绍一下Facades是如何知道和创建你需要的类实例。
-以 log Facade 为例，我们看下是如何通过log这个字符串找到 \Illuminate\Log\Writer 这个类的 先看 \Illuminate\Support\Facades\Log 门面
-class Log extends Facade { /** * Get the registered name of the component. * * @return string */ protected static function getFacadeAccessor() { return &#39;log&#39;; } }  这个类非常简单，只有一个静态方法 getFacadeAccessor(), 返回了一个log字符串。 然后看Log的父类 Facade, Facede中有很多方法，这里关注其中两个：
-abstract class Facade { /** * The application instance being facaded. * * @var \Illuminate\Contracts\Foundation\Application */ protected static $app; /** * The resolved object instances.</description>
+      <description>以下是Laravel官方文档的介绍 Facades 为应用程序的 服务容器 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你</description>
     </item>
     
     <item>
@@ -31,8 +22,7 @@ abstract class Facade { /** * The application instance being facaded. * * @var \
       <pubDate>Wed, 17 Jul 2019 12:16:53 +0000</pubDate>
       
       <guid>https://kris0923.github.io/post/php5%E4%B8%8Ephp7%E7%9A%84zval%E6%AF%94%E8%BE%83/</guid>
-      <description>PHP5中zval定义 struct _zval struct { zvalue_value value; // 16 zend_unit refcount_gc; // 4字节 引用计数 zend_uchar type; // 1 zend_uchar is_ref__gc; // 1 是否为引用类型 } typedef union _avalue_value { long lval; // 8 double dval; // 8 struct { char *val; int len; } str; // 16 HashTable *ht; // HashTable 数组 8 zend_object_value obj; // 12 zend_ast * ast; // 8 } zvalue_value;  为了解决*循环引用问题*，PHP5.3之后通过重写分配zval的宏，对zval进行扩充，新的分配方式：
-#undef ALLOC_ZVAL #define ALLOC_ZVAL (z) do { (z) = (zval*) emalloc (sizeof(zval_gc_info)); GC_ZVAL_INT (z); } while(0) // _zval_gc_info 结构如下： typedef struct _zval_gc_info { zval z; union { gc_root_buffer *buffer; struct _zval_gc_info *next; } }  除此之外，在开启Zend内存池的情况下，zval_gc_info 在内存池中分配，内存池会为每个zval_gc_info额外申请一个大小为16字节的zend_mm_block结构体，用来存放内存相关信息，zend_mm_block结构如下：</description>
+      <description>PHP5中zval定义 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 struct _zval struct { zvalue_value value; // 16 zend_unit refcount_gc; // 4字节 引用计数 zend_uchar type; // 1 zend_uchar is_ref__gc; // 1 是否为引用类型 } typedef union _avalue_value { long lval; //</description>
     </item>
     
     <item>
@@ -41,10 +31,7 @@ abstract class Facade { /** * The application instance being facaded. * * @var \
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
-      <description>http://www.php-internals.com/images/book/chapt02/02-00-php-
-单进程SAPI生命周期 :start php -f test.php call each extension`s MINIT (模块初始化阶段，调用所有模块的MINIT函数) Request test.php call each extension`s RINIT (调用所有模块的RINIT函数) Execute test.php call each extension`s RSHUTDOWM Finsh cleaning up after test.php call each extension`s MSHUTDOWM （Web服务器退出或者命令行脚本执行完毕退出） terminate test.php :end  启动 模块初始化阶段  初始化若干全局变量 初始化若干常量，这里的常量是PHP自己的一些常量，如PHP_VERSION 初始化Zend引擎和核心组件 解析php.ini 全局操作函数的初始化 初始化静态构建的模块和共享模块(MINIT) 禁用函数和类 php_disable_functions, 其禁用的过程是调用zend_disable_function函数将指定的函数名从CG(function_table)函数表中删除,php_disable_classes,将指定的类名从CG(class_table)类表中删除  ACTIVATION  激活Zend引擎 激活SAPI 环境初始化 这里的环境初始化是指在用户空间中需要用到的一些环境变量初始化，这里的环境包括服务器环境、请求数据环境等。 实际到我们用到的变量，就是$_POST、$_GET、$_COOKIE、$_SERVER、$_ENV、$_FILES。 和sapi_module.default_post_reader一样，sapi_module.treat_data的值也是在模块初始化时， 通过php_startup_sapi_content_types函数注册了默认数据处理函数为main/php_variables.c文件中php_default_treat_data函数 模块请求初始化 (Call each extension&amp;rsquo;s RINIT)
-运行 php_execute_script 函数包含了运行PHP脚本的全部过程
-DEACTIVATION PHP关闭请求的过程是一个若干个关闭操作的集合，这个集合存在于php_request_shutdown函数中</description>
+      <description>http://www.php-internals.com/images/book/chapt02/02-00-php- 单进程SAPI生命周期 1 2 3 4 5 6 7 8 9 10 11 :start php -f test.php call each extension`s MINIT (模块初始化阶段，调用所有模块的MINIT函数) Request test.php call each extension`s RINIT (调用所有模块的R</description>
     </item>
     
     <item>
@@ -53,7 +40,7 @@ DEACTIVATION PHP关闭请求的过程是一个若干个关闭操作的集合，�
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kris0923.github.io/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
-      <description> 多进程SAPI生命周期 以Apache为例，PHP编译为apache的一个模块来处理php请求，Apache启动后会fork多个进程，每个进程拥有独立的内存空间，单独处理php请求，所以每个子进程都是完整的生命周期 多线程的SAPI生命周期 同一组线程只有一个模块初始化和销毁的过程 </description>
+      <description>多进程SAPI生命周期 以Apache为例，PHP编译为apache的一个模块来处理php请求，Apache启动后会fork多个进程，每个进程</description>
     </item>
     
     <item>
@@ -62,10 +49,7 @@ DEACTIVATION PHP关闭请求的过程是一个若干个关闭操作的集合，�
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kris0923.github.io/post/php-summarize/</guid>
-      <description>语法基础 变量类型  boolean integet float
-# 判断是否是一个数值类型 bool is_nan(float $val)  string
-// 字符串转数值 //如果 字符串中包含 &#39;.&#39;, &#39;e&#39;或者&#39;E&#39; 转换为float，其余转为 int  Array
-// 数组的key只能是int 或string 合法的整型字符串会被转成int，例如：&amp;quot;8&amp;quot;，&amp;quot;08&amp;quot;不会，因为08不是合法的十进制数 浮点数也会被转换为整型，意味着其小数部分会被舍去。例如键名 8.7 实际会被储存为 8。 布尔值也会被转换成整型。即键名 true 实际会被储存为 1 而键名 false 会被储存为 0。 Null 会被转换为空字符串，即键名 null 实际会被储存为 &amp;quot;&amp;quot;。 数组和对象不能被用为键名。坚持这么做会导致警告：Illegal offset type 默认键： 当前最大整数索引值加1 // 其他类型转为数组 $a = array($a); or $a = (array) $a; 如果一个 object 类型转换为 array，则结果为一个数组，其单元为该对象的属性。键名将为成员变量名，不过有几点例外：整数属性不可访问；私有变量前会加上类名作前缀；保护变量前会加上一个 &#39;*&#39; 做前缀。这些前缀的前后都各有一个 NULL 字符。这会导致一些不可预知的行为： class A { private $A; // This will become &#39;\0A\0A&#39; } class B extends A { private $A; // This will become &#39;\0B\0A&#39; public $AA; // This will become &#39;AA&#39; } var_dump((array) new B()); //上例会有两个键名为 &#39;AA&#39;，不过其中一个实际上是 &#39;\0A\0A&#39;  Object</description>
+      <description>语法基础 变量类型 boolean integet float 1 2 # 判断是否是一个数值类型 bool is_nan(float $val) string 1 2 // 字符串转数值 //如果 字符串中包含 &amp;#39;.&amp;#39;, &amp;#39;e&amp;#39;或者&amp;#39;E&amp;#</description>
     </item>
     
   </channel>

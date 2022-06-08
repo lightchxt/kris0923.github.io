@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>MySql on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
@@ -6,10 +6,15 @@
     <description>Recent content in MySql on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 28 Jul 2019 21:11:18 +0800</lastBuildDate>
-    
-	<atom:link href="https://kris0923.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Sun, 01 Sep 2019 23:46:27 +0800</lastBuildDate><atom:link href="https://kris0923.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nginx介绍</title>
+      <link>https://kris0923.github.io/post/nginx%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Sun, 01 Sep 2019 23:46:27 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/nginx%E4%BB%8B%E7%BB%8D/</guid>
+      <description>Nginx是什么 nginx 是一个免费的，开源的，高性能HTTP服务器和反向代理，以及IMAP / POP3代理服务器。NGINX以其高性能，稳定性，丰富</description>
+    </item>
     
     <item>
       <title>MySql如何使用索引（二）</title>
@@ -17,12 +22,7 @@
       <pubDate>Sun, 28 Jul 2019 21:11:18 +0800</pubDate>
       
       <guid>https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%BA%8C/</guid>
-      <description>上篇介绍了MySql什么时候会尝试使用索引，本文介绍一下我了解的不会使用索引的情况, 仍然使用上次建立好的表
- 1. where 子句中like 使用了前缀通配符 %keyword select * from test_user where name like &amp;quot;%Kiven%&amp;quot;;  2. 使用&amp;gt;, &amp;gt;=, &amp;lt;,&amp;lt;=, !=,NOT IN 范围查找或否定查找,且范围查找时选择的边界查找条件范围过大 select * from test_user where height&amp;gt;=180 # 不会使用索引  select * from test_user where height&amp;gt;=190 # 会使用索引  3. 数据类型隐式转换 例如：name字段为varchar类型的
-select * from test_user where name=1  将不能使用索引，而
-select * from test_user where name=&#39;1&#39;  可以使用索引
-原因是当不同的字段类型比较时，MySql会做引式类型转换，而 int类型的1可能等于 &amp;lsquo;01&amp;rsquo;, &amp;lsquo;0001&amp;rsquo;或者 &amp;lsquo;01.e1&amp;rsquo;
-4. 不符合最左匹配原则（联合索引） 我们建立的索引顺序是</description>
+      <description>上篇介绍了MySql什么时候会尝试使用索引，本文介绍一下我了解的不会使用索引的情况, 仍然使用上次建立好的表 1. where 子句中like 使用了前缀通配符</description>
     </item>
     
     <item>
@@ -31,10 +31,7 @@ select * from test_user where name=&#39;1&#39;  可以使用索引
       <pubDate>Sun, 28 Jul 2019 21:10:51 +0800</pubDate>
       
       <guid>https://kris0923.github.io/post/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%B8%80/</guid>
-      <description>我们都知道在 MySql 中使用索引可以提高查询效率,但有时候真正执行Sql查询的时候却没有按照我们的预想使用索引，而是全表扫描，导致有慢Sql影响了整个网站的效率，甚至导致网站崩溃，所以我们需要了解Mysql是如何选择使用索引的，以便建立合适的索引 （本文基于MySql5.7，InnoDB引擎）
- 前提：建立一张测试表 假设有一张用户表
-CREATE TABLE `test_user` ( `user_id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(20) NOT NULL DEFAULT &#39;&#39;, `birthday` date NOT NULL, `sex` tinyint(1) DEFAULT NULL, `height` int(11) NOT NULL, `weight` int(11) NOT NULL, PRIMARY KEY (`user_id`), KEY `idx_name_height_weight` (`name`,`height`,`weight`), KEY `idx_height` (`height`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;  我们建立了name,height,weight 的联合索引，插入测试数据
-INSERT INTO `test_user` (`user_id`, `name`, `birthday`, `sex`, `height`, `weight`) VALUES (1, &#39;Tony&#39;, &#39;1991-01-01&#39;, 1, 176, 65), (2, &#39;Mary&#39;, &#39;1989-12-19&#39;, 2, 160, 50), (3, &#39;Tom&#39;, &#39;1996-05-29&#39;, 1, 180, 70), (4, &#39;Kiven&#39;, &#39;1994-08-09&#39;, 1, 190, 80), (5, &#39;John&#39;, &#39;1992-11-12&#39;, 1, 182, 75);  执行什么操作的时候Mysql会使用索引 查找与WHERE子句匹配的行 select * from test_user where name=&#39;mary&#39;  查看执行计划</description>
+      <description>我们都知道在 MySql 中使用索引可以提高查询效率,但有时候真正执行Sql查询的时候却没有按照我们的预想使用索引，而是全表扫描，导致有慢Sql影响了整</description>
     </item>
     
     <item>
@@ -43,18 +40,7 @@ INSERT INTO `test_user` (`user_id`, `name`, `birthday`, `sex`, `height`, `weight
       <pubDate>Wed, 17 Jul 2019 23:09:55 +0000</pubDate>
       
       <guid>https://kris0923.github.io/post/mysql-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E6%97%B6-alter-modify-change%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
-      <description>根据MySql文档，我们知道在修改表内某一列的属性的时候，MySql支持3中语法结构：
- ALTER [ONLINE|OFFLINE] [IGNORE] TABLE tbl_name ALTER [COLUMN] col_name {SET DEFAULT literal | DROP DEFAULT}  ALTER [ONLINE|OFFLINE] [IGNORE] TABLE tbl_name CHANGE [COLUMN] old_col_name new_col_name column_definition [FIRST|AFTER col_name]  ALTER [ONLINE|OFFLINE] [IGNORE] TABLE tbl_name MODIFY [COLUMN] col_name column_definition [FIRST | AFTER col_name]  这里比较一下这三种语法的不同之处，以及什么情况下应该选用什么语法
-   语法 功能 说明     ALTER 只能更改列的默认值    CHANGE 可以重命名列或者修改列的定义 标准SQL的扩展   MODIFY 可以更改列的定义，但不能更改列的名称 兼容Oracle的扩展    通过文档介绍的功能，我们就基本能够判断处该使用使用哪种语法，CHANGE功能最强大，什么情况下都可以使用(达到预期的效果)。但是还有一个区别： - ALTER 语法只是修改 .</description>
-    </item>
-    
-    <item>
-      <title>Mysql事务和锁</title>
-      <link>https://kris0923.github.io/post/%E4%BB%8Ehello-world%E5%BC%80%E5%A7%8B/</link>
-      <pubDate>Fri, 15 Jun 2018 22:50:45 +0000</pubDate>
-      
-      <guid>https://kris0923.github.io/post/%E4%BB%8Ehello-world%E5%BC%80%E5%A7%8B/</guid>
-      <description> 什么是事务 </description>
+      <description>根据MySql文档，我们知道在修改表内某一列的属性的时候，MySql支持3中语法结构： 1 2 ALTER [ONLINE|OFFLINE] [IGNORE] TABLE tbl_name ALTER [COLUMN] col_name {SET DEFAULT literal | DROP DEFAULT} 1 2 ALTER[ONLINE|OFFLINE][IGNORE]TABLEtbl_nameCHANGE[COLUMN]old_col_namenew_col_namecolumn_definition[FIRST|AFTERcol_name] 1 2 ALTER[ONLINE|OFFLINE][IGNORE]TABLEtbl_nameMODIFY[COLUMN]col_namecolumn_definition[FIRST|AFTERcol_name] 这里比较一</description>
     </item>
     
   </channel>
