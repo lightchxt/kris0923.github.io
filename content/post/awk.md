@@ -1,7 +1,7 @@
 ---
 title: "Linux 命令之 Awk"
 date: 2019-07-28T21:08:44+08:00
-draft: true
+draft: fasle
 categories: ["Linux"]
 tags: ["Linux"]
 ---

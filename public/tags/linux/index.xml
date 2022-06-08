@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+    <link>https://kris0923.github.io/tags/linux/</link>
+    <description>Recent content in Linux on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 28 Jul 2019 21:09:34 +0800</lastBuildDate><atom:link href="https://kris0923.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux命令之sed</title>
+      <link>https://kris0923.github.io/post/sed/</link>
+      <pubDate>Sun, 28 Jul 2019 21:09:34 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/sed/</guid>
+      <description>sed 流处理编辑器 行处理一次只处理一行数据 （sed处理文件内容的核心思想） 不改变文件内容（除非重定向） 命令行格式 sed [option] &#39;command&#39; file(s) 脚本格式 sed -f scriptfile file(s) sed 命令 p</description>
+    </item>
+    
+    <item>
+      <title>Linux 命令之 Awk</title>
+      <link>https://kris0923.github.io/post/awk/</link>
+      <pubDate>Sun, 28 Jul 2019 21:08:44 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/awk/</guid>
+      <description>awk 文本处理工具 可编程，功能强大 可以用来统计，制表等功能 处理方式 一次处理一行内容 可以对每行进行切片处理 格式 命令行格式 1 awk [options] &amp;#39;command&amp;#39; file(s) 脚本格式 1 awk -f script_file</description>
+    </item>
+    
+  </channel>
+</rss>

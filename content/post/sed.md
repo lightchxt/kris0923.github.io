@@ -1,7 +1,7 @@
 ---
 title: "Linux命令之sed"
 date: 2019-07-28T21:09:34+08:00
-draft: true
+draft: false
 categories: ["Linux"]
 tags: ["Linux"]
 ---

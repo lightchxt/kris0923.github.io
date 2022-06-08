@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>GO语言语法基础 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chengxiaotian" /><meta name="description" content="基础语法 i&#43;&#43;, i&amp;ndash; 在go语言中是语句，而不像其他语言一样是表达式，所以， j = i&#43;&#43; 在go语言里面是不合法的,并且只支持后缀， &amp;ndash;i 是不合法的 for 是go里面唯" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.96.0 with theme even" />
+
+
+<link rel="canonical" href="https://kris0923.github.io/post/go-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="GO语言语法基础" />
+<meta property="og:description" content="基础语法 i&#43;&#43;, i&ndash; 在go语言中是语句，而不像其他语言一样是表达式，所以， j = i&#43;&#43; 在go语言里面是不合法的,并且只支持后缀， &ndash;i 是不合法的 for 是go里面唯" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kris0923.github.io/post/go-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" /><meta property="article:section" content="post" />
+
+
+
+<meta itemprop="name" content="GO语言语法基础">
+<meta itemprop="description" content="基础语法 i&#43;&#43;, i&ndash; 在go语言中是语句，而不像其他语言一样是表达式，所以， j = i&#43;&#43; 在go语言里面是不合法的,并且只支持后缀， &ndash;i 是不合法的 for 是go里面唯">
+
+<meta itemprop="wordCount" content="853">
+<meta itemprop="keywords" content="go," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GO语言语法基础"/>
+<meta name="twitter:description" content="基础语法 i&#43;&#43;, i&ndash; 在go语言中是语句，而不像其他语言一样是表达式，所以， j = i&#43;&#43; 在go语言里面是不合法的,并且只支持后缀， &ndash;i 是不合法的 for 是go里面唯"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">指北针</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">指北针</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">GO语言语法基础</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 0001-01-01 </span>
+        <div class="post-category">
+            <a href="/categories/go/"> go </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础语法">基础语法</a></li>
+    <li><a href="#go-并发编程">go 并发编程</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="基础语法">基础语法</h1>
+<ol>
+<li>
+<p>i++, i&ndash; 在go语言中是语句，而不像其他语言一样是表达式，所以， j = i++ 在go语言里面是不合法的,并且只支持后缀， &ndash;i 是不合法的</p>
+</li>
+<li>
+<p>for 是go里面唯一的循环语句    <br>
+传统的while循环写成  <br>
+for condition {</p>
+<p>}</p>
+</li>
+<li>
+<p>函数</p>
+<p>函数的类型，称为函数签名，函数的实参都是按值传递的</p>
+</li>
+<li>
+<p>文件结束标示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">err = errors.New(&#34;EOF&#34;)
+</span></span><span class="line"><span class="cl">in := bufio.NewReader(os.stdin)
+</span></span><span class="line"><span class="cl">for {
+</span></span><span class="line"><span class="cl">    r,_,err = in.ReadRune()
+</span></span><span class="line"><span class="cl">    if err == io.EOF {
+</span></span><span class="line"><span class="cl">        break // 文本结束标记
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    if err != nil {
+</span></span><span class="line"><span class="cl">        return fmt.Errorf(&#34;read failed: $v&#34;,err)
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    // 处理逻辑
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>go 文本结束标记不怎么友好，为什么要放到error信息中</p>
+</li>
+<li>
+<p>数组
+Go 语言中的数组是一种 <strong>值类型</strong>（不像 C/C++ 中是指向首元素的指针），所以可以通过 new() 来创建： var arr1 = new([5]int)。</p>
+<p>那么这种方式和 var arr2 [5]int 的区别是什么呢？arr1 的类型是 *[5]int，而 arr2的类型是 [5]int。</p>
+<p>这样的结果就是当把一个数组赋值给另一个时，需要在做一次数组内存的拷贝操作。例如：</p>
+<p>arr2 := *arr1
+arr2[2] = 100
+这样两个数组就有了不同的值，在赋值后修改 arr2 不会对 arr1 生效。</p>
+<p>==切片是引用类型，所以不能用指针指向切片==</p>
+</li>
+<li>
+<p>参数传递<br>
+go中所有的东西都是按值传递的，每次调用函数时，传入的数据都会被复制。对于具有值接收者的方法，在调用该方法时将复制该值。因为所有的参数都是通过值传递的，这就可以解释为什么 *Cat 的方法不能被 Cat 类型的值调用了。任何一个  Cat 类型的值可能会有很多 *Cat 类型的指针指向它，如果我们尝试通过 Cat 类型的值来调用 *Cat 的方法，根本就不知道对应的是哪个指针。</p>
+</li>
+</ol>
+<h1 id="go-并发编程">go 并发编程</h1>
+<pre><code>1. goroutine 和通道
+    
+    程序启动时，只有一个 goroutine 来调用 main 函数，称为主 goroutine，新的 goroutine 通过 go 语句创建
+</code></pre>
+<p>，就是在普通的函数或方法前加上 go 关键字，当 main 函数返回时，所有的 goroutine 都将暴力终止。<br>
+2. 缓冲通道
+<code>func mirroredQuery() string{ responses := make(chan string,3) go func() {responses &lt;- request(&quot;asia.gopl.io&quot;)}() go func() {responses &lt;- request(&quot;europe.gopl.io&quot;)}() go func() {responses &lt;- request(&quot;americas.gopl.io&quot;)}() return &lt;-responses //return the questest response }</code>
+主goroutine只接收第一个返回的，或者极端情况下，两个较慢的服务器还没有返回响应，就返回了结果
+3. goroutine 泄漏<br>
+如果使用无缓冲通道，两个较慢的通道goroutine将被卡住（因为他们发送响应结果到通道没有goroutine来接收），这种情况叫goroutine泄漏。不要通过共享内存来通信，应该通过通信来共享内存</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">chengxiaotian</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        0001-01-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/go/">go</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/php5%E4%B8%8Ephp7%E7%9A%84zval%E6%AF%94%E8%BE%83/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">PHP5与PHP7的zval比较</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/php-%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%E4%B8%80/">
+            <span class="next-text nav-default">PHP 内核分析笔记（一）单进程SAPI生命周期</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+  <a href="https://kris0923.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>chengxiaotian</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 ---
 title: GO语言语法基础
-draft: true
+draft: false
 date: 2018-012-17 12:18:45
 categories: ["go"]
 tags: ["go"]

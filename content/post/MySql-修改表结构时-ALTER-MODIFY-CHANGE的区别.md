@@ -1,7 +1,7 @@
 ---
 title: 'MySql 修改表结构时 ALTER,MODIFY,CHANGE的区别'
 date: 2019-07-17 23:09:55
-draft: true
+draft: false
 categories: ["MySql"]
 tags: ["MySql"]
 ---

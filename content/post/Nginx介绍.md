@@ -1,7 +1,9 @@
 ---
 title: "Nginx介绍"
 date: 2019-09-01T23:46:27+08:00
-draft: true
+draft: false
+categories: ["服务器"]
+tags: ["MySql"]
 ---
 
 ## Nginx是什么
