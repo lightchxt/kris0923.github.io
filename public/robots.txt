@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://kris0923.github.io/sitemap.xml
