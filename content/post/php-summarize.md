@@ -1,5 +1,6 @@
 ---
 title: PHP 知识总结（一）
+date: 2019-06-08T00:14:23+08:00
 draft: false
 categories: ["php"]
 tags: ["php"]

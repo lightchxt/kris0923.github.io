@@ -19,7 +19,7 @@
     <item>
       <title>GO语言语法基础</title>
       <link>https://kris0923.github.io/post/go-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 17 Dec 2018 00:15:23 +0800</pubDate>
       
       <guid>https://kris0923.github.io/post/go-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</guid>
       <description>基础语法 i++, i&amp;ndash; 在go语言中是语句，而不像其他语言一样是表达式，所以， j = i++ 在go语言里面是不合法的,并且只支持后缀， &amp;ndash;i 是不合法的 for 是go里面唯</description>
