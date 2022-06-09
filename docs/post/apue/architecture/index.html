@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Redis数据过期策略 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <title>【APUE】Unix体系结构 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chengxiaotian" /><meta name="description" content="1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="chengxiaotian" /><meta name="description" content="Unix系统结构从内到外 内核-&amp;gt;系统调用-&amp;gt;(公用函数库、shell)-&amp;gt;应用程序 一般用户信息在/etc/passwd 文件" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.96.0 with theme even" />
 
 
-<link rel="canonical" href="https://kris0923.github.io/post/redis/" />
+<link rel="canonical" href="https://kris0923.github.io/post/apue/architecture/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Redis数据过期策略" />
-<meta property="og:description" content="1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis" />
+<meta property="og:title" content="【APUE】Unix体系结构" />
+<meta property="og:description" content="Unix系统结构从内到外 内核-&gt;系统调用-&gt;(公用函数库、shell)-&gt;应用程序 一般用户信息在/etc/passwd 文件" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://kris0923.github.io/post/redis/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-03-29T23:06:11+08:00" />
-<meta property="article:modified_time" content="2022-03-29T23:06:11+08:00" />
+<meta property="og:url" content="https://kris0923.github.io/post/apue/architecture/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-04-28T12:50:33+08:00" />
+<meta property="article:modified_time" content="2022-04-28T12:50:33+08:00" />
 
-<meta itemprop="name" content="Redis数据过期策略">
-<meta itemprop="description" content="1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis"><meta itemprop="datePublished" content="2022-03-29T23:06:11+08:00" />
-<meta itemprop="dateModified" content="2022-03-29T23:06:11+08:00" />
-<meta itemprop="wordCount" content="658">
-<meta itemprop="keywords" content="redis," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Redis数据过期策略"/>
-<meta name="twitter:description" content="1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis"/>
+<meta itemprop="name" content="【APUE】Unix体系结构">
+<meta itemprop="description" content="Unix系统结构从内到外 内核-&gt;系统调用-&gt;(公用函数库、shell)-&gt;应用程序 一般用户信息在/etc/passwd 文件"><meta itemprop="datePublished" content="2022-04-28T12:50:33+08:00" />
+<meta itemprop="dateModified" content="2022-04-28T12:50:33+08:00" />
+<meta itemprop="wordCount" content="471">
+<meta itemprop="keywords" content="APUE,Linux," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="【APUE】Unix体系结构"/>
+<meta name="twitter:description" content="Unix系统结构从内到外 内核-&gt;系统调用-&gt;(公用函数库、shell)-&gt;应用程序 一般用户信息在/etc/passwd 文件"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -125,12 +125,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Redis数据过期策略</h1>
+      <h1 class="post-title">【APUE】Unix体系结构</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-03-29 </span>
+        <span class="post-time"> 2022-04-28 </span>
         <div class="post-category">
-            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
+            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"> 读书笔记 </a>
             </div>
         
       </div>
@@ -141,51 +141,49 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#1-数据类型">1. 数据类型</a></li>
-        <li><a href="#2-redis为什么这么快">2. Redis为什么这么快</a></li>
-        <li><a href="#3-redis数据过期策略">3. Redis数据过期策略</a>
-          <ul>
-            <li><a href="#31-定期删除策略">3.1 定期删除策略</a></li>
-            <li><a href="#32-惰性删除策略">3.2 惰性删除策略</a></li>
-            <li><a href="#33-内存淘汰策略">3.3 内存淘汰策略</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
+    <li><a href="#系统调用和库函数">系统调用和库函数</a></li>
+    <li><a href="#posix">POSIX</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <h2 id="1-数据类型">1. 数据类型</h2>
-<p>五种数据类型</p>
-<h2 id="2-redis为什么这么快">2. Redis为什么这么快</h2>
+      <p>Unix系统结构从内到外 内核-&gt;系统调用-&gt;(公用函数库、shell)-&gt;应用程序</p>
+<p>一般用户信息在/etc/passwd 文件中，但macOS 的passwd文件中只有单用户模式的用户信息，普通登陆用户信息又Open Directory提供</p>
+<p>fork 创建一个新进程，新进程是调用进程的一个副本，fork调用一次，返回两次，在父进程中返回子进程ID，在子进程中返回0</p>
+<p>Unix系统中有两种时间</p>
 <ul>
-<li>Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis的瓶颈；</li>
-<li>单线程的效率已经非常高，没有必要使用多线程；单进程避免了线程或线程上下文切换的消耗，以及锁相关问题的消耗</li>
-<li>Redis只是处理客户端请求是单线程的，其他事情是在其他进程或线程中进行的，比如RDB文件生成是在子进程中进行</li>
-<li>数据结构设计简单，操作方便</li>
+<li>日历时间 （早期的成为格里尼治标准时间）</li>
+<li>进程时间（CPU时间）</li>
 </ul>
-<h2 id="3-redis数据过期策略">3. Redis数据过期策略</h2>
-<h3 id="31-定期删除策略">3.1 定期删除策略</h3>
-<pre><code>Redis启用一个定时器监视所有的key，判断key是否过期，过期则删除，这种策略可以保证过期的key最终都被删除，但是每次遍历内存中所有key非常消耗CPU资源。
-</code></pre>
-<h3 id="32-惰性删除策略">3.2 惰性删除策略</h3>
-<pre><code>在获取key时先判断key是否已过期，如果过期则删除，这种策略有个缺点时如果一个key一直未被使用，就一直在内存中，其实它已经过期了，会浪费大量内存空间
-</code></pre>
+<h1 id="系统调用和库函数">系统调用和库函数</h1>
+<ul>
+<li>系统调用：各版本Unix实现的提供良好定义、数量有限、直接进入内核的入口点，成为系统调用</li>
+<li>库函数：C语言实现的函数</li>
+</ul>
 <blockquote>
-<p>两种策略互补，结合起来，定时删除策略每次随机取一部分key进行检查，降低CPU的消耗；惰性删除策略删除访问到的key，基本满足所有的场景；剩余的没被抽到也没有被访问的key，则由内存淘汰策略删除</p>
+<p>库函数可以替换，系统调用不能替换</p>
 </blockquote>
-<h3 id="33-内存淘汰策略">3.3 内存淘汰策略</h3>
-<pre><code>1. 当内存不足时，新写入数据报错（Redis默认策略）
-2. 当内存不足以容纳新数据时，移除最近最少使用的key（LRU推荐使用）
-3. 在键空间中，随机移除某个key
-4. 在设置了过期时间的键中，移除最近最少使用的key（Redis既当缓存，又当持久化存储时使用此策略）
-5. 在设置了过期时间的key中，随机移除某个key
-6. 在设置了过期时间的key中，先过期的key先移除
-</code></pre>
+<table>
+<thead>
+<tr>
+<th>用户进程</th>
+<th>内核</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用程序-&gt;C库函数</td>
+<td>系统调用</td>
+</tr>
+</tbody>
+</table>
+<h1 id="posix">POSIX</h1>
+<p>POSIX标准定义了7类系统实现的限制和常量，一些常量限制在limits.h（mac /usr/include/limits.h）文件中，sysconf，pathconf，fpathconf可以在运行时得到实际实现值</p>
+<ul>
+<li>与文件和路径有关 pathconf，fpathconf</li>
+<li>与文件和路径无关 sysconf</li>
+</ul>
 
     </div>
 
@@ -197,7 +195,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2022-03-29
+        2022-04-28
         
     </span>
   </p>
@@ -206,16 +204,17 @@
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/redis/">redis</a>
+          <a href="/tags/apue/">APUE</a>
+          <a href="/tags/linux/">Linux</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/apue/architecture/">
+        <a class="prev" href="/post/apue/thread/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">【APUE】Unix体系结构</span>
+            <span class="prev-text nav-default">【APUE】线程控制</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/">
-            <span class="next-text nav-default">计算广告</span>
+        <a class="next" href="/post/redis/">
+            <span class="next-text nav-default">Redis数据过期策略</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

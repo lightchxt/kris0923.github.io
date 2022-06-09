@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Redis数据过期策略 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <title>计算广告 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chengxiaotian" /><meta name="description" content="1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="chengxiaotian" /><meta name="description" content="术语解释 DMP 数据管理平台 ADX 广告交易平台 SSP 供给方平台 DSP 需求方平台 计算广告系统架构 广告投放引擎的主要模块 广告投放机 广告检索 广告排序 收益管理 广告请求" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.96.0 with theme even" />
 
 
-<link rel="canonical" href="https://kris0923.github.io/post/redis/" />
+<link rel="canonical" href="https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Redis数据过期策略" />
-<meta property="og:description" content="1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis" />
+<meta property="og:title" content="计算广告" />
+<meta property="og:description" content="术语解释 DMP 数据管理平台 ADX 广告交易平台 SSP 供给方平台 DSP 需求方平台 计算广告系统架构 广告投放引擎的主要模块 广告投放机 广告检索 广告排序 收益管理 广告请求" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://kris0923.github.io/post/redis/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-03-29T23:06:11+08:00" />
-<meta property="article:modified_time" content="2022-03-29T23:06:11+08:00" />
+<meta property="og:url" content="https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-12-14T22:50:45+00:00" />
+<meta property="article:modified_time" content="2019-12-14T22:50:45+00:00" />
 
-<meta itemprop="name" content="Redis数据过期策略">
-<meta itemprop="description" content="1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis"><meta itemprop="datePublished" content="2022-03-29T23:06:11+08:00" />
-<meta itemprop="dateModified" content="2022-03-29T23:06:11+08:00" />
-<meta itemprop="wordCount" content="658">
-<meta itemprop="keywords" content="redis," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Redis数据过期策略"/>
-<meta name="twitter:description" content="1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis"/>
+<meta itemprop="name" content="计算广告">
+<meta itemprop="description" content="术语解释 DMP 数据管理平台 ADX 广告交易平台 SSP 供给方平台 DSP 需求方平台 计算广告系统架构 广告投放引擎的主要模块 广告投放机 广告检索 广告排序 收益管理 广告请求"><meta itemprop="datePublished" content="2019-12-14T22:50:45+00:00" />
+<meta itemprop="dateModified" content="2019-12-14T22:50:45+00:00" />
+<meta itemprop="wordCount" content="333">
+<meta itemprop="keywords" content="计算广告," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="计算广告"/>
+<meta name="twitter:description" content="术语解释 DMP 数据管理平台 ADX 广告交易平台 SSP 供给方平台 DSP 需求方平台 计算广告系统架构 广告投放引擎的主要模块 广告投放机 广告检索 广告排序 收益管理 广告请求"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -125,12 +125,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Redis数据过期策略</h1>
+      <h1 class="post-title">计算广告</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-03-29 </span>
+        <span class="post-time"> 2019-12-14 </span>
         <div class="post-category">
-            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
+            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"> 读书笔记 </a>
             </div>
         
       </div>
@@ -141,17 +141,24 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#术语解释">术语解释</a></li>
+    <li><a href="#计算广告系统架构">计算广告系统架构</a>
       <ul>
-        <li><a href="#1-数据类型">1. 数据类型</a></li>
-        <li><a href="#2-redis为什么这么快">2. Redis为什么这么快</a></li>
-        <li><a href="#3-redis数据过期策略">3. Redis数据过期策略</a>
+        <li><a href="#广告投放引擎的主要模块">广告投放引擎的主要模块</a></li>
+        <li><a href="#数据告诉公路">数据告诉公路</a></li>
+        <li><a href="#离线数据处理">离线数据处理</a>
           <ul>
-            <li><a href="#31-定期删除策略">3.1 定期删除策略</a></li>
-            <li><a href="#32-惰性删除策略">3.2 惰性删除策略</a></li>
-            <li><a href="#33-内存淘汰策略">3.3 内存淘汰策略</a></li>
+            <li><a href="#目标">目标</a></li>
           </ul>
         </li>
+        <li><a href="#在线数据处理">在线数据处理</a></li>
+      </ul>
+    </li>
+    <li><a href="#广告相关领域知识">广告相关领域知识</a>
+      <ul>
+        <li><a href="#信息检索">信息检索</a></li>
+        <li><a href="#最优化">最优化</a></li>
+        <li><a href="#机器学习">机器学习</a></li>
       </ul>
     </li>
   </ul>
@@ -159,33 +166,63 @@
   </div>
 </div>
     <div class="post-content">
-      <h2 id="1-数据类型">1. 数据类型</h2>
-<p>五种数据类型</p>
-<h2 id="2-redis为什么这么快">2. Redis为什么这么快</h2>
+      <h1 id="术语解释">术语解释</h1>
 <ul>
-<li>Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis的瓶颈；</li>
-<li>单线程的效率已经非常高，没有必要使用多线程；单进程避免了线程或线程上下文切换的消耗，以及锁相关问题的消耗</li>
-<li>Redis只是处理客户端请求是单线程的，其他事情是在其他进程或线程中进行的，比如RDB文件生成是在子进程中进行</li>
-<li>数据结构设计简单，操作方便</li>
+<li>DMP 数据管理平台</li>
+<li>ADX 广告交易平台</li>
+<li>SSP 供给方平台</li>
+<li>DSP 需求方平台</li>
 </ul>
-<h2 id="3-redis数据过期策略">3. Redis数据过期策略</h2>
-<h3 id="31-定期删除策略">3.1 定期删除策略</h3>
-<pre><code>Redis启用一个定时器监视所有的key，判断key是否过期，过期则删除，这种策略可以保证过期的key最终都被删除，但是每次遍历内存中所有key非常消耗CPU资源。
-</code></pre>
-<h3 id="32-惰性删除策略">3.2 惰性删除策略</h3>
-<pre><code>在获取key时先判断key是否已过期，如果过期则删除，这种策略有个缺点时如果一个key一直未被使用，就一直在内存中，其实它已经过期了，会浪费大量内存空间
-</code></pre>
-<blockquote>
-<p>两种策略互补，结合起来，定时删除策略每次随机取一部分key进行检查，降低CPU的消耗；惰性删除策略删除访问到的key，基本满足所有的场景；剩余的没被抽到也没有被访问的key，则由内存淘汰策略删除</p>
-</blockquote>
-<h3 id="33-内存淘汰策略">3.3 内存淘汰策略</h3>
-<pre><code>1. 当内存不足时，新写入数据报错（Redis默认策略）
-2. 当内存不足以容纳新数据时，移除最近最少使用的key（LRU推荐使用）
-3. 在键空间中，随机移除某个key
-4. 在设置了过期时间的键中，移除最近最少使用的key（Redis既当缓存，又当持久化存储时使用此策略）
-5. 在设置了过期时间的key中，随机移除某个key
-6. 在设置了过期时间的key中，先过期的key先移除
-</code></pre>
+<h1 id="计算广告系统架构">计算广告系统架构</h1>
+<h2 id="广告投放引擎的主要模块">广告投放引擎的主要模块</h2>
+<ul>
+<li>广告投放机</li>
+<li>广告检索</li>
+<li>广告排序</li>
+<li>收益管理</li>
+<li>广告请求接口</li>
+<li>定制化用户划分</li>
+</ul>
+<h2 id="数据告诉公路">数据告诉公路</h2>
+<p>将在线投放的数据准实时的传输到离线分布式计算平台与流计算平台供后续处理和建模使用</p>
+<h2 id="离线数据处理">离线数据处理</h2>
+<h3 id="目标">目标</h3>
+<p>统计日志得到报表； 利用数据挖掘、机器学习技术进行受众定向、点击率估计、分配策略规划等</p>
+<ul>
+<li>用户会话日志生成</li>
+<li>行为定向</li>
+<li>上下文定向</li>
+<li>点击率建模</li>
+<li>分配规划</li>
+<li>商业智能</li>
+<li>广告管理系统</li>
+</ul>
+<h2 id="在线数据处理">在线数据处理</h2>
+<p>离线数据处理的镜像功能</p>
+<ul>
+<li>在线反作弊</li>
+<li>计费</li>
+<li>在线行为反馈</li>
+<li>实时索引</li>
+</ul>
+<h1 id="广告相关领域知识">广告相关领域知识</h1>
+<h2 id="信息检索">信息检索</h2>
+<ul>
+<li>倒排索引</li>
+<li>向量空间模型-最基础且最重要的文档相似度度量方法</li>
+</ul>
+<h2 id="最优化">最优化</h2>
+<ul>
+<li>拉格朗日法与凸优化</li>
+<li>梯度下降法</li>
+<li>拟牛顿法</li>
+</ul>
+<h2 id="机器学习">机器学习</h2>
+<ul>
+<li>最大熵与指数族分布</li>
+<li>混合模型和EM算法</li>
+<li>贝叶斯学习</li>
+</ul>
 
     </div>
 
@@ -197,7 +234,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2022-03-29
+        2019-12-14
         
     </span>
   </p>
@@ -206,16 +243,16 @@
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/redis/">redis</a>
+          <a href="/tags/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/">计算广告</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/apue/architecture/">
+        <a class="prev" href="/post/redis/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">【APUE】Unix体系结构</span>
+            <span class="prev-text nav-default">Redis数据过期策略</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/">
-            <span class="next-text nav-default">计算广告</span>
+        <a class="next" href="/post/laravel%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+            <span class="next-text nav-default">Laravel中间件实现分析</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

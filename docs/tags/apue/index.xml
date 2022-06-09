@@ -25,5 +25,14 @@
       <description>在UNIX系统中，线程提供了分解并发任务的另一种模型 线程终止 单个线程可以通过3种方式退出： 简单的从单个启动例程中返回，返回值是线程的退出码 线</description>
     </item>
     
+    <item>
+      <title>【APUE】Unix体系结构</title>
+      <link>https://kris0923.github.io/post/apue/architecture/</link>
+      <pubDate>Thu, 28 Apr 2022 12:50:33 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/apue/architecture/</guid>
+      <description>Unix系统结构从内到外 内核-&amp;gt;系统调用-&amp;gt;(公用函数库、shell)-&amp;gt;应用程序 一般用户信息在/etc/passwd 文件</description>
+    </item>
+    
   </channel>
 </rss>

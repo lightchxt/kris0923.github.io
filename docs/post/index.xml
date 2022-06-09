@@ -26,12 +26,30 @@
     </item>
     
     <item>
+      <title>【APUE】Unix体系结构</title>
+      <link>https://kris0923.github.io/post/apue/architecture/</link>
+      <pubDate>Thu, 28 Apr 2022 12:50:33 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/apue/architecture/</guid>
+      <description>Unix系统结构从内到外 内核-&amp;gt;系统调用-&amp;gt;(公用函数库、shell)-&amp;gt;应用程序 一般用户信息在/etc/passwd 文件</description>
+    </item>
+    
+    <item>
       <title>Redis数据过期策略</title>
       <link>https://kris0923.github.io/post/redis/</link>
       <pubDate>Tue, 29 Mar 2022 23:06:11 +0800</pubDate>
       
       <guid>https://kris0923.github.io/post/redis/</guid>
       <description>1. 数据类型 五种数据类型 2. Redis为什么这么快 Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis</description>
+    </item>
+    
+    <item>
+      <title>计算广告</title>
+      <link>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</link>
+      <pubDate>Sat, 14 Dec 2019 22:50:45 +0000</pubDate>
+      
+      <guid>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</guid>
+      <description>术语解释 DMP 数据管理平台 ADX 广告交易平台 SSP 供给方平台 DSP 需求方平台 计算广告系统架构 广告投放引擎的主要模块 广告投放机 广告检索 广告排序 收益管理 广告请求</description>
     </item>
     
     <item>

@@ -65,6 +65,13 @@
   </url>
   
   <url>
+    <loc>https://kris0923.github.io/post/apue/architecture/</loc>
+    <lastmod>2022-04-28T12:50:33+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://kris0923.github.io/tags/redis/</loc>
     <lastmod>2022-03-29T23:06:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -81,6 +88,20 @@
   <url>
     <loc>https://kris0923.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2022-03-29T23:06:11+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</loc>
+    <lastmod>2019-12-14T22:50:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</loc>
+    <lastmod>2019-12-14T22:50:45+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

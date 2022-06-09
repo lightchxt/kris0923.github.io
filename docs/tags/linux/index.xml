@@ -26,6 +26,15 @@
     </item>
     
     <item>
+      <title>【APUE】Unix体系结构</title>
+      <link>https://kris0923.github.io/post/apue/architecture/</link>
+      <pubDate>Thu, 28 Apr 2022 12:50:33 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/apue/architecture/</guid>
+      <description>Unix系统结构从内到外 内核-&amp;gt;系统调用-&amp;gt;(公用函数库、shell)-&amp;gt;应用程序 一般用户信息在/etc/passwd 文件</description>
+    </item>
+    
+    <item>
       <title>Linux命令之sed</title>
       <link>https://kris0923.github.io/post/sed/</link>
       <pubDate>Sun, 28 Jul 2019 21:09:34 +0800</pubDate>
