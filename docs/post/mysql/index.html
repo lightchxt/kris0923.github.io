@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>一文了解MySql - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <title>一文了解MySql {{ .Date }} - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chengxiaotian" /><meta name="description" content="MySlq 逻辑架构 -- 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="chengxiaotian" /><meta name="description" content="MySlq 逻辑架构 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="一文了解MySql" />
-<meta property="og:description" content="MySlq 逻辑架构 -- 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用" />
+<meta property="og:title" content="一文了解MySql {{ .Date }}" />
+<meta property="og:description" content="MySlq 逻辑架构 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kris0923.github.io/post/mysql/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-09-08T22:36:54+08:00" />
 <meta property="article:modified_time" content="2021-09-08T22:36:54+08:00" />
 
-<meta itemprop="name" content="一文了解MySql">
-<meta itemprop="description" content="MySlq 逻辑架构 -- 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用"><meta itemprop="datePublished" content="2021-09-08T22:36:54+08:00" />
+<meta itemprop="name" content="一文了解MySql {{ .Date }}">
+<meta itemprop="description" content="MySlq 逻辑架构 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁"><meta itemprop="datePublished" content="2021-09-08T22:36:54+08:00" />
 <meta itemprop="dateModified" content="2021-09-08T22:36:54+08:00" />
-<meta itemprop="wordCount" content="6009">
+<meta itemprop="wordCount" content="5888">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="一文了解MySql"/>
-<meta name="twitter:description" content="MySlq 逻辑架构 -- 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用"/>
+<meta name="twitter:title" content="一文了解MySql {{ .Date }}"/>
+<meta name="twitter:description" content="MySlq 逻辑架构 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -125,7 +125,7 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">一文了解MySql</h1>
+      <h1 class="post-title">一文了解MySql {{ .Date }}</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2021-09-08 </span>
@@ -194,17 +194,44 @@
     <li><a href="#gtid-主从同步">GTID （主从同步）</a></li>
     <li><a href="#读写分离的弊端">读写分离的弊端</a>
       <ul>
-        <li><a href="#主从延迟">主从延迟：</a></li>
+        <li><a href="#主从延迟">主从延迟：</a>
+          <ul>
+            <li><a href="#等主库位点的方案">等主库位点的方案</a></li>
+            <li><a href="#gtid方案">GTID方案</a></li>
+          </ul>
+        </li>
+        <li><a href="#mysql健康检查">MySql健康检查</a></li>
+        <li><a href="#误删数据找回">误删数据找回</a>
+          <ul>
+            <li><a href="#误删行-delete">误删行 delete</a></li>
+            <li><a href="#误删库表">误删库/表</a></li>
+            <li><a href="#预防">预防：</a></li>
+            <li><a href="#rm数据">rm数据</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
+    <li><a href="#kill-query-kill-connection">kill query/ kill connection</a>
+      <ul>
+        <li><a href="#kill-不能生效的情况">kill 不能生效的情况：</a></li>
+      </ul>
+    </li>
+    <li><a href="#读取数据">读取数据</a></li>
+    <li><a href="#join">Join</a></li>
+    <li><a href="#muity-range-read-优化">Muity-Range Read 优化：</a></li>
+    <li><a href="#临时表的应用">临时表的应用</a></li>
+    <li><a href="#表复制">表复制</a></li>
+    <li><a href="#物理拷贝">物理拷贝</a></li>
+    <li><a href="#分区表">分区表</a></li>
+    <li><a href="#自增id">自增ID</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
       <h1 id="myslq-逻辑架构">MySlq 逻辑架构</h1>
-<!-- {{ $image := .Resources.GetMatch "mysql.png" }}
-<img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}"> -->
+<!-- {{ $image := .Resources.GetMatch "mysql.png" }} -->
+<img src="/post/mysql/mysql.png" width="{{ $image.Width }}" height="{{ $image.Height }}">
 <h1 id="为什么不要使用长事务">为什么不要使用长事务：</h1>
 <ol>
 <li>长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间</li>
@@ -395,243 +422,141 @@ GTID=server_uuid:gno</p>
 <ul>
 <li>强制走主库</li>
 <li>sleep（不靠谱）</li>
-<li>判断主备无延迟：</li>
+<li>判断主备无延迟：
+<ul>
+<li>
+<p>a. show salve status 判断second_behind_master是否等于0</p>
+</li>
+<li>
+<p>b. Master_Log_File和Relay_master_Log_Pos、Read_Master_Log_Pos 和Exec_Master_Log_Pos 这两组值完全相同（读到主库的最新位点和备库执行的最新位点）</p>
+</li>
+<li>
+<p>c. 对比GTID集合，Auto_Position=1, Retrieved_Gtid_set 和 Executed_Gtid_Set两个集合相同</p>
+</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span><span class="lnt">106
-</span><span class="lnt">107
-</span><span class="lnt">108
-</span><span class="lnt">109
-</span><span class="lnt">110
-</span><span class="lnt">111
-</span><span class="lnt">112
-</span><span class="lnt">113
-</span><span class="lnt">114
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">show salve status 判断second_behind_master是否等于0
-</span></span><span class="line"><span class="cl">Master_Log_File和Relay_master_Log_Pos、Read_Master_Log_Pos 和Exec_Master_Log_Pos 这两组值完全相同（读到主库的最新位点和备库执行的最新位点）
-</span></span><span class="line"><span class="cl">对比GTID集合，Auto_Position=1, Retrieved_Gtid_set 和 Executed_Gtid_Set两个集合相同
-</span></span><span class="line"><span class="cl">b，c比a要精确很多，second_behind_master单位是秒
-</span></span><span class="line"><span class="cl">但是b, c 也是完全准确的，可能有一部分binlog正在从主库发送到从库
-</span></span><span class="line"><span class="cl">配合上semi-sync（半同步复制）+位点判断可以解决e的问题，但仅限于一主一从，多从的情况下，一个从库发送ack主库就提交事务了
-</span></span><span class="line"><span class="cl">业务高峰期，主库位点更新很快，所以位点判断一直不相等，可能出现从库迟迟无法响应的情况
-</span></span><span class="line"><span class="cl">等主库位点的方案
-</span></span><span class="line"><span class="cl">主库事务提交后立即执行 show master status，得到当前的file 和position，从库执行select master_pos_wait(File, Position,1),如果大于0，则已包含刚才提交的事务
-</span></span><span class="line"><span class="cl">GTID方案
-</span></span><span class="line"><span class="cl">select wait_for_executed_gtid_set(gtid_set, 1) = 0 表示从库中已经包含传入的gtid_set
-</span></span><span class="line"><span class="cl">5.7 之后的版本会把gtid返回给客户端
-</span></span><span class="line"><span class="cl">MySql健康检查
-</span></span><span class="line"><span class="cl">SHOW VARIABLES LIKE &#39;innodb_thread_concurrency&#39;;  并发查询数
-</span></span><span class="line"><span class="cl">等行锁和间隙锁的线程是不算在并发查询数里面的
-</span></span><span class="line"><span class="cl">select 1；
-</span></span><span class="line"><span class="cl">update 系统表数据
-</span></span><span class="line"><span class="cl">内部统计，判断单次I/O 是否大于某个时间
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">误删数据找回
-</span></span><span class="line"><span class="cl">误删行 delete
-</span></span><span class="line"><span class="cl">flashback工具，需要保证binlig_format=row和binlog_row_image=FULL
-</span></span><span class="line"><span class="cl">提前预防：设置sql_safe_updates=on, delete 和update的语句中必须有where条件且包含索引字段
-</span></span><span class="line"><span class="cl">误删库/表
-</span></span><span class="line"><span class="cl">全量备份+增量日志 mysqlbinlog
-</span></span><span class="line"><span class="cl">搭建延迟复制备库，指定一个备库和主库有N秒的延迟，减少需要恢复的数据
-</span></span><span class="line"><span class="cl">预防：
-</span></span><span class="line"><span class="cl">帐号分离，不给Drop、truncate的权限
-</span></span><span class="line"><span class="cl">日常使用只读帐号
-</span></span><span class="line"><span class="cl">删表之前，先做更名操作，观察一段时间再删
-</span></span><span class="line"><span class="cl">rm数据
-</span></span><span class="line"><span class="cl">高可用（HA）集群只要不是把整个集群删除，HA会自动选出一个新主库
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">kill query/ kill connection 
-</span></span><span class="line"><span class="cl">MySql kill 和 linux的kill命令类似，并不是直接终止，而是给进程发送一个终止的信号；
-</span></span><span class="line"><span class="cl">把被kill的session的状态改成 THD::KILL_QUERY
-</span></span><span class="line"><span class="cl">给被kill的session 
-</span></span><span class="line"><span class="cl">kill 不能生效的情况：
-</span></span><span class="line"><span class="cl">线程没有执行到判断线程状态的逻辑（一直在循环判断是否可以执行）
-</span></span><span class="line"><span class="cl">终止逻辑耗时较长
-</span></span><span class="line"><span class="cl">超大事务执行被kill，回滚操作耗时较长
-</span></span><span class="line"><span class="cl">大查询回滚，生成了比较大的临时文件，如果文件系统压力大，则删除临时文件可能需要等待I/O资源
-</span></span><span class="line"><span class="cl">DDL命令执行到最后阶段，如果被kill，也需要删除过程中的临时文件
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">读取数据
-</span></span><span class="line"><span class="cl">客户端使用 --quick 参数会使用mysq_use_result方法
-</span></span><span class="line"><span class="cl">mysql_use_result: 读一行处理一行，如果处理的很慢，客户端过很久才去读下一行，会出现sending to client
-</span></span><span class="line"><span class="cl">mysql_store_result: 将查询的结果保存到本地内存
-</span></span><span class="line"><span class="cl">查询结果是分段发送给客户端的，所以不会打爆内存
-</span></span><span class="line"><span class="cl">Innodb Buffer Pull的LRU 算法是用链表实现的，并且分成young区和old区（5：3）；每次淘汰都是在old去，在old区存在超过1s的数据才能进入young区，保证了在全表扫描的时候，正常业务的查询命中率不会降低
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Join
-</span></span><span class="line"><span class="cl">如果可以使用被驱动表的索引，join 语句是有其优势的；
-</span></span><span class="line"><span class="cl">不能使用被驱动表的索引，只能使用 Block Nested-Loop Join 算法，这样的语句就尽量不要使用；
-</span></span><span class="line"><span class="cl">join_buffer_size 设定了join buffer的大小，越大被驱动表扫描的次数越少，扫描次数 N + k*M
-</span></span><span class="line"><span class="cl">在使用 join 的时候，应该让小表做驱动表
-</span></span><span class="line"><span class="cl">通过where条件过滤之后的数据量小的为小表
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Muity-Range Read 优化：
-</span></span><span class="line"><span class="cl">思路：因为大多数数据都是按照主键id自增的顺序插入到得到的，所以按照主键id递增的顺序查询是比较接近顺序读，能够提升读性能
-</span></span><span class="line"><span class="cl">实现：将根据索引定位到的记录放到read_rnd_buffer中，将read_rnd_buffer 中的id递增排序，用排序后的数组到主键索引中查找记录
-</span></span><span class="line"><span class="cl">BKA  (Batched Key Access)，对 BNL算法的优化
-</span></span><span class="line"><span class="cl">- 在被驱动表上加索引
-</span></span><span class="line"><span class="cl">- 创建临时表
-</span></span><span class="line"><span class="cl">不支持hash join
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">临时表的应用
-</span></span><span class="line"><span class="cl">分库分表系统的跨库查询
-</span></span><span class="line"><span class="cl">在使用分区key的查询中可以直接定位到数据放在了哪一个表
-</span></span><span class="line"><span class="cl">未使用到分区key的查询，只能到所有分区中区查找数据，然后统一操作
-</span></span><span class="line"><span class="cl">在proxy中实现，需要的工作量大，对中间层的开发能力比较高，对proxy的压力比较大
-</span></span><span class="line"><span class="cl">把各个分库拿到的数据汇总到一个Mysql实例的一个表中，然后在这个汇总的实力上操作（临时表）
-</span></span><span class="line"><span class="cl">内部临时表
-</span></span><span class="line"><span class="cl">使用场景：
-</span></span><span class="line"><span class="cl">UNION：需要对结果去重，需要使用临时表，Union ALL 就不需要
-</span></span><span class="line"><span class="cl">Group By：无序的数据需要对结果统计计数
-</span></span><span class="line"><span class="cl">如果执行过程可以一边读数据，一边直接得到结果，就不需要额外的内存
-</span></span><span class="line"><span class="cl">join_buffer 是无序数组，sort_buffer是有序数组，临时表是二维表结构
-</span></span><span class="line"><span class="cl">如果需要二维表的特性，就会考虑使用临时表（union 唯一索引约束，group by 需要额外的字段计数）
-</span></span><span class="line"><span class="cl">SQL_BIG_RESULT 告诉Mysq 直接使用排序算法得到group by的结果
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">除了内存临时表，普通的内存表不建议使用，一是不支持行锁，性能可能并没有预想的好，二是在集群架构上数据持久化可能会有问题
-</span></span><span class="line"><span class="cl">主键自增
-</span></span><span class="line"><span class="cl">innoDB引擎的索引值存在内存里，MyISAM存储在数据文件中，8.0版本之后记录到了redolog中，保证重启也不会丢失
-</span></span><span class="line"><span class="cl">主键自增不连续的原因：
-</span></span><span class="line"><span class="cl">插入数据失败
-</span></span><span class="line"><span class="cl">事务回滚
-</span></span><span class="line"><span class="cl">批量插入，每次申请的自增id的数量都是上一次的两倍，最后未用完的就浪费了
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">表复制
-</span></span><span class="line"><span class="cl">mysqldump
-</span></span><span class="line"><span class="cl">mysqldump -h$host -P$port -u$user --add-locks=0 --no-create-info --single-transaction  --set-gtid-purged=OFF db1 t --where=&#34;a&gt;900&#34; --result-file=/client_tmp/t.sql
-</span></span><span class="line"><span class="cl">导出csv文件
-</span></span><span class="line"><span class="cl">select * from db1.t where a&gt;900 into outfile &#39;/server_tmp/t.csv&#39;;
-</span></span><span class="line"><span class="cl">生成的文件在服务器上，不在客户端机器上
-</span></span><span class="line"><span class="cl">受 secure_file_priv 的限制
-</span></span><span class="line"><span class="cl">目标文件不存在
-</span></span><span class="line"><span class="cl">物理拷贝
-</span></span><span class="line"><span class="cl">5.6之前是不允许的，5.6之后引入了可传输表空间
-</span></span><span class="line"><span class="cl">Flush Privileges
-</span></span><span class="line"><span class="cl">1. grant/revoke语句会同时修改数据表和内存，正常情况下是没有必要跟flush privileges 的；
-</span></span><span class="line"><span class="cl">2. 不规范的操作，直接使用DML操作系统权限表才需要跟flush privileges；
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">分区表
-</span></span><span class="line"><span class="cl">1. 对于引擎层来说，分区表是多个表；对于Server层来说分区表是一个表
-</span></span><span class="line"><span class="cl">2. 不建议使用分区表的原因：
-</span></span><span class="line"><span class="cl">MySql在第一次打开分区表的时候需要访问所有的分区
-</span></span><span class="line"><span class="cl">在Server层认为是同一张表，因此公用同一个MDl锁，执行DDL时，影响更大
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">自增ID
-</span></span><span class="line"><span class="cl">1. 如果没有指定自增ID，MySql会创建一个不可见的长度为6个字节的row_id; 当row_id达到最大值(2^48 -1)后，再申请row_id就是0，并且会覆盖原来的数据
-</span></span><span class="line"><span class="cl">2. redolog 和 binlog中的Xid（Server层维护）是事务中执行的第一个Sql的query_id, global_query_id 是一个内存变量，重启后会清零，但同时也会生成新的binlog文件，所以同一个binlog文件中的xid是唯一的
-</span></span><span class="line"><span class="cl">3. Innodb trx_id  事务ID是引擎层维护的，最大值2^48-1, 只读事务不分配trx_id，理论上，只要MySql运行的足够久，trx_id重新从0开始分配就会出现幻读
-</span></span></code></pre></td></tr></table>
-</div>
-</div>
+</li>
+</ul>
+<p>b，c比a要精确很多，second_behind_master单位是秒</p>
+<p>但是b, c 也是完全准确的，可能有一部分binlog正在从主库发送到从库</p>
+<p>配合上semi-sync（半同步复制）+位点判断可以解决e的问题，但仅限于一主一从，多从的情况下，一个从库发送ack主库就提交事务了</p>
+<p>业务高峰期，主库位点更新很快，所以位点判断一直不相等，可能出现从库迟迟无法响应的情况</p>
+<h3 id="等主库位点的方案">等主库位点的方案</h3>
+<p>主库事务提交后立即执行 show master status，得到当前的file 和position，从库执行select master_pos_wait(File, Position,1),如果大于0，则已包含刚才提交的事务</p>
+<h3 id="gtid方案">GTID方案</h3>
+<p>select wait_for_executed_gtid_set(gtid_set, 1) = 0 表示从库中已经包含传入的gtid_set</p>
+<p>5.7 之后的版本会把gtid返回给客户端</p>
+<h2 id="mysql健康检查">MySql健康检查</h2>
+<p>SHOW VARIABLES LIKE &lsquo;innodb_thread_concurrency&rsquo;;  并发查询数</p>
+<p>等行锁和间隙锁的线程是不算在并发查询数里面的
+select 1；
+update 系统表数据
+内部统计，判断单次I/O 是否大于某个时间</p>
+<h2 id="误删数据找回">误删数据找回</h2>
+<h3 id="误删行-delete">误删行 delete</h3>
+<ul>
+<li>flashback工具，需要保证binlig_format=row和binlog_row_image=FULL</li>
+<li>提前预防：设置sql_safe_updates=on, delete 和update的语句中必须有where条件且包含索引字段</li>
+</ul>
+<h3 id="误删库表">误删库/表</h3>
+<ul>
+<li>全量备份+增量日志 mysqlbinlog</li>
+<li>搭建延迟复制备库，指定一个备库和主库有N秒的延迟，减少需要恢复的数据</li>
+</ul>
+<h3 id="预防">预防：</h3>
+<ul>
+<li>帐号分离，不给Drop、truncate的权限</li>
+<li>日常使用只读帐号</li>
+<li>删表之前，先做更名操作，观察一段时间再删</li>
+</ul>
+<h3 id="rm数据">rm数据</h3>
+<ul>
+<li>高可用（HA）集群只要不是把整个集群删除，HA会自动选出一个新主库</li>
+</ul>
+<h1 id="kill-query-kill-connection">kill query/ kill connection</h1>
+<ol>
+<li>MySql kill 和 linux的kill命令类似，并不是直接终止，而是给进程发送一个终止的信号；</li>
+<li>把被kill的session的状态改成 THD::KILL_QUERY</li>
+<li>给被kill的session</li>
+</ol>
+<h2 id="kill-不能生效的情况">kill 不能生效的情况：</h2>
+<ol>
+<li>线程没有执行到判断线程状态的逻辑（一直在循环判断是否可以执行）</li>
+<li>终止逻辑耗时较长</li>
+<li>超大事务执行被kill，回滚操作耗时较长</li>
+<li>大查询回滚，生成了比较大的临时文件，如果文件系统压力大，则删除临时文件可能需要等待I/O资源</li>
+<li>DDL命令执行到最后阶段，如果被kill，也需要删除过程中的临时文件</li>
+</ol>
+<h1 id="读取数据">读取数据</h1>
+<p>客户端使用 &ndash;quick 参数会使用mysq_use_result方法
+mysql_use_result: 读一行处理一行，如果处理的很慢，客户端过很久才去读下一行，会出现sending to client
+mysql_store_result: 将查询的结果保存到本地内存
+查询结果是分段发送给客户端的，所以不会打爆内存
+Innodb Buffer Pull的LRU 算法是用链表实现的，并且分成young区和old区（5：3）；每次淘汰都是在old去，在old区存在超过1s的数据才能进入young区，保证了在全表扫描的时候，正常业务的查询命中率不会降低</p>
+<h1 id="join">Join</h1>
+<p>如果可以使用被驱动表的索引，join 语句是有其优势的；
+不能使用被驱动表的索引，只能使用 Block Nested-Loop Join 算法，这样的语句就尽量不要使用；
+join_buffer_size 设定了join buffer的大小，越大被驱动表扫描的次数越少，扫描次数 N + k*M
+在使用 join 的时候，应该让小表做驱动表
+通过where条件过滤之后的数据量小的为小表</p>
+<h1 id="muity-range-read-优化">Muity-Range Read 优化：</h1>
+<p>思路：因为大多数数据都是按照主键id自增的顺序插入到得到的，所以按照主键id递增的顺序查询是比较接近顺序读，能够提升读性能
+实现：将根据索引定位到的记录放到read_rnd_buffer中，将read_rnd_buffer 中的id递增排序，用排序后的数组到主键索引中查找记录
+BKA  (Batched Key Access)，对 BNL算法的优化</p>
+<ul>
+<li>在被驱动表上加索引</li>
+<li>创建临时表
+不支持hash join</li>
+</ul>
+<h1 id="临时表的应用">临时表的应用</h1>
+<p>分库分表系统的跨库查询
+在使用分区key的查询中可以直接定位到数据放在了哪一个表
+未使用到分区key的查询，只能到所有分区中区查找数据，然后统一操作
+在proxy中实现，需要的工作量大，对中间层的开发能力比较高，对proxy的压力比较大
+把各个分库拿到的数据汇总到一个Mysql实例的一个表中，然后在这个汇总的实力上操作（临时表）
+内部临时表
+使用场景：
+UNION：需要对结果去重，需要使用临时表，Union ALL 就不需要
+Group By：无序的数据需要对结果统计计数
+如果执行过程可以一边读数据，一边直接得到结果，就不需要额外的内存
+join_buffer 是无序数组，sort_buffer是有序数组，临时表是二维表结构
+如果需要二维表的特性，就会考虑使用临时表（union 唯一索引约束，group by 需要额外的字段计数）
+SQL_BIG_RESULT 告诉Mysq 直接使用排序算法得到group by的结果</p>
+<p>除了内存临时表，普通的内存表不建议使用，一是不支持行锁，性能可能并没有预想的好，二是在集群架构上数据持久化可能会有问题
+主键自增
+innoDB引擎的索引值存在内存里，MyISAM存储在数据文件中，8.0版本之后记录到了redolog中，保证重启也不会丢失
+主键自增不连续的原因：
+插入数据失败
+事务回滚
+批量插入，每次申请的自增id的数量都是上一次的两倍，最后未用完的就浪费了</p>
+<h1 id="表复制">表复制</h1>
+<p>mysqldump
+mysqldump -h$host -P$port -u$user &ndash;add-locks=0 &ndash;no-create-info &ndash;single-transaction  &ndash;set-gtid-purged=OFF db1 t &ndash;where=&ldquo;a&gt;900&rdquo; &ndash;result-file=/client_tmp/t.sql
+导出csv文件
+select * from db1.t where a&gt;900 into outfile &lsquo;/server_tmp/t.csv&rsquo;;
+生成的文件在服务器上，不在客户端机器上
+受 secure_file_priv 的限制
+目标文件不存在</p>
+<h1 id="物理拷贝">物理拷贝</h1>
+<p>5.6之前是不允许的，5.6之后引入了可传输表空间
+Flush Privileges</p>
+<ol>
+<li>grant/revoke语句会同时修改数据表和内存，正常情况下是没有必要跟flush privileges 的；</li>
+<li>不规范的操作，直接使用DML操作系统权限表才需要跟flush privileges；</li>
+</ol>
+<h1 id="分区表">分区表</h1>
+<ol>
+<li>对于引擎层来说，分区表是多个表；对于Server层来说分区表是一个表</li>
+<li>不建议使用分区表的原因：
+MySql在第一次打开分区表的时候需要访问所有的分区
+在Server层认为是同一张表，因此公用同一个MDl锁，执行DDL时，影响更大</li>
+</ol>
+<h1 id="自增id">自增ID</h1>
+<ol>
+<li>如果没有指定自增ID，MySql会创建一个不可见的长度为6个字节的row_id; 当row_id达到最大值(2^48 -1)后，再申请row_id就是0，并且会覆盖原来的数据</li>
+<li>redolog 和 binlog中的Xid（Server层维护）是事务中执行的第一个Sql的query_id, global_query_id 是一个内存变量，重启后会清零，但同时也会生成新的binlog文件，所以同一个binlog文件中的xid是唯一的</li>
+<li>Innodb trx_id  事务ID是引擎层维护的，最大值2^48-1, 只读事务不分配trx_id，理论上，只要MySql运行的足够久，trx_id重新从0开始分配就会出现幻读</li>
+</ol>
+
     </div>
 
     <div class="post-copyright">

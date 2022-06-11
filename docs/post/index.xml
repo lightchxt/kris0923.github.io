@@ -44,12 +44,12 @@
     </item>
     
     <item>
-      <title>一文了解MySql</title>
+      <title>一文了解MySql {{ .Date }}</title>
       <link>https://kris0923.github.io/post/mysql/</link>
       <pubDate>Wed, 08 Sep 2021 22:36:54 +0800</pubDate>
       
       <guid>https://kris0923.github.io/post/mysql/</guid>
-      <description>MySlq 逻辑架构 -- 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用</description>
+      <description>MySlq 逻辑架构 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁</description>
     </item>
     
     <item>
