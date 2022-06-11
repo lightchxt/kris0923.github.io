@@ -1,12 +1,15 @@
 ---
-title: "一文了解MySql"
+title: "一文了解MySql {{ .Date }}"
 date: 2021-09-08T22:36:54+08:00
 draft: false
 ---
 
 # MySlq 逻辑架构
-<!-- {{ $image := .Resources.GetMatch "mysql.png" }}
-<img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}"> -->
+
+
+<!-- {{ $image := .Resources.GetMatch "mysql.png" }} -->
+
+<img src="/post/mysql/mysql.png" width="{{ $image.Width }}" height="{{ $image.Height }}">
 
 #  为什么不要使用长事务：
 1. 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间
@@ -170,59 +173,70 @@ gno 是一个整数，初始值是 1，每次提交事务的时候分配给这�
 - 强制走主库
 - sleep（不靠谱）
 - 判断主备无延迟：
-```
-show salve status 判断second_behind_master是否等于0
-Master_Log_File和Relay_master_Log_Pos、Read_Master_Log_Pos 和Exec_Master_Log_Pos 这两组值完全相同（读到主库的最新位点和备库执行的最新位点）
-对比GTID集合，Auto_Position=1, Retrieved_Gtid_set 和 Executed_Gtid_Set两个集合相同
+  - a. show salve status 判断second_behind_master是否等于0
+
+  - b. Master_Log_File和Relay_master_Log_Pos、Read_Master_Log_Pos 和Exec_Master_Log_Pos 这两组值完全相同（读到主库的最新位点和备库执行的最新位点）
+
+  - c. 对比GTID集合，Auto_Position=1, Retrieved_Gtid_set 和 Executed_Gtid_Set两个集合相同
+  
 b，c比a要精确很多，second_behind_master单位是秒
+
 但是b, c 也是完全准确的，可能有一部分binlog正在从主库发送到从库
+
 配合上semi-sync（半同步复制）+位点判断可以解决e的问题，但仅限于一主一从，多从的情况下，一个从库发送ack主库就提交事务了
+
 业务高峰期，主库位点更新很快，所以位点判断一直不相等，可能出现从库迟迟无法响应的情况
-等主库位点的方案
+
+### 等主库位点的方案
+
 主库事务提交后立即执行 show master status，得到当前的file 和position，从库执行select master_pos_wait(File, Position,1),如果大于0，则已包含刚才提交的事务
-GTID方案
+
+### GTID方案
 select wait_for_executed_gtid_set(gtid_set, 1) = 0 表示从库中已经包含传入的gtid_set
+
 5.7 之后的版本会把gtid返回给客户端
-MySql健康检查
+
+## MySql健康检查
 SHOW VARIABLES LIKE 'innodb_thread_concurrency';  并发查询数
+
 等行锁和间隙锁的线程是不算在并发查询数里面的
 select 1；
 update 系统表数据
 内部统计，判断单次I/O 是否大于某个时间
 
-误删数据找回
-误删行 delete
-flashback工具，需要保证binlig_format=row和binlog_row_image=FULL
-提前预防：设置sql_safe_updates=on, delete 和update的语句中必须有where条件且包含索引字段
-误删库/表
-全量备份+增量日志 mysqlbinlog
-搭建延迟复制备库，指定一个备库和主库有N秒的延迟，减少需要恢复的数据
-预防：
-帐号分离，不给Drop、truncate的权限
-日常使用只读帐号
-删表之前，先做更名操作，观察一段时间再删
-rm数据
-高可用（HA）集群只要不是把整个集群删除，HA会自动选出一个新主库
+## 误删数据找回
+### 误删行 delete
+- flashback工具，需要保证binlig_format=row和binlog_row_image=FULL
+- 提前预防：设置sql_safe_updates=on, delete 和update的语句中必须有where条件且包含索引字段
+### 误删库/表
+- 全量备份+增量日志 mysqlbinlog
+- 搭建延迟复制备库，指定一个备库和主库有N秒的延迟，减少需要恢复的数据
+### 预防：
+- 帐号分离，不给Drop、truncate的权限
+- 日常使用只读帐号
+- 删表之前，先做更名操作，观察一段时间再删
+### rm数据
+- 高可用（HA）集群只要不是把整个集群删除，HA会自动选出一个新主库
 
-kill query/ kill connection 
-MySql kill 和 linux的kill命令类似，并不是直接终止，而是给进程发送一个终止的信号；
-把被kill的session的状态改成 THD::KILL_QUERY
-给被kill的session 
-kill 不能生效的情况：
-线程没有执行到判断线程状态的逻辑（一直在循环判断是否可以执行）
-终止逻辑耗时较长
-超大事务执行被kill，回滚操作耗时较长
-大查询回滚，生成了比较大的临时文件，如果文件系统压力大，则删除临时文件可能需要等待I/O资源
-DDL命令执行到最后阶段，如果被kill，也需要删除过程中的临时文件
+# kill query/ kill connection 
+1. MySql kill 和 linux的kill命令类似，并不是直接终止，而是给进程发送一个终止的信号；
+2. 把被kill的session的状态改成 THD::KILL_QUERY
+3. 给被kill的session 
+## kill 不能生效的情况：
+1. 线程没有执行到判断线程状态的逻辑（一直在循环判断是否可以执行）
+2. 终止逻辑耗时较长
+3. 超大事务执行被kill，回滚操作耗时较长
+4. 大查询回滚，生成了比较大的临时文件，如果文件系统压力大，则删除临时文件可能需要等待I/O资源
+5. DDL命令执行到最后阶段，如果被kill，也需要删除过程中的临时文件
 
-读取数据
+# 读取数据
 客户端使用 --quick 参数会使用mysq_use_result方法
 mysql_use_result: 读一行处理一行，如果处理的很慢，客户端过很久才去读下一行，会出现sending to client
 mysql_store_result: 将查询的结果保存到本地内存
 查询结果是分段发送给客户端的，所以不会打爆内存
 Innodb Buffer Pull的LRU 算法是用链表实现的，并且分成young区和old区（5：3）；每次淘汰都是在old去，在old区存在超过1s的数据才能进入young区，保证了在全表扫描的时候，正常业务的查询命中率不会降低
 
-Join
+# Join
 如果可以使用被驱动表的索引，join 语句是有其优势的；
 不能使用被驱动表的索引，只能使用 Block Nested-Loop Join 算法，这样的语句就尽量不要使用；
 join_buffer_size 设定了join buffer的大小，越大被驱动表扫描的次数越少，扫描次数 N + k*M
@@ -230,7 +244,7 @@ join_buffer_size 设定了join buffer的大小，越大被驱动表扫描的次�
 通过where条件过滤之后的数据量小的为小表
 
 
-Muity-Range Read 优化：
+# Muity-Range Read 优化：
 思路：因为大多数数据都是按照主键id自增的顺序插入到得到的，所以按照主键id递增的顺序查询是比较接近顺序读，能够提升读性能
 实现：将根据索引定位到的记录放到read_rnd_buffer中，将read_rnd_buffer 中的id递增排序，用排序后的数组到主键索引中查找记录
 BKA  (Batched Key Access)，对 BNL算法的优化
@@ -238,7 +252,7 @@ BKA  (Batched Key Access)，对 BNL算法的优化
 - 创建临时表
 不支持hash join
 
-临时表的应用
+# 临时表的应用
 分库分表系统的跨库查询
 在使用分区key的查询中可以直接定位到数据放在了哪一个表
 未使用到分区key的查询，只能到所有分区中区查找数据，然后统一操作
@@ -261,7 +275,7 @@ innoDB引擎的索引值存在内存里，MyISAM存储在数据文件中，8.0�
 事务回滚
 批量插入，每次申请的自增id的数量都是上一次的两倍，最后未用完的就浪费了
 
-表复制
+# 表复制
 mysqldump
 mysqldump -h$host -P$port -u$user --add-locks=0 --no-create-info --single-transaction  --set-gtid-purged=OFF db1 t --where="a>900" --result-file=/client_tmp/t.sql
 导出csv文件
@@ -269,19 +283,19 @@ select * from db1.t where a>900 into outfile '/server_tmp/t.csv';
 生成的文件在服务器上，不在客户端机器上
 受 secure_file_priv 的限制
 目标文件不存在
-物理拷贝
+# 物理拷贝
 5.6之前是不允许的，5.6之后引入了可传输表空间
 Flush Privileges
 1. grant/revoke语句会同时修改数据表和内存，正常情况下是没有必要跟flush privileges 的；
 2. 不规范的操作，直接使用DML操作系统权限表才需要跟flush privileges；
 
-分区表
+# 分区表
 1. 对于引擎层来说，分区表是多个表；对于Server层来说分区表是一个表
 2. 不建议使用分区表的原因：
 MySql在第一次打开分区表的时候需要访问所有的分区
 在Server层认为是同一张表，因此公用同一个MDl锁，执行DDL时，影响更大
 
-自增ID
+# 自增ID
 1. 如果没有指定自增ID，MySql会创建一个不可见的长度为6个字节的row_id; 当row_id达到最大值(2^48 -1)后，再申请row_id就是0，并且会覆盖原来的数据
 2. redolog 和 binlog中的Xid（Server层维护）是事务中执行的第一个Sql的query_id, global_query_id 是一个内存变量，重启后会清零，但同时也会生成新的binlog文件，所以同一个binlog文件中的xid是唯一的
 3. Innodb trx_id  事务ID是引擎层维护的，最大值2^48-1, 只读事务不分配trx_id，理论上，只要MySql运行的足够久，trx_id重新从0开始分配就会出现幻读
