@@ -17,6 +17,15 @@
     </item>
     
     <item>
+      <title>【APUE】守护进程</title>
+      <link>https://kris0923.github.io/post/apue/deamon/</link>
+      <pubDate>Wed, 08 Jun 2022 00:14:23 +0800</pubDate>
+      
+      <guid>https://kris0923.github.io/post/apue/deamon/</guid>
+      <description>定义 守护进程（daemon）是生存期长的一种进程。通常在系统引导装入时启动 举例 kswapd 守护进程称为内存换页守护进程，支持虚拟内存在子系统在经过一段</description>
+    </item>
+    
+    <item>
       <title>【APUE】线程控制</title>
       <link>https://kris0923.github.io/post/apue/thread/</link>
       <pubDate>Thu, 12 May 2022 22:16:13 +0800</pubDate>

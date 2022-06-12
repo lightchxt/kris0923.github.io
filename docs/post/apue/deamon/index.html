@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>【APUE】标准IO库 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <title>【APUE】守护进程 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chengxiaotian" /><meta name="description" content="1. 缓冲：缓冲的目的是尽可能的减少read或write的次数 全缓冲：填满缓冲区后才尽心实际IO操作 行缓冲：输入和输出遇到换行符的时候，执行IO" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="chengxiaotian" /><meta name="description" content="定义 守护进程（daemon）是生存期长的一种进程。通常在系统引导装入时启动 举例 kswapd 守护进程称为内存换页守护进程，支持虚拟内存在子系统在经过一段" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.94.2 with theme even" />
 
 
-<link rel="canonical" href="https://kris0923.github.io/post/apue/standardio/" />
+<link rel="canonical" href="https://kris0923.github.io/post/apue/deamon/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="【APUE】标准IO库" />
-<meta property="og:description" content="1. 缓冲：缓冲的目的是尽可能的减少read或write的次数 全缓冲：填满缓冲区后才尽心实际IO操作 行缓冲：输入和输出遇到换行符的时候，执行IO" />
+<meta property="og:title" content="【APUE】守护进程" />
+<meta property="og:description" content="定义 守护进程（daemon）是生存期长的一种进程。通常在系统引导装入时启动 举例 kswapd 守护进程称为内存换页守护进程，支持虚拟内存在子系统在经过一段" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://kris0923.github.io/post/apue/standardio/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-06-09T09:37:03+08:00" />
-<meta property="article:modified_time" content="2022-06-09T09:37:03+08:00" />
+<meta property="og:url" content="https://kris0923.github.io/post/apue/deamon/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-06-08T00:14:23+08:00" />
+<meta property="article:modified_time" content="2022-06-08T00:14:23+08:00" />
 
-<meta itemprop="name" content="【APUE】标准IO库">
-<meta itemprop="description" content="1. 缓冲：缓冲的目的是尽可能的减少read或write的次数 全缓冲：填满缓冲区后才尽心实际IO操作 行缓冲：输入和输出遇到换行符的时候，执行IO"><meta itemprop="datePublished" content="2022-06-09T09:37:03+08:00" />
-<meta itemprop="dateModified" content="2022-06-09T09:37:03+08:00" />
-<meta itemprop="wordCount" content="543">
+<meta itemprop="name" content="【APUE】守护进程">
+<meta itemprop="description" content="定义 守护进程（daemon）是生存期长的一种进程。通常在系统引导装入时启动 举例 kswapd 守护进程称为内存换页守护进程，支持虚拟内存在子系统在经过一段"><meta itemprop="datePublished" content="2022-06-08T00:14:23+08:00" />
+<meta itemprop="dateModified" content="2022-06-08T00:14:23+08:00" />
+<meta itemprop="wordCount" content="876">
 <meta itemprop="keywords" content="APUE,Linux," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="【APUE】标准IO库"/>
-<meta name="twitter:description" content="1. 缓冲：缓冲的目的是尽可能的减少read或write的次数 全缓冲：填满缓冲区后才尽心实际IO操作 行缓冲：输入和输出遇到换行符的时候，执行IO"/>
+<meta name="twitter:title" content="【APUE】守护进程"/>
+<meta name="twitter:description" content="定义 守护进程（daemon）是生存期长的一种进程。通常在系统引导装入时启动 举例 kswapd 守护进程称为内存换页守护进程，支持虚拟内存在子系统在经过一段"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -125,10 +125,10 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">【APUE】标准IO库</h1>
+      <h1 class="post-title">【APUE】守护进程</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-06-09 </span>
+        <span class="post-time"> 2022-06-08 </span>
         <div class="post-category">
             <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"> 读书笔记 </a>
             </div>
@@ -141,40 +141,58 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-缓冲缓冲的目的是尽可能的减少read或write的次数">1. 缓冲：缓冲的目的是尽可能的减少read或write的次数</a></li>
-    <li><a href="#2-ios-c标准">2. IOS C标准：</a></li>
-    <li><a href="#3-打开流">3. 打开流</a></li>
-    <li><a href="#4-二进制流ß">4. 二进制流ß</a></li>
+    <li>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#举例">举例</a></li>
+        <li><a href="#编程规则">编程规则</a></li>
+        <li><a href="#出错记录">出错记录</a></li>
+        <li><a href="#单实例守护进程">单实例守护进程</a></li>
+        <li><a href="#惯例">惯例</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <h1 id="1-缓冲缓冲的目的是尽可能的减少read或write的次数">1. 缓冲：缓冲的目的是尽可能的减少read或write的次数</h1>
+      <h2 id="定义">定义</h2>
+<p>守护进程（daemon）是生存期长的一种进程。通常在系统引导装入时启动</p>
+<h2 id="举例">举例</h2>
 <ul>
-<li>全缓冲：填满缓冲区后才尽心实际IO操作</li>
-<li>行缓冲：输入和输出遇到换行符的时候，执行IO操作，通常在流涉及终端的时候使用（标准输入和标准输出），在缓冲区满的时候，即使没有换行符，也进行IO操作</li>
-<li>不带缓冲：立即输出，标准错误流stderr通常是不带缓冲的</li>
+<li>kswapd 守护进程称为内存换页守护进程，支持虚拟内存在子系统在经过一段时间后讲脏页面写回磁盘来回收这些页面</li>
+<li>flush 守护进程在可用内存达到设置的最小阈值时讲脏页面冲洗至磁盘；也定期的将脏页面数据冲洗回磁盘来减少在系统出现故障时发生数据丢失。多个冲洗守护进程可以同时存在，每个写回设备都有一个冲洗守护进程</li>
+<li>sync_supers 守护进程定期的将文件系统元数据冲洗至磁盘</li>
+<li>jbd 守护进程帮助 实现了ext4文件系统中的日志功能</li>
 </ul>
-<h1 id="2-ios-c标准">2. IOS C标准：</h1>
+<blockquote>
+<p>用户层守护进程的父进程时init进程</p>
+</blockquote>
+<h2 id="编程规则">编程规则</h2>
+<ol>
+<li>调用umask 将文件创建模式屏蔽字设置为一个已知值（通常是0）</li>
+<li>调用fork，然后使父进程 exit</li>
+<li>调用setsid创建一个新会话</li>
+<li>将工作目录改为根目录</li>
+<li>关闭不再需要的文件描述符</li>
+<li>某些守护进程打开/dev/null使其具有文件描述符0、1、2，这样任何一个试图读标准输入，写标准输出和错误输出的库例程都不会产生任何效果</li>
+</ol>
+<h2 id="出错记录">出错记录</h2>
+<p>守护进程没有控制终端，所以不能简单的将消息写到标准错误上，大多数守护进程都使用syslog；</p>
+<p>有3种生产日志消息的方法：</p>
+<ol>
+<li>内核进程可以调用log函数，任何用户都可以打开并读取/dev/klog设备来读取这些信息</li>
+<li>大多数用户进程（守护进程）调用syslog函数生产日志消息，这些消息发送至Unix域数据报套接字/dav/log</li>
+<li>无论一个用户是否再此主机上，还是在通过 TCP/IP网络连接到此主机的其他主机上，都可将消息像UDP端口514</li>
+</ol>
+<h2 id="单实例守护进程">单实例守护进程</h2>
+<p>文件和记录锁机制，在运行程序前，先对文件进行加锁（将进程id写到文件）</p>
+<h2 id="惯例">惯例</h2>
 <ul>
-<li>当且仅当标准输出和标准输入不指向交互式设备时，才能是全缓冲</li>
-<li>标准错误绝不会是全缓冲</li>
-</ul>
-<h1 id="3-打开流">3. 打开流</h1>
-<ul>
-<li>Unix环境中使用b作为type的一部分[fopen(file, rb) OR freopen(file, ab+)]实际上没有作用，因为Unix内核并不区分文本文件和二进制文件</li>
-<li>进程正常终止（exit或者从main return）所有未带写缓冲数据的标准IO流都将被冲洗（放弃）</li>
-<li>getc和fgetc的区别在于，getc可以被实现为宏：</li>
-<li>getc的参数不能是有副作用的表达式</li>
-<li>fgetc一定是个函数，一定可以得到地址，可以作为参数传递</li>
-<li>fgetc的调用时间可能比getc长（函数调用的时间通常长于宏）</li>
-</ul>
-<h1 id="4-二进制流ß">4. 二进制流ß</h1>
-<p>fread和fwrite 可以一次读写一个完整的结构，但是只能用于同一个系统上读写数据，这是因为：</p>
-<ul>
-<li>在不同的系统中可能因为系统和编译程序的不同而导致结构成员偏移量的不同</li>
-<li>用来存储多字节正数和浮点数的结构在不同的系统上也可能不同</li>
+<li>若守护进程是用锁文件，那么该文件通常存储在/var/run目录中</li>
+<li>若守护进程支持配置选项，那么配置文件通常存放在/etc目录中，名称通常是<strong>name</strong>.conf</li>
+<li>守护进程可用命令行启动，但他们通常是又系统初始化脚本之一（/etc/rc<em>或者/etc/init.d/</em>）启动的</li>
+<li>若一个进程支持配置文件，进程启动时读该文件，但启动之后就不在读该文件；为了避免修改配置后需要重启进程，某些守护进程将捕捉SIGHUP信号，当接收到该信号时重新读配置文件</li>
 </ul>
 
     </div>
@@ -187,7 +205,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2022-06-09
+        2022-06-08
         
     </span>
   </p>
@@ -200,9 +218,13 @@
           <a href="/tags/linux/">Linux</a>
           </div>
       <nav class="post-nav">
-        
-        <a class="next" href="/post/apue/deamon/">
-            <span class="next-text nav-default">【APUE】守护进程</span>
+        <a class="prev" href="/post/apue/standardio/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">【APUE】标准IO库</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/apue/thread/">
+            <span class="next-text nav-default">【APUE】线程控制</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
