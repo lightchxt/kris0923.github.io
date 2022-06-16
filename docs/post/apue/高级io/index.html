@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>【APUE】标准IO库 - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
+  <title>高级IO - 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="chengxiaotian" /><meta name="description" content="1. 缓冲：缓冲的目的是尽可能的减少read或write的次数 全缓冲：填满缓冲区后才尽心实际IO操作 行缓冲：输入和输出遇到换行符的时候，执行IO" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="chengxiaotian" /><meta name="description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.94.2 with theme even" />
 
 
-<link rel="canonical" href="https://kris0923.github.io/post/apue/standardio/" />
+<link rel="canonical" href="https://kris0923.github.io/post/apue/%E9%AB%98%E7%BA%A7io/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="【APUE】标准IO库" />
-<meta property="og:description" content="1. 缓冲：缓冲的目的是尽可能的减少read或write的次数 全缓冲：填满缓冲区后才尽心实际IO操作 行缓冲：输入和输出遇到换行符的时候，执行IO" />
+<meta property="og:title" content="高级IO" />
+<meta property="og:description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://kris0923.github.io/post/apue/standardio/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-06-09T09:37:03+08:00" />
-<meta property="article:modified_time" content="2022-06-09T09:37:03+08:00" />
+<meta property="og:url" content="https://kris0923.github.io/post/apue/%E9%AB%98%E7%BA%A7io/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-06-16T22:56:26+08:00" />
+<meta property="article:modified_time" content="2022-06-16T22:56:26+08:00" />
 
-<meta itemprop="name" content="【APUE】标准IO库">
-<meta itemprop="description" content="1. 缓冲：缓冲的目的是尽可能的减少read或write的次数 全缓冲：填满缓冲区后才尽心实际IO操作 行缓冲：输入和输出遇到换行符的时候，执行IO"><meta itemprop="datePublished" content="2022-06-09T09:37:03+08:00" />
-<meta itemprop="dateModified" content="2022-06-09T09:37:03+08:00" />
-<meta itemprop="wordCount" content="543">
-<meta itemprop="keywords" content="APUE,Linux," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="【APUE】标准IO库"/>
-<meta name="twitter:description" content="1. 缓冲：缓冲的目的是尽可能的减少read或write的次数 全缓冲：填满缓冲区后才尽心实际IO操作 行缓冲：输入和输出遇到换行符的时候，执行IO"/>
+<meta itemprop="name" content="高级IO">
+<meta itemprop="description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不"><meta itemprop="datePublished" content="2022-06-16T22:56:26+08:00" />
+<meta itemprop="dateModified" content="2022-06-16T22:56:26+08:00" />
+<meta itemprop="wordCount" content="246">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="高级IO"/>
+<meta name="twitter:description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -125,13 +125,11 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">【APUE】标准IO库</h1>
+      <h1 class="post-title">高级IO</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-06-09 </span>
-        <div class="post-category">
-            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"> 读书笔记 </a>
-            </div>
+        <span class="post-time"> 2022-06-16 </span>
+        
         
       </div>
     </header>
@@ -141,41 +139,25 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-缓冲缓冲的目的是尽可能的减少read或write的次数">1. 缓冲：缓冲的目的是尽可能的减少read或write的次数</a></li>
-    <li><a href="#2-ios-c标准">2. IOS C标准：</a></li>
-    <li><a href="#3-打开流">3. 打开流</a></li>
-    <li><a href="#4-二进制流ß">4. 二进制流ß</a></li>
+    <li><a href="#非-阻塞io">非 阻塞IO</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <h1 id="1-缓冲缓冲的目的是尽可能的减少read或write的次数">1. 缓冲：缓冲的目的是尽可能的减少read或write的次数</h1>
+      <h1 id="非-阻塞io">非 阻塞IO</h1>
+<p>系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞：</p>
 <ul>
-<li>全缓冲：填满缓冲区后才尽心实际IO操作</li>
-<li>行缓冲：输入和输出遇到换行符的时候，执行IO操作，通常在流涉及终端的时候使用（标准输入和标准输出），在缓冲区满的时候，即使没有换行符，也进行IO操作</li>
-<li>不带缓冲：立即输出，标准错误流stderr通常是不带缓冲的</li>
+<li>如果某些文件类型（读管道、终端设备、网络设备）的数据不存在，则读操作可能会使调用者永远阻塞</li>
+<li>如果数据不能被相同的文件类型立即接受（管道中无空间、网络流控制），写操作可能会使调用者永远阻塞</li>
+<li>在某种条件发生之前打开某种文件类型可能会发生阻塞（如 要打开一个终端设备，需要等待与之连接的调制解调器应答）</li>
+<li>对已经加上强制性 记录锁的文件进行读写</li>
+<li>某些ioctl操作</li>
+<li>某些进程间通信函数</li>
 </ul>
-<h1 id="2-ios-c标准">2. IOS C标准：</h1>
-<ul>
-<li>当且仅当标准输出和标准输入不指向交互式设备时，才能是全缓冲</li>
-<li>标准错误绝不会是全缓冲</li>
-</ul>
-<h1 id="3-打开流">3. 打开流</h1>
-<ul>
-<li>Unix环境中使用b作为type的一部分[fopen(file, rb) OR freopen(file, ab+)]实际上没有作用，因为Unix内核并不区分文本文件和二进制文件</li>
-<li>进程正常终止（exit或者从main return）所有未带写缓冲数据的标准IO流都将被冲洗（放弃）</li>
-<li>getc和fgetc的区别在于，getc可以被实现为宏：</li>
-<li>getc的参数不能是有副作用的表达式</li>
-<li>fgetc一定是个函数，一定可以得到地址，可以作为参数传递</li>
-<li>fgetc的调用时间可能比getc长（函数调用的时间通常长于宏）</li>
-</ul>
-<h1 id="4-二进制流ß">4. 二进制流ß</h1>
-<p>fread和fwrite 可以一次读写一个完整的结构，但是只能用于同一个系统上读写数据，这是因为：</p>
-<ul>
-<li>在不同的系统中可能因为系统和编译程序的不同而导致结构成员偏移量的不同</li>
-<li>用来存储多字节正数和浮点数的结构在不同的系统上也可能不同</li>
-</ul>
+<blockquote>
+<p>不能讲与磁盘I/O有关的操作视为低速系统调用</p>
+</blockquote>
 
     </div>
 
@@ -187,7 +169,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2022-06-09
+        2022-06-16
         
     </span>
   </p>
@@ -195,18 +177,11 @@
   
 </div>
 <footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/apue/">APUE</a>
-          <a href="/tags/linux/">Linux</a>
-          </div>
+      
       <nav class="post-nav">
-        <a class="prev" href="/post/apue/%E9%AB%98%E7%BA%A7io/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">高级IO</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/apue/deamon/">
-            <span class="next-text nav-default">【APUE】守护进程</span>
+        
+        <a class="next" href="/post/apue/standardio/">
+            <span class="next-text nav-default">【APUE】标准IO库</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
