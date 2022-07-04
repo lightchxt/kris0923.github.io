@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.94.2 with theme even" />
+<meta name="generator" content="Hugo 0.101.0 with theme even" />
 
 
 <link rel="canonical" href="https://kris0923.github.io/post/apue/%E9%AB%98%E7%BA%A7io/" />
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="【APUE】高级IO">
 <meta itemprop="description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不"><meta itemprop="datePublished" content="2022-06-16T22:56:26+08:00" />
 <meta itemprop="dateModified" content="2022-06-16T22:56:26+08:00" />
-<meta itemprop="wordCount" content="246">
+<meta itemprop="wordCount" content="548">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="【APUE】高级IO"/>
 <meta name="twitter:description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不"/>
@@ -140,6 +140,13 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#非-阻塞io">非 阻塞IO</a></li>
+    <li><a href="#记录锁">记录锁</a>
+      <ul>
+        <li><a href="#记录锁的自动继承和释放">记录锁的自动继承和释放</a></li>
+      </ul>
+    </li>
+    <li><a href="#io多路转接">I/O多路转接</a></li>
+    <li><a href="#异步io">异步I/O</a></li>
   </ul>
 </nav>
   </div>
@@ -158,6 +165,26 @@
 <blockquote>
 <p>不能讲与磁盘I/O有关的操作视为低速系统调用</p>
 </blockquote>
+<h1 id="记录锁">记录锁</h1>
+<p>功能： 当第一个进程正在读或修改这个文件的某个部分时，使用记录锁可以阻止其他进程修改同一文件区</p>
+<ul>
+<li>flock： 只能对整个文件加锁</li>
+<li>fcntl：支持记录锁功能</li>
+<li>lockf： 基于fcntl提供了一个简化的接口</li>
+</ul>
+<h2 id="记录锁的自动继承和释放">记录锁的自动继承和释放</h2>
+<ul>
+<li>锁与进程和文件两者相关联：1）当一个进程终止时，它所建立的锁全部释放；2）无论一个描述符何时关闭，该进程通过这一描述符引用的文件上的任何一把锁都会释放</li>
+<li>由fork产生的子进程不继承父进程设置的锁</li>
+<li>在执行exec后新程序可以继承原执行程序的锁，但是如果对一个文件描述符设置了执行时关闭标志，那么当作为exec的一部分关闭该文件描述符时，将释放相应文件的所有锁</li>
+</ul>
+<h1 id="io多路转接">I/O多路转接</h1>
+<ul>
+<li>select</li>
+<li>pselect</li>
+<li>pool</li>
+</ul>
+<h1 id="异步io">异步I/O</h1>
 
     </div>
 
@@ -237,7 +264,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 
