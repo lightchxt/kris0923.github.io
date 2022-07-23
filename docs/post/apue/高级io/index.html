@@ -49,7 +49,7 @@
 <meta itemprop="name" content="【APUE】高级IO">
 <meta itemprop="description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不"><meta itemprop="datePublished" content="2022-06-16T22:56:26+08:00" />
 <meta itemprop="dateModified" content="2022-06-16T22:56:26+08:00" />
-<meta itemprop="wordCount" content="548">
+<meta itemprop="wordCount" content="602">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="【APUE】高级IO"/>
 <meta name="twitter:description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不"/>
@@ -147,6 +147,11 @@
     </li>
     <li><a href="#io多路转接">I/O多路转接</a></li>
     <li><a href="#异步io">异步I/O</a></li>
+    <li><a href="#存储映射io">存储映射I/O</a>
+      <ul>
+        <li><a href="#实现-mmap-函数">实现 mmap 函数</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -185,6 +190,9 @@
 <li>pool</li>
 </ul>
 <h1 id="异步io">异步I/O</h1>
+<h1 id="存储映射io">存储映射I/O</h1>
+<p>将磁盘文件映射到存储空间的一个缓冲区上，从缓冲区中读数据就相当于是读文件中的相应字节</p>
+<h2 id="实现-mmap-函数">实现 mmap 函数</h2>
 
     </div>
 
@@ -206,7 +214,11 @@
 <footer class="post-footer">
       
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/golang/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">GO语言类型转换</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/apue/standardio/">
             <span class="next-text nav-default">【APUE】标准IO库</span>
             <span class="next-text nav-mobile">Next</span>
