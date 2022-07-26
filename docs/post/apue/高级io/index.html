@@ -49,7 +49,7 @@
 <meta itemprop="name" content="【APUE】高级IO">
 <meta itemprop="description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不"><meta itemprop="datePublished" content="2022-06-16T22:56:26+08:00" />
 <meta itemprop="dateModified" content="2022-06-16T22:56:26+08:00" />
-<meta itemprop="wordCount" content="602">
+<meta itemprop="wordCount" content="654">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="【APUE】高级IO"/>
 <meta name="twitter:description" content="非 阻塞IO 系统调用分为两类：“低速”系统调用和其他，低速系统调用可能会使进程永远阻塞： 如果某些文件类型（读管道、终端设备、网络设备）的数据不"/>
@@ -193,6 +193,10 @@
 <h1 id="存储映射io">存储映射I/O</h1>
 <p>将磁盘文件映射到存储空间的一个缓冲区上，从缓冲区中读数据就相当于是读文件中的相应字节</p>
 <h2 id="实现-mmap-函数">实现 mmap 函数</h2>
+<ul>
+<li>映射文件的 起始偏移量必须是系统虚拟存储页长度的整数倍，</li>
+<li>mmap不能将数据添加到文件中，必须要先加长该文件</li>
+</ul>
 
     </div>
 

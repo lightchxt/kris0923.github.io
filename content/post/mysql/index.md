@@ -1,5 +1,5 @@
 ---
-title: "一文了解MySql {{ .Date }}"
+title: "一文了解MySql"
 date: 2021-09-08T22:36:54+08:00
 draft: false
 ---
