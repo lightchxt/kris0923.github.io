@@ -2,8 +2,8 @@
 title: "【APUE】高级IO"
 date: 2022-06-16T22:56:26+08:00
 draft: false
-categories: []
-tags: []
+categories: ["读书笔记"]
+tags: ["APUE", "Linux"]
 ---
 
 # 非 阻塞IO

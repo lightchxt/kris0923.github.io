@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>redis on 指北针</title>
+        <link>https://kris0923.github.io/tags/redis/</link>
+        <description>Recent content in redis on 指北针</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Tue, 29 Mar 2022 23:06:11 +0800</lastBuildDate><atom:link href="https://kris0923.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Redis数据过期策略</title>
+        <link>https://kris0923.github.io/p/redis%E6%95%B0%E6%8D%AE%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5/</link>
+        <pubDate>Tue, 29 Mar 2022 23:06:11 +0800</pubDate>
+        
+        <guid>https://kris0923.github.io/p/redis%E6%95%B0%E6%8D%AE%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5/</guid>
+        <description>&lt;h2 id=&#34;1-数据类型&#34;&gt;1. 数据类型&lt;/h2&gt;
+&lt;p&gt;五种数据类型&lt;/p&gt;
+&lt;h2 id=&#34;2-redis为什么这么快&#34;&gt;2. Redis为什么这么快&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Redis是基于内存的操作，CPU不是Redis的瓶颈，内存大小和网络带宽最有可能是Redis的瓶颈；&lt;/li&gt;
+&lt;li&gt;单线程的效率已经非常高，没有必要使用多线程；单进程避免了线程或线程上下文切换的消耗，以及锁相关问题的消耗&lt;/li&gt;
+&lt;li&gt;Redis只是处理客户端请求是单线程的，其他事情是在其他进程或线程中进行的，比如RDB文件生成是在子进程中进行&lt;/li&gt;
+&lt;li&gt;数据结构设计简单，操作方便&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-redis数据过期策略&#34;&gt;3. Redis数据过期策略&lt;/h2&gt;
+&lt;h3 id=&#34;31-定期删除策略&#34;&gt;3.1 定期删除策略&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;Redis启用一个定时器监视所有的key，判断key是否过期，过期则删除，这种策略可以保证过期的key最终都被删除，但是每次遍历内存中所有key非常消耗CPU资源。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;32-惰性删除策略&#34;&gt;3.2 惰性删除策略&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;在获取key时先判断key是否已过期，如果过期则删除，这种策略有个缺点时如果一个key一直未被使用，就一直在内存中，其实它已经过期了，会浪费大量内存空间
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;两种策略互补，结合起来，定时删除策略每次随机取一部分key进行检查，降低CPU的消耗；惰性删除策略删除访问到的key，基本满足所有的场景；剩余的没被抽到也没有被访问的key，则由内存淘汰策略删除&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;33-内存淘汰策略&#34;&gt;3.3 内存淘汰策略&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;1. 当内存不足时，新写入数据报错（Redis默认策略）
+2. 当内存不足以容纳新数据时，移除最近最少使用的key（LRU推荐使用）
+3. 在键空间中，随机移除某个key
+4. 在设置了过期时间的键中，移除最近最少使用的key（Redis既当缓存，又当持久化存储时使用此策略）
+5. 在设置了过期时间的key中，随机移除某个key
+6. 在设置了过期时间的key中，先过期的key先移除
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

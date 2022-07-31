@@ -2,7 +2,7 @@
 title: GO语言语法基础
 draft: false
 date: 2018-12-17T00:15:23+08:00
-categories: ["go"]
+categories: ["GOLANG"]
 tags: ["go"]
 ---
 # 基础语法
