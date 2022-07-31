@@ -1,20 +1,76 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>计算广告 on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</title>
-    <link>https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</link>
-    <description>Recent content in 计算广告 on 地球是个球体，哪里来的什么东南西北。只是因为我们从自己立场去看，才有了方向，有了是非</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sat, 14 Dec 2019 22:50:45 +0000</lastBuildDate><atom:link href="https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>计算广告</title>
-      <link>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</link>
-      <pubDate>Sat, 14 Dec 2019 22:50:45 +0000</pubDate>
-      
-      <guid>https://kris0923.github.io/post/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</guid>
-      <description>术语解释 DMP 数据管理平台 ADX 广告交易平台 SSP 供给方平台 DSP 需求方平台 计算广告系统架构 广告投放引擎的主要模块 广告投放机 广告检索 广告排序 收益管理 广告请求</description>
-    </item>
-    
-  </channel>
+    <channel>
+        <title>计算广告 on 指北针</title>
+        <link>https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</link>
+        <description>Recent content in 计算广告 on 指北针</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Sat, 14 Dec 2019 22:50:45 +0000</lastBuildDate><atom:link href="https://kris0923.github.io/tags/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>计算广告</title>
+        <link>https://kris0923.github.io/p/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</link>
+        <pubDate>Sat, 14 Dec 2019 22:50:45 +0000</pubDate>
+        
+        <guid>https://kris0923.github.io/p/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/</guid>
+        <description>&lt;h1 id=&#34;术语解释&#34;&gt;术语解释&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;DMP 数据管理平台&lt;/li&gt;
+&lt;li&gt;ADX 广告交易平台&lt;/li&gt;
+&lt;li&gt;SSP 供给方平台&lt;/li&gt;
+&lt;li&gt;DSP 需求方平台&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;计算广告系统架构&#34;&gt;计算广告系统架构&lt;/h1&gt;
+&lt;h2 id=&#34;广告投放引擎的主要模块&#34;&gt;广告投放引擎的主要模块&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;广告投放机&lt;/li&gt;
+&lt;li&gt;广告检索&lt;/li&gt;
+&lt;li&gt;广告排序&lt;/li&gt;
+&lt;li&gt;收益管理&lt;/li&gt;
+&lt;li&gt;广告请求接口&lt;/li&gt;
+&lt;li&gt;定制化用户划分&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;数据告诉公路&#34;&gt;数据告诉公路&lt;/h2&gt;
+&lt;p&gt;将在线投放的数据准实时的传输到离线分布式计算平台与流计算平台供后续处理和建模使用&lt;/p&gt;
+&lt;h2 id=&#34;离线数据处理&#34;&gt;离线数据处理&lt;/h2&gt;
+&lt;h3 id=&#34;目标&#34;&gt;目标&lt;/h3&gt;
+&lt;p&gt;统计日志得到报表； 利用数据挖掘、机器学习技术进行受众定向、点击率估计、分配策略规划等&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用户会话日志生成&lt;/li&gt;
+&lt;li&gt;行为定向&lt;/li&gt;
+&lt;li&gt;上下文定向&lt;/li&gt;
+&lt;li&gt;点击率建模&lt;/li&gt;
+&lt;li&gt;分配规划&lt;/li&gt;
+&lt;li&gt;商业智能&lt;/li&gt;
+&lt;li&gt;广告管理系统&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;在线数据处理&#34;&gt;在线数据处理&lt;/h2&gt;
+&lt;p&gt;离线数据处理的镜像功能&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在线反作弊&lt;/li&gt;
+&lt;li&gt;计费&lt;/li&gt;
+&lt;li&gt;在线行为反馈&lt;/li&gt;
+&lt;li&gt;实时索引&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;广告相关领域知识&#34;&gt;广告相关领域知识&lt;/h1&gt;
+&lt;h2 id=&#34;信息检索&#34;&gt;信息检索&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;倒排索引&lt;/li&gt;
+&lt;li&gt;向量空间模型-最基础且最重要的文档相似度度量方法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;最优化&#34;&gt;最优化&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;拉格朗日法与凸优化&lt;/li&gt;
+&lt;li&gt;梯度下降法&lt;/li&gt;
+&lt;li&gt;拟牛顿法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;机器学习&#34;&gt;机器学习&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;最大熵与指数族分布&lt;/li&gt;
+&lt;li&gt;混合模型和EM算法&lt;/li&gt;
+&lt;li&gt;贝叶斯学习&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
 </rss>
