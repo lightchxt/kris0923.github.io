@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='MySlq 逻辑架构 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁资源，可能拖垮整库 事务的启动方式： 显式启动事务语句， begin 或 start transaction。配套的提交语句是 commit，回滚语句是 rollback set autocommit=0，这个命令会将这个线程的自动提交关掉。意味着如果只执行一个 select 语句，这个事务就启动了，而且并不会自动提交。这个事务持续存在直到你主动执行 commit 或 rollback 语句，或者断开连接 在set autocommit=0 的情况下，如果是长连接，就有可能导致意外的长事务，所以建议使用set autocommit=1 使用自增ID做主键有什么好处： 二级索引叶子节点占用空间小，int占4字节，bigint 占8字节 自增ID符合B&#43;树索引递增插入的模式，每次插入一条新记录都是追加操作，不会涉及挪动其他数据 用做KV存储的时候才适合用业务ID做主键 MySql 5.6 之后支持了索引下推。减少回表次数 全局锁和表锁： 数据库备份： 对于支持事务的引擎可以使用mysql-dump &amp;ndash;single-transaction来保证视图的一致性，其他的需要使用FTWRL加全局锁来保证 表锁：
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='MySlq 逻辑架构 {{ $image := .Resources.GetMatch &amp;ldquo;mysql.png&amp;rdquo; }}
+为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁资源，可能拖垮整库 事务的启动方式： 显式启动事务语句， begin 或 start transaction。配套的提交语句是 commit，回滚语句是 rollback set autocommit=0，这个命令会将这个线程的自动提交关掉。意味着如果只执行一个 select 语句，这个事务就启动了，而且并不会自动提交。这个事务持续存在直到你主动执行 commit 或 rollback 语句，或者断开连接 在set autocommit=0 的情况下，如果是长连接，就有可能导致意外的长事务，所以建议使用set autocommit=1 使用自增ID做主键有什么好处： 二级索引叶子节点占用空间小，int占4字节，bigint 占8字节 自增ID符合B&#43;树索引递增插入的模式，每次插入一条新记录都是追加操作，不会涉及挪动其他数据 用做KV存储的时候才适合用业务ID做主键 MySql 5.6 之后支持了索引下推。减少回表次数 全局锁和表锁： 数据库备份： 对于支持事务的引擎可以使用mysql-dump &amp;ndash;single-transaction来保证视图的一致性，其他的需要使用FTWRL加全局锁来保证 表锁：
 表锁 元数据锁 lock tables &amp;hellip; read/write, unlock tables &amp;hellip; 释放锁 MDL (metadata lock) 不需要显示使用，在访问一个表的时候会自动加上，保证读写的正确性
-行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 索引选择：（优化器） 扫描行数 是否回表 是否排序 是否使用临时表 analyize table t 重新统计索引信息 为字符串类型的字段建立索引 使用前缀索引，只使用前n个字符 倒序存储，正着存前n个字符的区分度比较低，如身份证号 hash字段，可能有冲突，需要精确判断字段是否相同 缺点： 前缀索引不能使用覆盖索引 倒序存储和哈希都不支持范围查询 MySql 为什么有时会发生的抖动 当出现以下情况时，系统正在刷脏页：'><title>一文了解MySql</title>
+行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 乐观锁和悲观锁 乐观锁与悲观锁是从程序员的角度进行划分：'><title>一文了解MySql</title>
 
 <link rel='canonical' href='https://kris0923.github.io/p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/'>
 
 <link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='一文了解MySql'>
-<meta property='og:description' content='MySlq 逻辑架构 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁资源，可能拖垮整库 事务的启动方式： 显式启动事务语句， begin 或 start transaction。配套的提交语句是 commit，回滚语句是 rollback set autocommit=0，这个命令会将这个线程的自动提交关掉。意味着如果只执行一个 select 语句，这个事务就启动了，而且并不会自动提交。这个事务持续存在直到你主动执行 commit 或 rollback 语句，或者断开连接 在set autocommit=0 的情况下，如果是长连接，就有可能导致意外的长事务，所以建议使用set autocommit=1 使用自增ID做主键有什么好处： 二级索引叶子节点占用空间小，int占4字节，bigint 占8字节 自增ID符合B&#43;树索引递增插入的模式，每次插入一条新记录都是追加操作，不会涉及挪动其他数据 用做KV存储的时候才适合用业务ID做主键 MySql 5.6 之后支持了索引下推。减少回表次数 全局锁和表锁： 数据库备份： 对于支持事务的引擎可以使用mysql-dump &amp;ndash;single-transaction来保证视图的一致性，其他的需要使用FTWRL加全局锁来保证 表锁：
+<meta property='og:description' content='MySlq 逻辑架构 {{ $image := .Resources.GetMatch &amp;ldquo;mysql.png&amp;rdquo; }}
+为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁资源，可能拖垮整库 事务的启动方式： 显式启动事务语句， begin 或 start transaction。配套的提交语句是 commit，回滚语句是 rollback set autocommit=0，这个命令会将这个线程的自动提交关掉。意味着如果只执行一个 select 语句，这个事务就启动了，而且并不会自动提交。这个事务持续存在直到你主动执行 commit 或 rollback 语句，或者断开连接 在set autocommit=0 的情况下，如果是长连接，就有可能导致意外的长事务，所以建议使用set autocommit=1 使用自增ID做主键有什么好处： 二级索引叶子节点占用空间小，int占4字节，bigint 占8字节 自增ID符合B&#43;树索引递增插入的模式，每次插入一条新记录都是追加操作，不会涉及挪动其他数据 用做KV存储的时候才适合用业务ID做主键 MySql 5.6 之后支持了索引下推。减少回表次数 全局锁和表锁： 数据库备份： 对于支持事务的引擎可以使用mysql-dump &amp;ndash;single-transaction来保证视图的一致性，其他的需要使用FTWRL加全局锁来保证 表锁：
 表锁 元数据锁 lock tables &amp;hellip; read/write, unlock tables &amp;hellip; 释放锁 MDL (metadata lock) 不需要显示使用，在访问一个表的时候会自动加上，保证读写的正确性
-行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 索引选择：（优化器） 扫描行数 是否回表 是否排序 是否使用临时表 analyize table t 重新统计索引信息 为字符串类型的字段建立索引 使用前缀索引，只使用前n个字符 倒序存储，正着存前n个字符的区分度比较低，如身份证号 hash字段，可能有冲突，需要精确判断字段是否相同 缺点： 前缀索引不能使用覆盖索引 倒序存储和哈希都不支持范围查询 MySql 为什么有时会发生的抖动 当出现以下情况时，系统正在刷脏页：'>
+行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 乐观锁和悲观锁 乐观锁与悲观锁是从程序员的角度进行划分：'>
 <meta property='og:url' content='https://kris0923.github.io/p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/'>
 <meta property='og:site_name' content='指北针'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2021-09-08T22:36:54&#43;08:00'/><meta property='article:modified_time' content='2021-09-08T22:36:54&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MySql' /><meta property='article:published_time' content='2021-09-08T22:36:54&#43;08:00'/><meta property='article:modified_time' content='2021-09-08T22:36:54&#43;08:00'/>
 <meta name="twitter:title" content="一文了解MySql">
-<meta name="twitter:description" content="MySlq 逻辑架构 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁资源，可能拖垮整库 事务的启动方式： 显式启动事务语句， begin 或 start transaction。配套的提交语句是 commit，回滚语句是 rollback set autocommit=0，这个命令会将这个线程的自动提交关掉。意味着如果只执行一个 select 语句，这个事务就启动了，而且并不会自动提交。这个事务持续存在直到你主动执行 commit 或 rollback 语句，或者断开连接 在set autocommit=0 的情况下，如果是长连接，就有可能导致意外的长事务，所以建议使用set autocommit=1 使用自增ID做主键有什么好处： 二级索引叶子节点占用空间小，int占4字节，bigint 占8字节 自增ID符合B&#43;树索引递增插入的模式，每次插入一条新记录都是追加操作，不会涉及挪动其他数据 用做KV存储的时候才适合用业务ID做主键 MySql 5.6 之后支持了索引下推。减少回表次数 全局锁和表锁： 数据库备份： 对于支持事务的引擎可以使用mysql-dump &amp;ndash;single-transaction来保证视图的一致性，其他的需要使用FTWRL加全局锁来保证 表锁：
+<meta name="twitter:description" content="MySlq 逻辑架构 {{ $image := .Resources.GetMatch &amp;ldquo;mysql.png&amp;rdquo; }}
+为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁资源，可能拖垮整库 事务的启动方式： 显式启动事务语句， begin 或 start transaction。配套的提交语句是 commit，回滚语句是 rollback set autocommit=0，这个命令会将这个线程的自动提交关掉。意味着如果只执行一个 select 语句，这个事务就启动了，而且并不会自动提交。这个事务持续存在直到你主动执行 commit 或 rollback 语句，或者断开连接 在set autocommit=0 的情况下，如果是长连接，就有可能导致意外的长事务，所以建议使用set autocommit=1 使用自增ID做主键有什么好处： 二级索引叶子节点占用空间小，int占4字节，bigint 占8字节 自增ID符合B&#43;树索引递增插入的模式，每次插入一条新记录都是追加操作，不会涉及挪动其他数据 用做KV存储的时候才适合用业务ID做主键 MySql 5.6 之后支持了索引下推。减少回表次数 全局锁和表锁： 数据库备份： 对于支持事务的引擎可以使用mysql-dump &amp;ndash;single-transaction来保证视图的一致性，其他的需要使用FTWRL加全局锁来保证 表锁：
 表锁 元数据锁 lock tables &amp;hellip; read/write, unlock tables &amp;hellip; 释放锁 MDL (metadata lock) 不需要显示使用，在访问一个表的时候会自动加上，保证读写的正确性
-行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 索引选择：（优化器） 扫描行数 是否回表 是否排序 是否使用临时表 analyize table t 重新统计索引信息 为字符串类型的字段建立索引 使用前缀索引，只使用前n个字符 倒序存储，正着存前n个字符的区分度比较低，如身份证号 hash字段，可能有冲突，需要精确判断字段是否相同 缺点： 前缀索引不能使用覆盖索引 倒序存储和哈希都不支持范围查询 MySql 为什么有时会发生的抖动 当出现以下情况时，系统正在刷脏页：">
+行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 乐观锁和悲观锁 乐观锁与悲观锁是从程序员的角度进行划分：">
     </head>
     <body class="
     article-page
@@ -155,6 +158,14 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+            <a href="/categories/mysql/" >
+                MySql
+            </a>
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
@@ -206,10 +217,10 @@
     <section class="article-content">
     
     
-    <h1 id="myslq-逻辑架构">MySlq 逻辑架构</h1>
+    <h2 id="myslq-逻辑架构">MySlq 逻辑架构</h2>
+<p>{{ $image := .Resources.GetMatch &ldquo;mysql.png&rdquo; }}</p>
 <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<h1 id="为什么不要使用长事务">为什么不要使用长事务：</h1>
+<h2 id="为什么不要使用长事务">为什么不要使用长事务：</h2>
 <ol>
 <li>长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间</li>
 <li>占用锁资源，可能拖垮整库</li>
@@ -220,14 +231,14 @@
 <li>set autocommit=0，这个命令会将这个线程的自动提交关掉。意味着如果只执行一个 select 语句，这个事务就启动了，而且并不会自动提交。这个事务持续存在直到你主动执行 commit 或 rollback 语句，或者断开连接
 在set autocommit=0 的情况下，如果是长连接，就有可能导致意外的长事务，所以建议使用set autocommit=1</li>
 </ol>
-<h1 id="使用自增id做主键有什么好处">使用自增ID做主键有什么好处：</h1>
+<h2 id="使用自增id做主键有什么好处">使用自增ID做主键有什么好处：</h2>
 <ol>
 <li>二级索引叶子节点占用空间小，int占4字节，bigint 占8字节</li>
 <li>自增ID符合B+树索引递增插入的模式，每次插入一条新记录都是追加操作，不会涉及挪动其他数据</li>
 <li>用做KV存储的时候才适合用业务ID做主键</li>
 <li>MySql 5.6 之后支持了索引下推。减少回表次数</li>
 </ol>
-<h1 id="全局锁和表锁">全局锁和表锁：</h1>
+<h2 id="全局锁和表锁">全局锁和表锁：</h2>
 <h2 id="数据库备份">数据库备份：</h2>
 <p>对于支持事务的引擎可以使用mysql-dump &ndash;single-transaction来保证视图的一致性，其他的需要使用FTWRL加全局锁来保证
 表锁：</p>
@@ -237,20 +248,26 @@
 </ul>
 <p>lock tables &hellip; read/write, unlock tables &hellip; 释放锁
 MDL (metadata lock) 不需要显示使用，在访问一个表的时候会自动加上，保证读写的正确性</p>
-<h1 id="行锁">行锁：</h1>
-<h2 id="死锁和死锁检测">死锁和死锁检测：</h2>
-<h2 id="出现死锁时有两种策略">出现死锁时有两种策略：</h2>
+<h2 id="行锁">行锁：</h2>
+<h3 id="死锁和死锁检测">死锁和死锁检测：</h3>
+<h3 id="出现死锁时有两种策略">出现死锁时有两种策略：</h3>
 <ol>
 <li>直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置</li>
 <li>发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect</li>
 </ol>
-<h3 id="死锁检测要消耗大量的cpu资源所以需要解决热点行更新的性能问题">死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题：</h3>
+<h4 id="死锁检测要消耗大量的cpu资源所以需要解决热点行更新的性能问题">死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题：</h4>
 <ol>
 <li>临时关掉死锁检测（不可取）</li>
 <li>控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件</li>
 <li>业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等</li>
 </ol>
-<h1 id="索引选择优化器">索引选择：（优化器）</h1>
+<h3 id="乐观锁和悲观锁">乐观锁和悲观锁</h3>
+<p>乐观锁与悲观锁是从程序员的角度进行划分：</p>
+<ul>
+<li>乐观锁：认为对同一数据的操作并不总发生，实用时间戳或者版本号机制来保证数据操作的排他性</li>
+<li>悲观锁：通过数据库本身的锁机制来保证数据的排他性</li>
+</ul>
+<h2 id="索引选择优化器">索引选择：（优化器）</h2>
 <ol>
 <li>扫描行数</li>
 <li>是否回表</li>
@@ -258,18 +275,18 @@ MDL (metadata lock) 不需要显示使用，在访问一个表的时候会自动
 <li>是否使用临时表
 analyize table t 重新统计索引信息</li>
 </ol>
-<h1 id="为字符串类型的字段建立索引">为字符串类型的字段建立索引</h1>
+<h2 id="为字符串类型的字段建立索引">为字符串类型的字段建立索引</h2>
 <ol>
 <li>使用前缀索引，只使用前n个字符</li>
 <li>倒序存储，正着存前n个字符的区分度比较低，如身份证号</li>
 <li>hash字段，可能有冲突，需要精确判断字段是否相同</li>
 </ol>
-<h2 id="缺点">缺点：</h2>
+<h3 id="缺点">缺点：</h3>
 <ul>
 <li>前缀索引不能使用覆盖索引</li>
 <li>倒序存储和哈希都不支持范围查询</li>
 </ul>
-<h1 id="mysql-为什么有时会发生的抖动">MySql 为什么有时会发生的抖动</h1>
+<h2 id="mysql-为什么有时会发生的抖动">MySql 为什么有时会发生的抖动</h2>
 <p>当出现以下情况时，系统正在刷脏页：</p>
 <ol>
 <li>redo log满了，正在flush redo log</li>
@@ -286,20 +303,20 @@ analyize table t 重新统计索引信息</li>
 <blockquote>
 <p>innodb_io_capacity 控制刷脏页的策略</p>
 </blockquote>
-<h1 id="order-by-执行过程">Order by 执行过程：</h1>
+<h2 id="order-by-执行过程">Order by 执行过程：</h2>
 <ol>
 <li>全字段排序（数据单行长度小于max_length_for_sort_data）：从索引中找出满足条件的主键ID，按主键ID取出整行，将查询的字段放入sort_buffer中，然后多sort_buffer中的字段做快速排序（如果数据大于sort_buffer_size，还需要使用外部排序），取前n条记录返回客户端；</li>
 <li>rowid排序：从索引中找出满足条件的主键ID，按主键ID取出整行，将排序字段和ID放入sort_buffer中，对sort_buffer 中的数据进行排序，取前n行，按主键ID从原表中取出查询字段返回给客户端
 两种方式相比：全字段排序需要更多的内存，rowid排序需要再次惠表查询数据</li>
 </ol>
-<h1 id="mysql不使用索引的场景">MySql不使用索引的场景：</h1>
+<h2 id="mysql不使用索引的场景">MySql不使用索引的场景：</h2>
 <ol>
 <li>对索引字段做函数操作</li>
 <li>隐式类型转换</li>
 <li>字符编码转换
 本质是都是：破坏了索引值的有序性：</li>
 </ol>
-<h1 id="mysql查询慢的原因">MySql查询慢的原因</h1>
+<h2 id="mysql查询慢的原因">MySql查询慢的原因</h2>
 <ol>
 <li>查询长时间不返回：
 <ul>
@@ -315,15 +332,15 @@ analyize table t 重新统计索引信息</li>
 </ul>
 </li>
 </ol>
-<h1 id="什么情况会出现幻读">什么情况会出现幻读：</h1>
+<h2 id="什么情况会出现幻读">什么情况会出现幻读：</h2>
 <ol>
 <li>在可重复读的隔离级别下，仅“当前读”才会出现幻读</li>
 <li>幻读仅指新插入的行</li>
 </ol>
-<h2 id="gap-lock">Gap Lock：</h2>
+<h3 id="gap-lock">Gap Lock：</h3>
 <p>为了解决幻读的问题，但也可能引起死锁（锁住同一个间隙，然后向同一个间隙insert数据）</p>
 <p>在读已提交的隔离级别下，没有间隙锁，但是需要把binlog的格式设置为row（statement格式可能日志顺序错乱）</p>
-<h1 id="mysql加锁规则两个原则两个优化一个bug">MySql加锁规则：（两个原则，两个优化，一个BUG）</h1>
+<h2 id="mysql加锁规则两个原则两个优化一个bug">MySql加锁规则：（两个原则，两个优化，一个BUG）</h2>
 <p>默认在RR隔离级别下</p>
 <ul>
 <li>原则1:加锁的基本单位是next-key lock，是前开后闭区间</li>
@@ -335,7 +352,7 @@ analyize table t 重新统计索引信息</li>
 <p>间隙锁和间隙锁之间并不冲突，限制的是不能insert</p>
 <p>gh-ost MySql Online DDL 工具
 pt-query-digist</p>
-<h1 id="mysql-如何保证数据不丢">MySql 如何保证数据不丢：</h1>
+<h2 id="mysql-如何保证数据不丢">MySql 如何保证数据不丢：</h2>
 <ol>
 <li>Bin log的写入机制：事务执行的过程中写把日志写到binlog_cache,事务提交的时候先把binlog_cache写入到binlog文件中
 trx running -&gt; binlog_cache -&gt; trx commit-&gt;binlog_file -&gt; fsync disk
@@ -345,7 +362,7 @@ sync_binlog 控制什么时候fsync到磁盘</li>
 <li>sync_binlog=N(N&gt;1) 的时候，表示每次提交事务都 write，但累积 N 个事务后才 fsync。</li>
 <li>redo log写入机制：</li>
 </ol>
-<h2 id="流程">流程：</h2>
+<h3 id="流程">流程：</h3>
 <p>redolog_buffer -&gt; write disk -&gt; fsync(真正持久化)</p>
 <p>所以redo log 有三种状态：</p>
 <ul>
@@ -354,21 +371,23 @@ sync_binlog 控制什么时候fsync到磁盘</li>
 <li>innodb_flush_log_at_trx_commit = 1，每次事务提交都持久化到磁盘</li>
 <li>innodb_flush_log_at_trx_commit = 2，每次事务提交都写到文件系统的page cache中</li>
 </ul>
-<h1 id="性能优化">性能优化：</h1>
-<p>组提交 binlog_group_commit_sync_delay（延迟多少微秒后才调用 fsync）， binlog_group_commit_sync_no_delay_count（累积多少次以后才调用 fsync） 减少 binlog 的写盘次数
-将 sync_binlog 设置为大于 1 的值（比较常见是 100~1000）。这样做的风险是，主机掉电时会丢 binlog 日志。
-将 innodb_flush_log_at_trx_commit 设置为 2。这样做的风险是，主机掉电的时候会丢数据。</p>
-<h1 id="主备一致">主备一致：</h1>
+<h2 id="性能优化">性能优化：</h2>
+<ul>
+<li>组提交 binlog_group_commit_sync_delay（延迟多少微秒后才调用 fsync）， binlog_group_commit_sync_no_delay_count（累积多少次以后才调用 fsync） 减少 binlog 的写盘次数</li>
+<li>将 sync_binlog 设置为大于 1 的值（比较常见是 100~1000）。这样做的风险是，主机掉电时会丢 binlog 日志。</li>
+<li>将 innodb_flush_log_at_trx_commit 设置为 2。这样做的风险是，主机掉电的时候会丢数据。</li>
+</ul>
+<h2 id="主备一致">主备一致：</h2>
 <p>不应该设置binlog_format 为statement，可能会引起主备不一致（加了limit的时候，如果使用的索引不一样，排序可能不同），至少是mixed</p>
 <p>每个库的server id 必须不同，生成的binlog中的server id不同，保证不会循环复制</p>
-<h2 id="主备延迟的原因">主备延迟的原因：</h2>
+<h3 id="主备延迟的原因">主备延迟的原因：</h3>
 <ul>
 <li>备库的机器性能比主库差</li>
 <li>备库查询压力大</li>
 <li>主库执行大事务：</li>
 <li>大表的DDL</li>
 </ul>
-<h2 id="可靠性优先的主从切换策略">可靠性优先的主从切换策略：</h2>
+<h3 id="可靠性优先的主从切换策略">可靠性优先的主从切换策略：</h3>
 <ul>
 <li>判断从库的seconds_behind_master小于某个值，比如5s，否则一直重复这一步</li>
 <li>主库改readonly=true</li>
@@ -376,26 +395,26 @@ sync_binlog 控制什么时候fsync到磁盘</li>
 <li>从库修改readonly=false（可读写状态）</li>
 <li>业务请求切换到从库（新主库）</li>
 </ul>
-<h2 id="并行复制">并行复制：</h2>
+<h3 id="并行复制">并行复制：</h3>
 <p>coordinator 在分发Relay log的时候，需要满足以下这两个基本要求：</p>
 <ul>
 <li>不能造成覆盖更新，这就要求更新同一行的两个事务必须分发到同一个worker中</li>
 <li>同一个事务不能被拆开，必须放到同一个worker中</li>
 </ul>
-<h2 id="分发策略">分发策略：</h2>
+<h3 id="分发策略">分发策略：</h3>
 <ul>
 <li>按表分发，适用于多表的负载均衡，对于热点数据表，可能退化成为单线程复制</li>
 <li>按行分发，要求binlog的格式必须是row, 并行度高，但是操作大事务的时候，耗费内存和CPU</li>
 </ul>
 <p>Maria 模拟主库的并行，将相同commitID的事务分发给不同的worker，但是也容易被大事务拖后腿</p>
-<h1 id="gtid-主从同步">GTID （主从同步）</h1>
+<h2 id="gtid-主从同步">GTID （主从同步）</h2>
 <p>全称是 Global Transaction Identifier，也就是全局事务 ID，是一个事务在提交的时候生成的，是这个事务的唯一标识。它由两部分组成，格式是：
 GTID=server_uuid:gno</p>
 <p>server_uuid 是一个实例第一次启动时自动生成的，是一个全局唯一的值</p>
 <p>gno 是一个整数，初始值是 1，每次提交事务的时候分配给这个事务，并加 1</p>
-<h1 id="读写分离的弊端">读写分离的弊端</h1>
+<h2 id="读写分离的弊端">读写分离的弊端</h2>
 <p>两种架构：客户端直连和带Proxy</p>
-<h2 id="主从延迟">主从延迟：</h2>
+<h3 id="主从延迟">主从延迟：</h3>
 <ul>
 <li>强制走主库</li>
 <li>sleep（不靠谱）</li>
@@ -417,9 +436,9 @@ GTID=server_uuid:gno</p>
 <p>但是b, c 也是完全准确的，可能有一部分binlog正在从主库发送到从库</p>
 <p>配合上semi-sync（半同步复制）+位点判断可以解决e的问题，但仅限于一主一从，多从的情况下，一个从库发送ack主库就提交事务了</p>
 <p>业务高峰期，主库位点更新很快，所以位点判断一直不相等，可能出现从库迟迟无法响应的情况</p>
-<h3 id="等主库位点的方案">等主库位点的方案</h3>
+<h4 id="等主库位点的方案">等主库位点的方案</h4>
 <p>主库事务提交后立即执行 show master status，得到当前的file 和position，从库执行select master_pos_wait(File, Position,1),如果大于0，则已包含刚才提交的事务</p>
-<h3 id="gtid方案">GTID方案</h3>
+<h4 id="gtid方案">GTID方案</h4>
 <p>select wait_for_executed_gtid_set(gtid_set, 1) = 0 表示从库中已经包含传入的gtid_set</p>
 <p>5.7 之后的版本会把gtid返回给客户端</p>
 <h2 id="mysql健康检查">MySql健康检查</h2>
@@ -449,13 +468,13 @@ update 系统表数据
 <ul>
 <li>高可用（HA）集群只要不是把整个集群删除，HA会自动选出一个新主库</li>
 </ul>
-<h1 id="kill-query-kill-connection">kill query/ kill connection</h1>
+<h2 id="kill-query-kill-connection">kill query/ kill connection</h2>
 <ol>
 <li>MySql kill 和 linux的kill命令类似，并不是直接终止，而是给进程发送一个终止的信号；</li>
 <li>把被kill的session的状态改成 THD::KILL_QUERY</li>
 <li>给被kill的session</li>
 </ol>
-<h2 id="kill-不能生效的情况">kill 不能生效的情况：</h2>
+<h3 id="kill-不能生效的情况">kill 不能生效的情况：</h3>
 <ol>
 <li>线程没有执行到判断线程状态的逻辑（一直在循环判断是否可以执行）</li>
 <li>终止逻辑耗时较长</li>
@@ -463,19 +482,21 @@ update 系统表数据
 <li>大查询回滚，生成了比较大的临时文件，如果文件系统压力大，则删除临时文件可能需要等待I/O资源</li>
 <li>DDL命令执行到最后阶段，如果被kill，也需要删除过程中的临时文件</li>
 </ol>
-<h1 id="读取数据">读取数据</h1>
+<h2 id="读取数据">读取数据</h2>
 <p>客户端使用 &ndash;quick 参数会使用mysq_use_result方法
 mysql_use_result: 读一行处理一行，如果处理的很慢，客户端过很久才去读下一行，会出现sending to client
 mysql_store_result: 将查询的结果保存到本地内存
 查询结果是分段发送给客户端的，所以不会打爆内存
 Innodb Buffer Pull的LRU 算法是用链表实现的，并且分成young区和old区（5：3）；每次淘汰都是在old去，在old区存在超过1s的数据才能进入young区，保证了在全表扫描的时候，正常业务的查询命中率不会降低</p>
-<h1 id="join">Join</h1>
-<p>如果可以使用被驱动表的索引，join 语句是有其优势的；
-不能使用被驱动表的索引，只能使用 Block Nested-Loop Join 算法，这样的语句就尽量不要使用；
-join_buffer_size 设定了join buffer的大小，越大被驱动表扫描的次数越少，扫描次数 N + k*M
-在使用 join 的时候，应该让小表做驱动表
-通过where条件过滤之后的数据量小的为小表</p>
-<h1 id="muity-range-read-优化">Muity-Range Read 优化：</h1>
+<h2 id="join">Join</h2>
+<ul>
+<li>如果可以使用被驱动表的索引，join 语句是有其优势的；</li>
+<li>不能使用被驱动表的索引，只能使用 Block Nested-Loop Join 算法，这样的语句就尽量不要使用；</li>
+<li>join_buffer_size 设定了join buffer的大小，越大被驱动表扫描的次数越少，扫描次数 N + k*M</li>
+<li>在使用 join 的时候，应该让小表做驱动表</li>
+<li>通过where条件过滤之后的数据量小的为小表</li>
+</ul>
+<h2 id="muity-range-read-优化">Muity-Range Read 优化：</h2>
 <p>思路：因为大多数数据都是按照主键id自增的顺序插入到得到的，所以按照主键id递增的顺序查询是比较接近顺序读，能够提升读性能
 实现：将根据索引定位到的记录放到read_rnd_buffer中，将read_rnd_buffer 中的id递增排序，用排序后的数组到主键索引中查找记录
 BKA  (Batched Key Access)，对 BNL算法的优化</p>
@@ -484,50 +505,72 @@ BKA  (Batched Key Access)，对 BNL算法的优化</p>
 <li>创建临时表
 不支持hash join</li>
 </ul>
-<h1 id="临时表的应用">临时表的应用</h1>
-<p>分库分表系统的跨库查询
-在使用分区key的查询中可以直接定位到数据放在了哪一个表
-未使用到分区key的查询，只能到所有分区中区查找数据，然后统一操作
-在proxy中实现，需要的工作量大，对中间层的开发能力比较高，对proxy的压力比较大
-把各个分库拿到的数据汇总到一个Mysql实例的一个表中，然后在这个汇总的实力上操作（临时表）
-内部临时表
-使用场景：
-UNION：需要对结果去重，需要使用临时表，Union ALL 就不需要
-Group By：无序的数据需要对结果统计计数
-如果执行过程可以一边读数据，一边直接得到结果，就不需要额外的内存
-join_buffer 是无序数组，sort_buffer是有序数组，临时表是二维表结构
-如果需要二维表的特性，就会考虑使用临时表（union 唯一索引约束，group by 需要额外的字段计数）
-SQL_BIG_RESULT 告诉Mysq 直接使用排序算法得到group by的结果</p>
+<h2 id="临时表的应用">临时表的应用</h2>
+<ul>
+<li>分库分表系统的跨库查询</li>
+<li>在使用分区key的查询中可以直接定位到数据放在了哪一个表</li>
+<li>未使用到分区key的查询，只能到所有分区中区查找数据，然后统一操作</li>
+<li>在proxy中实现，需要的工作量大，对中间层的开发能力比较高，对proxy的压力比较大</li>
+<li>把各个分库拿到的数据汇总到一个Mysql实例的一个表中，然后在这个汇总的实力上操作（临时表）</li>
+</ul>
+<h3 id="内部临时表">内部临时表</h3>
+<h4 id="使用场景">使用场景：</h4>
+<ul>
+<li>UNION：需要对结果去重，需要使用临时表，Union ALL 就不需要</li>
+<li>Group By：无序的数据需要对结果统计计数</li>
+<li>如果执行过程可以一边读数据，一边直接得到结果，就不需要额外的内存</li>
+<li>join_buffer 是无序数组，sort_buffer是有序数组，临时表是二维表结构</li>
+<li>如果需要二维表的特性，就会考虑使用临时表（union 唯一索引约束，group by 需要额外的字段计数）</li>
+<li>SQL_BIG_RESULT 告诉Mysq 直接使用排序算法得到group by的结果</li>
+</ul>
+<blockquote>
 <p>除了内存临时表，普通的内存表不建议使用，一是不支持行锁，性能可能并没有预想的好，二是在集群架构上数据持久化可能会有问题
-主键自增
-innoDB引擎的索引值存在内存里，MyISAM存储在数据文件中，8.0版本之后记录到了redolog中，保证重启也不会丢失
-主键自增不连续的原因：
-插入数据失败
-事务回滚
-批量插入，每次申请的自增id的数量都是上一次的两倍，最后未用完的就浪费了</p>
-<h1 id="表复制">表复制</h1>
-<p>mysqldump
-mysqldump -h$host -P$port -u$user &ndash;add-locks=0 &ndash;no-create-info &ndash;single-transaction  &ndash;set-gtid-purged=OFF db1 t &ndash;where=&ldquo;a&gt;900&rdquo; &ndash;result-file=/client_tmp/t.sql
-导出csv文件
-select * from db1.t where a&gt;900 into outfile &lsquo;/server_tmp/t.csv&rsquo;;
-生成的文件在服务器上，不在客户端机器上
+主键自增</p>
+</blockquote>
+<p>innoDB引擎的索引值存在内存里，MyISAM存储在数据文件中，8.0版本之后记录到了redolog中，保证重启也不会丢失</p>
+<h2 id="主键自增不连续的原因">主键自增不连续的原因：</h2>
+<ul>
+<li>插入数据失败</li>
+<li>事务回滚</li>
+<li>批量插入，每次申请的自增id的数量都是上一次的两倍，最后未用完的就浪费了</li>
+</ul>
+<h2 id="表复制">表复制</h2>
+<h3 id="mysqldump">mysqldump</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mysqldump -h$host -P$port -u$user --add-locks=0 --no-create-info --single-transaction  --set-gtid-purged=OFF db1 t --where=&#34;a&gt;900&#34; --result-file=/client_tmp/t.sql
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="导出csv文件">导出csv文件</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">select * from db1.t where a&gt;900 into outfile &#39;/server_tmp/t.csv&#39;;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>生成的文件在服务器上，不在客户端机器上
 受 secure_file_priv 的限制
 目标文件不存在</p>
-<h1 id="物理拷贝">物理拷贝</h1>
-<p>5.6之前是不允许的，5.6之后引入了可传输表空间
-Flush Privileges</p>
+<h2 id="物理拷贝">物理拷贝</h2>
+<p>5.6之前是不允许的，5.6之后引入了可传输表空间</p>
+<h2 id="flush-privileges">Flush Privileges</h2>
 <ol>
 <li>grant/revoke语句会同时修改数据表和内存，正常情况下是没有必要跟flush privileges 的；</li>
 <li>不规范的操作，直接使用DML操作系统权限表才需要跟flush privileges；</li>
 </ol>
-<h1 id="分区表">分区表</h1>
+<h2 id="分区表">分区表</h2>
 <ol>
 <li>对于引擎层来说，分区表是多个表；对于Server层来说分区表是一个表</li>
 <li>不建议使用分区表的原因：
 MySql在第一次打开分区表的时候需要访问所有的分区
 在Server层认为是同一张表，因此公用同一个MDl锁，执行DDL时，影响更大</li>
 </ol>
-<h1 id="自增id">自增ID</h1>
+<h2 id="自增id">自增ID</h2>
 <ol>
 <li>如果没有指定自增ID，MySql会创建一个不可见的长度为6个字节的row_id; 当row_id达到最大值(2^48 -1)后，再申请row_id就是0，并且会覆盖原来的数据</li>
 <li>redolog 和 binlog中的Xid（Server层维护）是事务中执行的第一个Sql的query_id, global_query_id 是一个内存变量，重启后会清零，但同时也会生成新的binlog文件，所以同一个binlog文件中的xid是唯一的</li>
@@ -539,6 +582,12 @@ MySql在第一次打开分区表的时候需要访问所有的分区
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/tags/mysql/">MySql</a>
+        
+    </section>
+
 
     
     <section class="article-copyright">
@@ -561,6 +610,54 @@ MySql在第一次打开分区表的时候需要访问所有的分区
     
 
     
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MySql如何使用索引（二）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mysql%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MySql如何使用索引（一）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mysql-%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E6%97%B6-altermodifychange%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MySql 修改表结构时 ALTER,MODIFY,CHANGE的区别</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
 
      
     
@@ -726,46 +823,62 @@ MySql在第一次打开分区表的时候需要访问所有的分区
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
+    <li><a href="#myslq-逻辑架构">MySlq 逻辑架构</a></li>
+    <li><a href="#为什么不要使用长事务">为什么不要使用长事务：</a></li>
     <li><a href="#事务的启动方式">事务的启动方式：</a></li>
-  </ol>
-
-  <ol>
+    <li><a href="#使用自增id做主键有什么好处">使用自增ID做主键有什么好处：</a></li>
+    <li><a href="#全局锁和表锁">全局锁和表锁：</a></li>
     <li><a href="#数据库备份">数据库备份：</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#死锁和死锁检测">死锁和死锁检测：</a></li>
-    <li><a href="#出现死锁时有两种策略">出现死锁时有两种策略：</a>
+    <li><a href="#行锁">行锁：</a>
       <ol>
-        <li><a href="#死锁检测要消耗大量的cpu资源所以需要解决热点行更新的性能问题">死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题：</a></li>
+        <li><a href="#死锁和死锁检测">死锁和死锁检测：</a></li>
+        <li><a href="#出现死锁时有两种策略">出现死锁时有两种策略：</a>
+          <ol>
+            <li><a href="#死锁检测要消耗大量的cpu资源所以需要解决热点行更新的性能问题">死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题：</a></li>
+          </ol>
+        </li>
+        <li><a href="#乐观锁和悲观锁">乐观锁和悲观锁</a></li>
       </ol>
     </li>
-  </ol>
-
-  <ol>
-    <li><a href="#缺点">缺点：</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#gap-lock">Gap Lock：</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#流程">流程：</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#主备延迟的原因">主备延迟的原因：</a></li>
-    <li><a href="#可靠性优先的主从切换策略">可靠性优先的主从切换策略：</a></li>
-    <li><a href="#并行复制">并行复制：</a></li>
-    <li><a href="#分发策略">分发策略：</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#主从延迟">主从延迟：</a>
+    <li><a href="#索引选择优化器">索引选择：（优化器）</a></li>
+    <li><a href="#为字符串类型的字段建立索引">为字符串类型的字段建立索引</a>
       <ol>
-        <li><a href="#等主库位点的方案">等主库位点的方案</a></li>
-        <li><a href="#gtid方案">GTID方案</a></li>
+        <li><a href="#缺点">缺点：</a></li>
+      </ol>
+    </li>
+    <li><a href="#mysql-为什么有时会发生的抖动">MySql 为什么有时会发生的抖动</a></li>
+    <li><a href="#order-by-执行过程">Order by 执行过程：</a></li>
+    <li><a href="#mysql不使用索引的场景">MySql不使用索引的场景：</a></li>
+    <li><a href="#mysql查询慢的原因">MySql查询慢的原因</a></li>
+    <li><a href="#什么情况会出现幻读">什么情况会出现幻读：</a>
+      <ol>
+        <li><a href="#gap-lock">Gap Lock：</a></li>
+      </ol>
+    </li>
+    <li><a href="#mysql加锁规则两个原则两个优化一个bug">MySql加锁规则：（两个原则，两个优化，一个BUG）</a></li>
+    <li><a href="#mysql-如何保证数据不丢">MySql 如何保证数据不丢：</a>
+      <ol>
+        <li><a href="#流程">流程：</a></li>
+      </ol>
+    </li>
+    <li><a href="#性能优化">性能优化：</a></li>
+    <li><a href="#主备一致">主备一致：</a>
+      <ol>
+        <li><a href="#主备延迟的原因">主备延迟的原因：</a></li>
+        <li><a href="#可靠性优先的主从切换策略">可靠性优先的主从切换策略：</a></li>
+        <li><a href="#并行复制">并行复制：</a></li>
+        <li><a href="#分发策略">分发策略：</a></li>
+      </ol>
+    </li>
+    <li><a href="#gtid-主从同步">GTID （主从同步）</a></li>
+    <li><a href="#读写分离的弊端">读写分离的弊端</a>
+      <ol>
+        <li><a href="#主从延迟">主从延迟：</a>
+          <ol>
+            <li><a href="#等主库位点的方案">等主库位点的方案</a></li>
+            <li><a href="#gtid方案">GTID方案</a></li>
+          </ol>
+        </li>
       </ol>
     </li>
     <li><a href="#mysql健康检查">MySql健康检查</a></li>
@@ -777,10 +890,34 @@ MySql在第一次打开分区表的时候需要访问所有的分区
         <li><a href="#rm数据">rm数据</a></li>
       </ol>
     </li>
-  </ol>
-
-  <ol>
-    <li><a href="#kill-不能生效的情况">kill 不能生效的情况：</a></li>
+    <li><a href="#kill-query-kill-connection">kill query/ kill connection</a>
+      <ol>
+        <li><a href="#kill-不能生效的情况">kill 不能生效的情况：</a></li>
+      </ol>
+    </li>
+    <li><a href="#读取数据">读取数据</a></li>
+    <li><a href="#join">Join</a></li>
+    <li><a href="#muity-range-read-优化">Muity-Range Read 优化：</a></li>
+    <li><a href="#临时表的应用">临时表的应用</a>
+      <ol>
+        <li><a href="#内部临时表">内部临时表</a>
+          <ol>
+            <li><a href="#使用场景">使用场景：</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#主键自增不连续的原因">主键自增不连续的原因：</a></li>
+    <li><a href="#表复制">表复制</a>
+      <ol>
+        <li><a href="#mysqldump">mysqldump</a></li>
+        <li><a href="#导出csv文件">导出csv文件</a></li>
+      </ol>
+    </li>
+    <li><a href="#物理拷贝">物理拷贝</a></li>
+    <li><a href="#flush-privileges">Flush Privileges</a></li>
+    <li><a href="#分区表">分区表</a></li>
+    <li><a href="#自增id">自增ID</a></li>
   </ol>
 </nav>
         </div>
