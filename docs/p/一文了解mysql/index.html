@@ -15,12 +15,13 @@
 行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 乐观锁和悲观锁 乐观锁与悲观锁是从程序员的角度进行划分：'>
 <meta property='og:url' content='https://kris0923.github.io/p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/'>
 <meta property='og:site_name' content='指北针'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MySql' /><meta property='article:published_time' content='2021-09-08T22:36:54&#43;08:00'/><meta property='article:modified_time' content='2021-09-08T22:36:54&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='MySql' /><meta property='article:published_time' content='2021-09-08T22:36:54&#43;08:00'/><meta property='article:modified_time' content='2021-09-08T22:36:54&#43;08:00'/><meta property='og:image' content='https://kris0923.github.io/p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/mysql.png' />
 <meta name="twitter:title" content="一文了解MySql">
 <meta name="twitter:description" content="MySlq 逻辑架构 {{ $image := .Resources.GetMatch &amp;ldquo;mysql.png&amp;rdquo; }}
 为什么不要使用长事务： 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间 占用锁资源，可能拖垮整库 事务的启动方式： 显式启动事务语句， begin 或 start transaction。配套的提交语句是 commit，回滚语句是 rollback set autocommit=0，这个命令会将这个线程的自动提交关掉。意味着如果只执行一个 select 语句，这个事务就启动了，而且并不会自动提交。这个事务持续存在直到你主动执行 commit 或 rollback 语句，或者断开连接 在set autocommit=0 的情况下，如果是长连接，就有可能导致意外的长事务，所以建议使用set autocommit=1 使用自增ID做主键有什么好处： 二级索引叶子节点占用空间小，int占4字节，bigint 占8字节 自增ID符合B&#43;树索引递增插入的模式，每次插入一条新记录都是追加操作，不会涉及挪动其他数据 用做KV存储的时候才适合用业务ID做主键 MySql 5.6 之后支持了索引下推。减少回表次数 全局锁和表锁： 数据库备份： 对于支持事务的引擎可以使用mysql-dump &amp;ndash;single-transaction来保证视图的一致性，其他的需要使用FTWRL加全局锁来保证 表锁：
 表锁 元数据锁 lock tables &amp;hellip; read/write, unlock tables &amp;hellip; 释放锁 MDL (metadata lock) 不需要显示使用，在访问一个表的时候会自动加上，保证读写的正确性
-行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 乐观锁和悲观锁 乐观锁与悲观锁是从程序员的角度进行划分：">
+行锁： 死锁和死锁检测： 出现死锁时有两种策略： 直接进入等待，直到超时，超时时间通过innodb_wait_timeout 来设置 发起死锁检测，发现死锁后主动回滚死锁链条中某一个事务，使其他事务能够继续执行，通过设置innodb_deadlock_decect 死锁检测要消耗大量的CPU资源，所以需要解决热点行更新的性能问题： 临时关掉死锁检测（不可取） 控制并发度，比如控制同一行数据最多只有10个线程在同时更新，做在数据库服务端的中间件 业务上做优化，将一行数据拆分成多行，但业务代码需要考虑详细，如某行数据为0等 乐观锁和悲观锁 乐观锁与悲观锁是从程序员的角度进行划分："><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://kris0923.github.io/p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/mysql.png' />
     </head>
     <body class="
     article-page
@@ -153,8 +154,20 @@
     </ol>
 </aside>
 <main class="main full-width">
-    <article class="main-article">
+    <article class="has-image main-article">
     <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/">
+                <img src="/p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/mysql_huf39d4c92a43cc0ceac2b44dee42729cf_223491_800x0_resize_box_3.png"
+                        srcset="/p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/mysql_huf39d4c92a43cc0ceac2b44dee42729cf_223491_800x0_resize_box_3.png 800w, /p/%E4%B8%80%E6%96%87%E4%BA%86%E8%A7%A3mysql/mysql_huf39d4c92a43cc0ceac2b44dee42729cf_223491_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="600" 
+                        loading="lazy"
+                        alt="Featured image of post 一文了解MySql" />
+                
+            </a>
+        </div>
+    
 
     <div class="article-details">
     

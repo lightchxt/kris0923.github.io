@@ -4,6 +4,7 @@ date: 2021-09-08T22:36:54+08:00
 draft: false
 categories: ["MySql"]
 tags: ["MySql"]
+image: "mysql.png"
 ---
 
 ## MySlq 逻辑架构
@@ -11,7 +12,7 @@ tags: ["MySql"]
 
 {{ $image := .Resources.GetMatch "mysql.png" }}
 
-<img src="/post/mysql/mysql.png" width="{{ $image.Width }}" height="{{ $image.Height }}">
+<image src="mysql.png" width="{{ $image.Width }}" height="{{ $image.Height }}">
 
 ##  为什么不要使用长事务：
 1. 长事务意味着系统里面存在着很老的事务视图，在事务提交之前这些回滚记录都必须保留，导致占用大量的存储空间
