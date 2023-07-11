@@ -1,4 +1,39 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><search><entry><title>《C程序设计语言学习笔记》（一）</title><url>/post/c-language/</url><categories><category>C</category></categories><tags><tag>C</tag><tag>编程语言</tag></tags><content type="html"><![CDATA[1. 导言 在第一章中，K&amp;R C介绍了C语言的一些基础知识，包括for循环语句、if-else语句、字符输入和输出等内容。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><search><entry><title>《C程序设计语言学习笔记》（二）</title><url>/post/c-language2/</url><categories><category>C</category></categories><tags><tag>C</tag><tag>编程语言</tag></tags><content type="html">控制流 第三章介绍了C语言的控制流结构，包括if/else语句、switch语句、while循环和for循环等。
+if/else语句 if/else语句是C语言中最常用的选择结构。它可以根据某个条件来选择执行语句的分支。if/else语句的基本语法如下：
+if (condition) statement1; else statement2; switch语句 switch语句是另一种选择结构，它可以根据某个表达式的值选择执行语句的分支。switch语句的基本语法如下：
+switch (expression) { case const-express1: statement1; break; case const-express2: statement2; break; default: statement3; break; } while循环与for循环 while循环和for循环都是C语言中的循环结构。while循环的基本语法如下：
+while (condition) statement; for循环的基本语法如下：
+for (expr1; expr2; expr3) statement; 函数与程序结构 第四章介绍了C语言的函数和程序结构相关的知识。
+外部变量（external） 在C语言中，变量可以定义为外部变量，它们永久存在，可以被多个函数共享。如果需要在多个函数之间共享数据，最方便的方法就是将这些数据定义为外部变量。
+作用域规则 C语言使用作用域规则来确定变量的可见性。作用域是指可以访问变量的区域，C语言中有几种作用域，包括块作用域、函数作用域和文件作用域等。
+头文件 头文件是一个包含函数原型、常量定义和符号定义等信息的文件，可以被多个源文件引用。C语言的标准头文件包含了许多常用的函数原型和定义，例如stdio.h、stdlib.h和math.h等。
+静态变量 静态变量是指在函数内定义，但生命周期和程序运行时间一样长的变量。静态变量在函数调用之间会保留下它们的值，这使得它们非常有用，例如用于记录函数调用的次数。
+寄存器变量 寄存器变量是指程序员请求编译器将变量存储在CPU中的寄存器中，从而提高程序的运行速度。但是，由于寄存器的数量有限，所以编译器可能会忽略程序员的请求，把变量存储在内存中。
+程序块结构 C语言中的程序块是由一对花括号包围的一组语句。在程序块中，可以定义局部变量，这些变量只在程序块内可见。
+初始化 变量初始化指在定义变量时为变量赋予一个初始值。在C语言中，变量可以通过等号右侧的表达式进行初始化。
+递归 递归是指一个函数调用自己的过程。在C语言中，递归可以用于解决许多问题，但需要注意递归深度不能太大，否则可能会导致栈溢出等问题。
+C预处理器 C预处理器是一组特殊的指令，它们由#开头，并在编译之前对源代码进行转换。C预处理器包括文件包含、宏替换、条件包含等功能。
+文件包含：#include 文件包含指令（#include）用于导入其他源文件中的代码。C语言的标准函数库通常是通过文件包含指令进行导入的。
+宏替换：#define 宏指令（#define）用于定义宏。宏可以简化代码，例如可以定义宏来表示常量或函数。
+条件包含：#if， #endif， #else， #elif， #ifdef， #ifndef 条件包含指令（#if， #endif， #else， #elif， #ifdef， #ifndef）用于根据某个条件编译源代码。这些指令可以帮助程序员增强代码的可移植性。
+习题答案 第三章习题 在C语言中，if/else语句可以用来实现什么样的运算？ 答：if/else语句可以用来实现选择运算。
+在switch语句中，case标签必须是什么类型的常量？ 答：case标签必须是整型常量。
+下列哪个循环结构使用最广泛？ a) while b) for c) do-while d) if-else
+答：a) while循环结构使用最广泛。
+下列哪个C语言关键字用于结束循环？ a) break b) continue c) goto d) exit
+答：a) break用于结束循环。
+下列哪条语句可以跳过本次循环的剩余部分返回到循环的开头？ a) break b) continue c) goto d) exit
+答：b) continue语句可以跳过本次循环的剩余部分返回到循环的开头。
+第四章习题 在C语言中，如何声明一个函数？ 答：在C语言中，可以通过函数原型来声明一个函数。
+如何避免函数间的命名冲突？ 答：可以使用static关键字来将函数的作用域限定在源文件中，这样就可以避免函数间的命名冲突。
+在C语言中，如何将函数参数传递给函数？ 答：在C语言中，可以通过传值、传址、传数组和传指针等方式将函数参数传递给函数。
+在C语言中，函数调用时，参数的值是如何传递给函数的？ 答：在C语言中，参数的值是通过栈来进行传递的。
+在C语言中，如何定义一个递归函数？是否有什么限制？ 答：可以在函数内部调用函数自身来定义一个递归函数。但需要注意递归深度不能太大，否则可能会导致栈溢出等问题。
+在C语言中，如何定义extern变量？ 答：可以在函数外部使用extern关键字来定义extern变量。这样定义的变量可以在其他源文件中使用。
+在C语言中，静态变量和自动变量有何不同？ 答：静态变量和自动变量的生命周期和作用域不同，静态变量在函数内部定义，但它的生命周期和作用域和整个程序一样长，而自动变量的生命周期和作用域则和函数调用相对应。
+在C语言中，如何定义一个宏？ 答：可以使用宏指令（#define）来定义一个宏，例如：#define PI 3.14。
+在C语言中，如何导入头文件？ 答：可以使用文件包含指令（#include）来导入头文件，例如：#include &amp;lt;stdio.h&amp;gt;。
+在C语言中，如何使用条件编译？ 答：可以使用条件包含指令（#if， #endif， #else， #elif， #ifdef， #ifndef）来实现条件编译。</content></entry><entry><title>《C程序设计语言学习笔记》（一）</title><url>/post/c-language/</url><categories><category>C</category></categories><tags><tag>C</tag><tag>编程语言</tag></tags><content type="html"><![CDATA[1. 导言 在第一章中，K&amp;R C介绍了C语言的一些基础知识，包括for循环语句、if-else语句、字符输入和输出等内容。
 for 语句 for循环语句是C语言中很常见的一种循环结构，其语法如下：
 for (expr1; expr2; expr3)  statement 其中，expr1是初始化表达式；expr2是关系表达式，它会在每次循环开始前对其求值；expr3是更新表达式，它会在每次循环结束后对其求值；statement是需要循环执行的语句。
 符号常量 在程序中，经常需要使用一些固定的数值或字符串。为了避免在程序中多次书写这些数值或字符串，C语言提供了符号常量的功能。符号常量可以使用#define命令来定义，例如：
@@ -18,24 +53,24 @@ for (expr1; expr2; expr3)  statement 其中，expr1是初始化表达式；expr2
 运算符优先级与求值顺序 C语言中的运算符有不同的优先级，如果不清楚优先级，可以使用括号来控制运算次序。C语言不指定同一运算符中多个操作符的计算顺序，例如f() + g()，f() 可能在g() 之前，也可能在g()之后计算。这需要程序员在编程时注意避免造成不必要的困惑和错误。
 总之，第一、二章是C语言学习的基础，掌握了这些内容，才能更好地理解后续章节。同时，也需要在实际编程中不断实践和总结，加深对这些知识的理解和掌握。
 习题答案 以下是第二章的部分习题答案：
- 在C语言中，有几种基本的数据类型？它们分别是什么？  答：在C语言中，有四种基本数据类型，分别是char、int、float和double。
-下面哪个变量不能被定义？  a) int _; b) int 1_or_2; c) float x printf; d) double $123_45;
-答：b) int 1_or_2;
-在C语言中，变量名可以包含哪些字符？有哪些字符不能作为变量名的开头？  答：变量名可以包含字母、数字和下划线。不建议使用以下划线开头的变量名，也不能以数字开头。
-假设x和y都是整数，下列赋值语句的含义是什么？  a) x = 10; b) y = ++x;
-答：a) 将10赋值给变量x； b) 先将x的值加1，再将结果赋值给y。
-下列哪个赋值语句是非法的？  a) x = y = z = 0; b) i = (a = 23, a + 3); c) char c = &lsquo;a&rsquo;, d = &lsquo;b&rsquo;, e = &lsquo;c&rsquo;; d) int a = (3 * 15) + 45;
-答：没有非法的赋值语句。
-表达式5 * 4 / 2的值是多少？  答：表达式5 * 4 / 2的值是10。
-下列哪一对表达式是等价的？  a) (float) i; b) i / 1.0; c) (double) i; d) (float) (i / 1.0);
-答：b) i / 1.0和d) (float) (i / 1.0)是等价的。
-下列哪个函数用于从标准输入流中读取一个字符？  a) getchar(); b) putchar(); c) gets(); d) scanf();
-答：a) getchar()。
-下列哪一条语句是错误的？  a) printf(&ldquo;Value = %d\n&rdquo;, value); b) x = -1; c) if (strcmp(s1, s2) == 0) printf(&ldquo;Equal\n&rdquo;); d) value = (val &lt; 0) ? -val : val;
-答：没有错误的语句。
-下列哪个符号常量不能被定义？  a) #define PI 3.14 b) #define MIN(a,b) ((a) &lt; (b) ? (a) : (b)) c) #define 10_KB 10240 d) #define MAX 1000
-答：c) #define 10_KB 10240。符号常量的名称不能以数字开头。
-]]></content></entry><entry><title>分布式事务的一致性</title><url>/post/distribute-transaction/</url><categories/><tags/><content type="html">我们都知道数据库事务ACID的特性，在单数据库应用中，通过数据库事务能够很好的保证我们数据的一致性，但是在微服务盛行的今天，单个大系统被拆分为多个小的微服务，每个服务独立部署，并且拥有自己的数据库。这时单纯依靠数据库的事务就无法满足数据一致性的要求，“分布式事务”应运而生。
+ 在C语言中，有几种基本的数据类型？它们分别是什么？   答：在C语言中，有四种基本数据类型，分别是char、int、float和double。
+ 下面哪个变量不能被定义？  a) int _; b) int 1_or_2; c) float x printf; d) double $123_45;
+ 答：b) int 1_or_2;
+ 在C语言中，变量名可以包含哪些字符？有哪些字符不能作为变量名的开头？   答：变量名可以包含字母、数字和下划线。不建议使用以下划线开头的变量名，也不能以数字开头。
+ 假设x和y都是整数，下列赋值语句的含义是什么？  a) x = 10; b) y = ++x;
+ 答：a) 将10赋值给变量x； b) 先将x的值加1，再将结果赋值给y。
+ 下列哪个赋值语句是非法的？  a) x = y = z = 0; b) i = (a = 23, a + 3); c) char c = &lsquo;a&rsquo;, d = &lsquo;b&rsquo;, e = &lsquo;c&rsquo;; d) int a = (3 * 15) + 45;
+ 答：没有非法的赋值语句。
+ 表达式5 * 4 / 2的值是多少？   答：表达式5 * 4 / 2的值是10。
+ 下列哪一对表达式是等价的？  a) (float) i; b) i / 1.0; c) (double) i; d) (float) (i / 1.0);
+ 答：b) i / 1.0和d) (float) (i / 1.0)是等价的。
+ 下列哪个函数用于从标准输入流中读取一个字符？  a) getchar(); b) putchar(); c) gets(); d) scanf();
+ 答：a) getchar()。
+ 下列哪一条语句是错误的？  a) printf(&ldquo;Value = %d\n&rdquo;, value); b) x = -1; c) if (strcmp(s1, s2) == 0) printf(&ldquo;Equal\n&rdquo;); d) value = (val &lt; 0) ? -val : val;
+ 答：没有错误的语句。
+ 下列哪个符号常量不能被定义？  a) #define PI 3.14 b) #define MIN(a,b) ((a) &lt; (b) ? (a) : (b)) c) #define 10_KB 10240 d) #define MAX 1000
+ 答：c) #define 10_KB 10240。符号常量的名称不能以数字开头。
+ ]]></content></entry><entry><title>分布式事务的一致性</title><url>/post/distribute-transaction/</url><categories/><tags/><content type="html">我们都知道数据库事务ACID的特性，在单数据库应用中，通过数据库事务能够很好的保证我们数据的一致性，但是在微服务盛行的今天，单个大系统被拆分为多个小的微服务，每个服务独立部署，并且拥有自己的数据库。这时单纯依靠数据库的事务就无法满足数据一致性的要求，“分布式事务”应运而生。
 什么是分布式事务？ 数据库事务有ACID四个特性，理论上分布式事务也应该遵从这四个特性，但是考虑到性能的因素，分布式事务并不能完全实现ACID的特性。实际上数据库事务也没有完全实现ACID，因此才有了事务的四种隔离级别。我们所说的分布式事务都是不完全事务。
 分布式事务的解决方案 分布式事务有很多解决方案，比如：2PC、3PC、TCC、Saga和本地消息等等，每个方案适用的场景并不一样，在面临实际需要选择合适的方案。常用的有2PC和本地消息
 2PC（二阶段提交） 2PC是 一种常见的分布式事务实现方法，举个例子来说，在电商系统中，下单的时候至少需要做两件事：
