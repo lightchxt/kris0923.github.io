@@ -1,7 +1,7 @@
 ---
 title: "《C程序设计语言学习笔记》（一）"
 date: 2023-07-05T00:02:20+08:00
-draft: false
+draft: true
 categories: ["C"]
 tags: ["C", "编程语言"]
 ---
